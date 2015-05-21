@@ -8,7 +8,7 @@
 		<properties>
 			<property name="javax.persistence.jdbc.user" value="postgres" />
 			<property name="javax.persistence.jdbc.password" value="postgres" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:p4playlist.PostgreSQL:p4playlist" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql:p4playlist" />
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 
 

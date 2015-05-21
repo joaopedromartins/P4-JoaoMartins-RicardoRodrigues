@@ -1,17 +1,19 @@
 package pt.uc.dei.aor.paj;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * Session Bean implementation class TestEJB
+ * Session Bean implementation class Teste
  */
 @Stateless
-public class TestEJB implements TestEJBRemote {
+@LocalBean
+public class Teste {
 
     /**
      * Default constructor. 
      */
-    public TestEJB() {
+    public Teste() {
         // TODO Auto-generated constructor stub
     }
 
