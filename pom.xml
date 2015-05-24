@@ -11,10 +11,10 @@
 
         <!-- 2. Definir modulos associados a este pom "pai" -->
         <modules>
-				<module>P4-WEB</module>
-				<module>P4-JPA</module>
-				<module>P4-EJB</module>
-				<module>P4-EAR</module>
+                <module>p4-ear</module>
+                <module>p4-web</module>
+                <module>p4-ejb</module>
+                <module>p4-jpa</module>
         </modules>
 
 
@@ -78,11 +78,6 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-			<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>4.3.10.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>

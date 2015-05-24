@@ -6,9 +6,9 @@
         <artifactId>P4-JoaoMartins-RicardoRodrigues</artifactId>
         <version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>P4-JPA</artifactId>
-	<name>P4-JPA</name>   
-   	<description>EJB service layer</description>
+	<artifactId>p4-jpa</artifactId>
+	<name>p4-jpa</name>   
+   	<description>JPA Entities for our project</description>
 	<packaging>ejb</packaging>
 
 	<build>
@@ -21,15 +21,5 @@
 			<artifactId>javaee-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-             <groupId>pt.uc.dei.aor.paj</groupId>
-             <artifactId>P4-EJB</artifactId>
-             <version>${project.version}</version>
-          </dependency>
-        <dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-		</dependency>
 	</dependencies>
-
 </project>
