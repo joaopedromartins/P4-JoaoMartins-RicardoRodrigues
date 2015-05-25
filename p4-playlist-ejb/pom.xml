@@ -6,10 +6,16 @@
 		<artifactId>P4-JoaoMartins-RicardoRodrigues</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
 	<artifactId>p4-playlist-ejb</artifactId>
 	<name>p4-playlist-ejb</name>
+	
 	<description>EJB service layer</description>
 	<packaging>ejb</packaging>
+	
+	<build>
+		<finalName>${project.artifactId}</finalName>
+	</build>
 	
 	<dependencies>
 		<dependency>

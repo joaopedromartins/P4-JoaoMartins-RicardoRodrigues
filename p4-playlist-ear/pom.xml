@@ -9,7 +9,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>p4-playlist-ear</artifactId>
 	<packaging>ear</packaging>
+	
+	<!-- our in app dependencies -->
+	<dependencies>
+		<dependency>
+			<groupId>pt.uc.dei.aor.paj</groupId>
+			<artifactId>p4-playlist-web</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
 
+		<dependency>
+			<groupId>pt.uc.dei.aor.paj</groupId>
+			<artifactId>p4-playlist-ejb</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+	
 	<build>
 		<finalName>P4-JoaoMartins-RicardoRodrigues</finalName>
 		<plugins>
@@ -48,21 +65,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	<!-- our in app dependencies -->
-	<dependencies>
-		<dependency>
-			<groupId>pt.uc.dei.aor.paj</groupId>
-			<artifactId>p4-playlist-web</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-		</dependency>
-
-		<dependency>
-			<groupId>pt.uc.dei.aor.paj</groupId>
-			<artifactId>p4-playlist-ejb</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
-		</dependency>
-	</dependencies>
 </project>

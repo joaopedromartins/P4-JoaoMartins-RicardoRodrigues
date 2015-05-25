@@ -6,6 +6,7 @@
 		<artifactId>P4-JoaoMartins-RicardoRodrigues</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
 	<artifactId>p4-playlist-web</artifactId>
 	<packaging>war</packaging>
 
@@ -22,17 +23,18 @@
 <!-- 						</manifestEntries> -->
 <!-- 					</archive> -->
 
-				</configuration>
-			</plugin>
-		</plugins>
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
+<!-- 		</plugins> -->
 	</build>
-
+	
+	<!-- As dependencias que este projeto tem .. por agora sรณ jee -->
 	<dependencies>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax</groupId> -->
+<!-- 			<artifactId>javaee-api</artifactId> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>pt.uc.dei.aor.paj</groupId>
 			<artifactId>p4-playlist-ejb</artifactId>
