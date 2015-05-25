@@ -11,16 +11,16 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestEntries>
-							<Class-Path>p4-playlist-ejb-${project.version}.jar</Class-Path>
-						</manifestEntries>
-					</archive>
+<!-- 		<plugins> -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 				<artifactId>maven-war-plugin</artifactId> -->
+<!-- 				<configuration> -->
+<!-- 					<archive> -->
+<!-- 						<manifestEntries> -->
+<!-- 							<Class-Path>p4-playlist-ejb-${project.version}.jar</Class-Path> -->
+<!-- 						</manifestEntries> -->
+<!-- 					</archive> -->
 
 				</configuration>
 			</plugin>
