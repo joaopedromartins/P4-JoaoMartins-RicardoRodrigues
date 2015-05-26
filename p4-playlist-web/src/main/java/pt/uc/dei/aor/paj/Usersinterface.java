@@ -23,6 +23,9 @@ public class Usersinterface implements Serializable {
 
 	@Inject 
 	private SigninEJB signin;
+	
+	@Inject 
+	private LoginEJB login;
 
 	public Usersinterface() {
 		this.setUserLogged(null);
@@ -92,9 +95,23 @@ public class Usersinterface implements Serializable {
 	//funcao para efectuar registo de utilizador
 	public String usersignup() {
 		signin.register(username, password, cpassword, email);
-		
+		//mantem na pagina signup
 		return "signup";
 
+	}
+	
+	//funcao para efectuar login
+	public String userlogin() {
+		if ( loginvalidateUser(username, password) ) {
+			setUserLogged(username);
+			setMsgerro(null);
+			session.setAttribute("loggedin", true);
+			return "/resources/secure/jukebox";
+		} else {
+			setUserLogged(null);
+			setMsgerro("Erro: Utilizador ou password inválido(s)!");
+			return "login";
+		}
 	}
 }
 
