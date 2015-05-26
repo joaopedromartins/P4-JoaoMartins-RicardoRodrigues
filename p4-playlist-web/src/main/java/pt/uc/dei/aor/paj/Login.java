@@ -16,6 +16,8 @@ public class Login {
 	
 	@Inject
 	private SigninEJB signinEJB;
+	@Inject
+	private LoginEJB loginEJB;
 	
 	private String username;
 	private String password;

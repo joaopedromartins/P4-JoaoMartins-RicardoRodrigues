@@ -41,4 +41,18 @@ public class LoginEJB {
     	
     	return users.get(0);
 	}
+	
+	public boolean validateUser(String login, String password) {
+		String query;
+		if (login.contains("@")) query = "from User u where u.email like :login and u.password like :password";
+		else query = "from User u where u.name like :login and u.password like :password"; 
+		
+		Query q = em.createQuery(query);
+		q.setParameter("login", login);
+		q.setParameter("password", password);
+		
+		List<User> users = q.getResultList();
+		if (users.isEmpty()) return false;
+		return true;
+	}
 }
