@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+ 	<link rel="stylesheet" type="text/css" href="../css/template.css" />
+
+	<center>
+		<BR />
+		<h:outputText value="Bem vindo, #{usersinterface.userLogged}"
+			styleClass="txtcabecalho"
+			rendered="#{!empty usersinterface.userLogged}" />
+		<h:outputText value="Bem vindo ao nosso site!"
+			styleClass="txtcabecalho"
+			rendered="#{empty usersinterface.userLogged}" />
+		<BR />
+		<h:panelGrid columns="2" cellpadding="6" cellspacing="6">
+			<h:form>
+				<h:commandButton value="Terminar sessão" styleClass="btn"
+					type="submit" action="#{usersinterface.userlogout()}"
+					rendered="#{!empty usersinterface.userLogged}" />
+			</h:form>
+		</h:panelGrid>
+	</center>
+
+
+</ui:composition>
