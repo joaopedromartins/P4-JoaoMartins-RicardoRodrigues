@@ -14,6 +14,7 @@ public class Usersinterface implements Serializable {
 	private static final long serialVersionUID = -8310185641498834904L;
 
 	private String username;
+	private String email;
 	private String password;
 	private String cpassword;
 	private String msgerro;
@@ -35,19 +36,27 @@ public class Usersinterface implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	//Getter e Setter associados à variável username
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	//Getter e Setter associados à variável password
-	//public String getPassword() {
-	//	return password;
-	//}
+	public String getPassword() {
+		return password;
+	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	//Getter e Setter associados à variável cpassword
-	//public String getCpassword() {
-	//	return cpassword;
-	//}
+	public String getCpassword() {
+		return cpassword;
+	}
 	public void setCpassword(String cpassword) {
 		this.cpassword = cpassword;
 	}
@@ -82,7 +91,7 @@ public class Usersinterface implements Serializable {
 	
 	//funcao para efectuar registo de utilizador
 	public String usersignup() {
-		signin.register(username, password, cpassword, "bla@bla.com");
+		signin.register(username, password, cpassword, email);
 		
 		return "signup";
 

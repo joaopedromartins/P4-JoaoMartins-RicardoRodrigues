@@ -33,12 +33,20 @@
 									value="#{usersinterface.username}" required="true"
 									requiredMessage="Preencha o seu nome" maxlength="25" />
 								<h:message for="username" errorClass="errorMessage" />
+								
+								<h:outputText value="Email:" />
+								<h:inputText id="email" title="username"
+									value="#{usersinterface.email}" required="true"
+									requiredMessage="Preencha o seu email" maxlength="25" />
+								<h:message for="email" errorClass="errorMessage" />
+								
 								<h:outputText value="Password:" />
 								<h:inputSecret id="password" title="password"
 									value="#{usersinterface.password}" required="true"
 									requiredMessage="Preencha aqui a password pretendida"
 									maxlength="25" />
 								<h:message for="password" errorClass="errorMessage" />
+								
 								<h:outputText value="Confirme password:" />
 								<h:inputSecret id="cpassword" title="confirmação password"
 									value="#{usersinterface.cpassword}" required="true"

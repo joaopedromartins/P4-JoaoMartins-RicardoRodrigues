@@ -12,23 +12,9 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-<!-- 		<plugins> -->
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 				<artifactId>maven-war-plugin</artifactId> -->
-<!-- 				<configuration> -->
-<!-- 					<archive> -->
-<!-- 						<manifestEntries> -->
-<!-- 							<Class-Path>p4-playlist-ejb-${project.version}.jar</Class-Path> -->
-<!-- 						</manifestEntries> -->
-<!-- 					</archive> -->
-
-<!-- 				</configuration> -->
-<!-- 			</plugin> -->
-<!-- 		</plugins> -->
 	</build>
 	
-	<!-- As dependencias que este projeto tem .. por agora sรณ jee -->
+	<!-- As dependencias que este projeto tem .. por agora sao jee -->
 	<dependencies>
 		<dependency>
 			<groupId>javax</groupId>
@@ -39,5 +25,41 @@
 			<artifactId>p4-playlist-ejb</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- Primefaces -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+		<!-- JSF 2 API -->
+    	<dependency>
+        	<groupId>com.sun.faces</groupId>
+        	<artifactId>jsf-api</artifactId>
+        	<version>2.2.0-m07</version>
+       	 	<scope>provided</scope>
+   		</dependency>
+  		<!-- Servlet API -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
+	
+	<!-- Primefaces -->
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+	
 </project>
