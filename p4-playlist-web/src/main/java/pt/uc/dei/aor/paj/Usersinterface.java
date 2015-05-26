@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 @Named 
 @SessionScoped
-@RequestScoped
 public class Usersinterface implements Serializable {
 	private static final long serialVersionUID = -8310185641498834904L;
 
@@ -21,6 +20,8 @@ public class Usersinterface implements Serializable {
 	private String userLogged;
 	private HttpSession session;
 
+	@Inject 
+	private SigninEJB signin;
 
 	public Usersinterface() {
 		this.setUserLogged(null);
@@ -81,7 +82,9 @@ public class Usersinterface implements Serializable {
 	
 	//funcao para efectuar registo de utilizador
 	public String usersignup() {
+		signin.register(username, password, cpassword, "bla@bla.com");
 		
+		return "signup";
 	}
 }
 
