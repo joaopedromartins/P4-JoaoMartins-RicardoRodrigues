@@ -30,11 +30,10 @@
 	
 	<!-- As dependencias que este projeto tem .. por agora sรณ jee -->
 	<dependencies>
-<!-- 		<dependency> -->
-<!-- 			<groupId>javax</groupId> -->
-<!-- 			<artifactId>javaee-api</artifactId> -->
-<!-- 			<scope>provided</scope> -->
-<!-- 		</dependency> -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>pt.uc.dei.aor.paj</groupId>
 			<artifactId>p4-playlist-ejb</artifactId>
