@@ -94,19 +94,25 @@ public class Usersinterface implements Serializable {
 	
 	//funcao para efectuar registo de utilizador
 	public String usersignup() {
-		signin.register(username, password, cpassword, email);
-		//mantem na pagina signup
-		return "signup";
-
+		if (signin.register(username, password, cpassword, email)) {
+			setUserLogged(username);
+			setMsgerro(null);
+			session.setAttribute("loggedin", true);
+			return "/resources/secure/jukebox?faces-redirect=true";
+		} else {
+			setUserLogged(null);
+			setMsgerro("Erro na criação de utilizador!");
+			return "signup";
+		}
 	}
 	
 	//funcao para efectuar login
 	public String userlogin() {
-		if ( loginvalidateUser(username, password) ) {
+		if ( login.validateUser(username, password) ) {
 			setUserLogged(username);
 			setMsgerro(null);
 			session.setAttribute("loggedin", true);
-			return "/resources/secure/jukebox";
+			return "/resources/secure/jukebox?faces-redirect=true";
 		} else {
 			setUserLogged(null);
 			setMsgerro("Erro: Utilizador ou password inválido(s)!");
