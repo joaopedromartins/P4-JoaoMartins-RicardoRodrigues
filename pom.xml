@@ -1,8 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
-	 <!-- 1. Definir info do pom "pai" -->
+
+	<!-- 1. Definir info do pom "pai" -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pt.uc.dei.aor.paj</groupId>
 	<artifactId>P4-JoaoMartins-RicardoRodrigues</artifactId>
@@ -17,8 +16,9 @@
 		<module>p4-playlist-jpa</module>
 	</modules>
 
-	
-	<!-- 3.  Definir propriedades, por exemplo variáveis com as versoes de API .. EJB .. War etc-->
+
+	<!-- 3. Definir propriedades, por exemplo variáveis com as versoes de API 
+		.. EJB .. War etc -->
 	<properties>
 		<!-- encoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,7 +40,7 @@
 		<ejb-spec-version>3.2</ejb-spec-version>
 	</properties>
 
-	<!-- 4. Dependencias do pai-->
+	<!-- 4. Dependencias do pai -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -109,7 +109,7 @@
 						</webResources>
 					</configuration>
 				</plugin>
-				
+
 				<!-- 25/05/2015 15h29 adicionado por Joao Martins -->
 				<!-- wildfly plugin -->
 				<plugin>
@@ -122,9 +122,7 @@
 						<port>${server.port}</port>
 					</configuration>
 				</plugin>
-				
 			</plugins>
 		</pluginManagement>
 	</build>
-
 </project>

@@ -9,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>p4-playlist-ear</artifactId>
 	<packaging>ear</packaging>
-	
+
 	<!-- our in app dependencies -->
 	<dependencies>
 		<dependency>
@@ -26,7 +26,7 @@
 			<type>ejb</type>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<finalName>P4-JoaoMartins-RicardoRodrigues</finalName>
 		<plugins>
@@ -56,11 +56,8 @@
 			<plugin>
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
-				<version>${wildfly-maven-plugin-version}</version>
 				<configuration>
 					<skip>false</skip>
-					<hostname>localhost</hostname>
-					<port>${server.port}</port>
 				</configuration>
 			</plugin>
 		</plugins>
