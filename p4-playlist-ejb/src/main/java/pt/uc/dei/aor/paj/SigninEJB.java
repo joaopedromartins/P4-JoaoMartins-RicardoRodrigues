@@ -21,9 +21,11 @@ public class SigninEJB {
 
     
     public boolean register(String username, String password, String confirm, String email) {
+    	if (username.contains("@") || !email.contains("@")) return false;
+    	
     	if (loginEJB.findUserByUsername(username) != null) return false;
     	
-    	//if (loginEJB.findUserByEmail(email) != null) return false;
+    	if (loginEJB.findUserByEmail(email) != null) return false;
     	
     	if (username.length() <= 2) return false;
     	

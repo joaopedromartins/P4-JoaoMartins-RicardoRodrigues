@@ -23,6 +23,18 @@
 			<artifactId>javaee-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>pt.uc.dei.aor.paj</groupId>
 			<artifactId>p4-playlist-jpa</artifactId>
 			<version>${project.version}</version>

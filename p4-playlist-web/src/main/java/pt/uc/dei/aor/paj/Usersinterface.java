@@ -85,6 +85,7 @@ public class Usersinterface implements Serializable {
 		signin.register(username, password, cpassword, "bla@bla.com");
 		
 		return "signup";
+
 	}
 }
 
