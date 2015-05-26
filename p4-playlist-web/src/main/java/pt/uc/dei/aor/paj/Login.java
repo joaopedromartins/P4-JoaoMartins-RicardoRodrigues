@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 
@@ -12,6 +13,10 @@ import javax.inject.Named;
 public class Login {
 	@EJB
 	private UserEJBRemote userEJB;
+	
+	@Inject
+	private SigninEJB signinEJB;
+	
 	private String username;
 	private String password;
 
@@ -28,7 +33,8 @@ public class Login {
 	}
 	
 	public void populate(){
-		userEJB.populate();
+		signinEJB.register("joão", "123", "123", "j@j.com");
+		signinEJB.register("ricardo", "123", "123", "r@j.com");
 	}
 
 	public List<User> getUsers() {
