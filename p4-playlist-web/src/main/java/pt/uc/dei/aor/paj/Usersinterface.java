@@ -102,7 +102,7 @@ public class Usersinterface implements Serializable {
 	
 	//funcao para efectuar login
 	public String userlogin() {
-		if ( loginvalidateUser(username, password) ) {
+		if ( login.validateUser(username, password) ) {
 			setUserLogged(username);
 			setMsgerro(null);
 			session.setAttribute("loggedin", true);
