@@ -23,17 +23,14 @@ import org.mockito.Mock;
 import pt.uc.dei.aor.paj.LoginEJB;
 
 public class LoginEJBTest {
-	@Mock
-	private EntityManager em;
 	
-	@InjectMocks
-	private LoginEJB ejb;
-	
-	@Before
-	public void init() {
-		Query q = null;
-		when(em.createQuery(anyString())).thenReturn(q);
-	}
+//	private LoginEJB ejb;
+//	
+//	@Before
+//	public void init() {
+//		ejb = new LoginEJB();
+//		ejb.setEJB(mock(EntityManager.class));
+//	}
 	
 //	@Test
 //	public void findUserByUsername_should_return_null_with_inexistent_user() {

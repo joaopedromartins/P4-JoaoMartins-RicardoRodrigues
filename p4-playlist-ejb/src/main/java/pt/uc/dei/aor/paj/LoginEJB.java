@@ -7,10 +7,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
-/**
- * Session Bean implementation class LoginEJB
- */
 @Stateless
 @LocalBean
 public class LoginEJB {
@@ -23,7 +21,7 @@ public class LoginEJB {
 
     
 	public User findUserByUsername(String username) {
-		Query q = em.createQuery("from User u where u.name like :username");
+		TypedQuery<User> q = em.createQuery("from User u where u.name like :username", User.class);
     	q.setParameter("username", username);
     	
     	List<User> users = q.getResultList();
@@ -33,7 +31,7 @@ public class LoginEJB {
 	}
 	
 	public User findUserByEmail(String email) {
-		Query q = em.createQuery("from User u where u.email like :email");
+		TypedQuery<User> q = em.createQuery("from User u where u.email like :email", User.class);
     	q.setParameter("email", email);
     	
     	List<User> users = q.getResultList();
@@ -55,4 +53,7 @@ public class LoginEJB {
 		if (users.isEmpty()) return false;
 		return true;
 	}
+
+
+	
 }
