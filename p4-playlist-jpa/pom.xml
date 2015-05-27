@@ -8,7 +8,7 @@
 	</parent>
 
 	<artifactId>p4-playlist-jpa</artifactId>
-	<packaging>ejb</packaging>
+	<packaging>jar</packaging>
 
 	<name>p4-playlist-jpa</name>
 	<description>JPA entities for our project - domain model</description>
