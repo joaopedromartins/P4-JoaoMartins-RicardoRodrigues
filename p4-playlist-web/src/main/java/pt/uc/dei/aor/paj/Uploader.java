@@ -17,7 +17,9 @@ public class Uploader {
 	
 	@Inject
 	private Usersinterface usersInterface;
-	@Inject MusicList musicList;
+	
+	@Inject 
+	private MusicList musicList;
 	
 	private Part file;
 	
@@ -84,6 +86,30 @@ public class Uploader {
 	}
 
 	
+	public void edit(int id) {
+		if (ejb.editMusic(id, title, author, album, genre, year)) {
+			for (MusicBean m : musicList.getMusics()) {
+				if (m.getId() == id) {
+					m.setAlbum(album);
+					m.setAuthor(author);
+					m.setTitle(title);
+					m.setYear(id);
+					m.setGenre(genre);
+					break;
+				}
+			}
+		}
+	}
 	
+	public void remove(int id) {
+		if (ejb.removeMusic(id)) {
+			for (MusicBean m : musicList.getMusics()) {
+				if (m.getId() == id) {
+					musicList.getMusics().remove(m);
+					break;
+				}
+			}
+		}
+	}
 	
 }

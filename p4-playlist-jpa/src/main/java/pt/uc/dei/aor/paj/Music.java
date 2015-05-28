@@ -86,4 +86,55 @@ public class Music implements Serializable {
 	public int getYear() { return year; }
 	
 	public void setYear(int year) { this.year = year; }
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+
+
+	public void setAlbum(String album) {
+		this.album = album;
+	}
+
+
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
+	
 }

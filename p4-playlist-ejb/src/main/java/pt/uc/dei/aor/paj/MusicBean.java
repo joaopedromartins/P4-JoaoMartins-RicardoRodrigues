@@ -8,9 +8,10 @@ public class MusicBean {
 	private int duration;
 	private String filename;
 	private int year;
+	private int id;
 	
 	public MusicBean(String title, String author, String album, String genre,
-			int duration, String filename, int year) {
+			int duration, String filename, int year, int id) {
 		this.title = title;
 		this.author = author;
 		this.album = album;
@@ -18,8 +19,17 @@ public class MusicBean {
 		this.duration = duration;
 		this.filename = filename;
 		this.year = year;
+		this.id = id;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}

@@ -35,4 +35,6 @@ public class MusicList implements Serializable {
 	public void addMusic(MusicBean m) {
 		musics.add(m);
 	}
+	
+	
 }

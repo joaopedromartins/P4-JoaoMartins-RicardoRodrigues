@@ -11,11 +11,23 @@
 	<ui:composition>
 		<ui:repeat value="#{musicList.musics}" var="item">
 			<div>#{item}</div>
-			<div>
-				<audio controls="true">
-					<source src="#{item.filename}" type="audio/mpeg" />
-				</audio>
-			</div>
+			<h:form id="form">
+			<h:outputLabel value="title" />
+			<h:inputText value="#{uploader.title}" />
+			<h:outputLabel value="Author" />
+			<h:inputText value="#{uploader.author}" />
+			<h:outputLabel value="Album" />
+			<h:inputText value="#{uploader.album}" />
+			<h:outputLabel value="Genre" />
+			<h:inputText value="#{uploader.genre}" />
+			<h:outputLabel value="Year" />
+			<h:inputText value="#{uploader.year}" />
+			
+  			<h:commandButton value="Edit"
+      					action="#{uploader.edit(item.id)}" />
+      		<h:commandButton value="Remove"
+      					action="#{uploader.remove(item.id)}" />
+		</h:form>
 			
 		</ui:repeat>
 

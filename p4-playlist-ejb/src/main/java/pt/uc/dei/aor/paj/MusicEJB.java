@@ -28,7 +28,7 @@ public class MusicEJB {
     	System.out.println(list);
     	List<MusicBean> result = new ArrayList<>();
     	for (Music m : list) {
-    		result.add(new MusicBean(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear()));
+    		result.add(new MusicBean(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
     	}
     	
     	return result;
@@ -41,7 +41,7 @@ public class MusicEJB {
     	em.persist(u);
     	em.persist(m);
     	
-    	MusicBean mb = new MusicBean(m.getTitle(), m.getAlbum(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear());
+    	MusicBean mb = new MusicBean(m.getTitle(), m.getAlbum(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId());
     	return mb;
     }
 }
