@@ -119,5 +119,24 @@ public class Usersinterface implements Serializable {
 			return "login";
 		}
 	}
+	
+	
+	public String delete() {
+		if (signin.delete(userLogged)) {
+			this.setUsername(null);
+			this.setPassword(null);
+			this.setUserLogged(null);
+			session.setAttribute("loggedin", false);
+			return "/resources/paginas/login";
+		}
+		return null;
+	}
+	
+	public String update() {
+		signin.update(userLogged, password, cpassword, email); 
+			
+		
+		return null;
+	}
 }
 

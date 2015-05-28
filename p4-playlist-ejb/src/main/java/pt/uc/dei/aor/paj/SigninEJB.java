@@ -5,6 +5,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 @Stateless
 @LocalBean
@@ -33,5 +34,30 @@ public class SigninEJB {
     	
     	em.persist(new User(username, password, email));
     	return true;
+    }
+    
+    
+    public boolean delete(String username) {
+    	em.createQuery("delete from User u where u.name like :username").
+		setParameter("username", username).executeUpdate();
+    	
+    	return true;
+    }
+    
+    public boolean update(String username, String password, String confirm, String email) {
+    	if (password.equals(confirm)) {
+    		TypedQuery<User> q = em.createQuery("from User u where u.name like :username", User.class).setParameter("username", username);
+    		User u = q.getResultList().get(0);
+
+    		u.setEmail(email);
+    		u.setName(username);
+    		u.setPassword(password);
+
+    		em.persist(u);
+
+    		return true;
+    	}
+    	return false;
+    	
     }
 }

@@ -11,6 +11,9 @@
 		<h:outputText value="Bem vindo, #{usersinterface.userLogged}"
 			styleClass="txtcabecalho"
 			rendered="#{!empty usersinterface.userLogged}" />
+		
+		<h:link outcome="/resources/secure/user" value="account" rendered="#{usersinterface.userLogged != null}"/> 
+		
 		<h:outputText value="Bem vindo ao nosso site!"
 			styleClass="txtcabecalho"
 			rendered="#{empty usersinterface.userLogged}" />
