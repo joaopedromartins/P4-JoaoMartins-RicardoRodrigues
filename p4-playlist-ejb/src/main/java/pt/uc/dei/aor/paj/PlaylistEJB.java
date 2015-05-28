@@ -43,9 +43,9 @@ public class PlaylistEJB {
         	em.persist( newPlaylist );
         	return true;
     	} else {
-    		for (Playlist i:l) {
-    			System.out.println(i);
-    		}
+			//for (Playlist i:l) {
+			//   System.out.println(i);
+			//}
     		return false;
     	}
     	

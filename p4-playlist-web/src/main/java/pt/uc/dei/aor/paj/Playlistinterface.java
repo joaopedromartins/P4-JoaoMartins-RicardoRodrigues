@@ -29,6 +29,7 @@ public class Playlistinterface implements Serializable {
 
 	public Playlistinterface() {
 		operacao="criar";
+		setMsgerro("");
 	}
 
 	
@@ -97,7 +98,11 @@ public class Playlistinterface implements Serializable {
 	//metodo para criar uma playlist
 	public String criaplaylist() {
 		//System.out.println("Adicionar playlist:" + this.playlistname + "\t do user: "+this.username);
-		playlist.addPlaylist( loggeduser.getUserLogged(), playlistname);
+		if (playlist.addPlaylist( loggeduser.getUserLogged(), playlistname) ) {
+			setMsgerro("Adicionada a playlist: "+playlistname);
+		} else {
+			setMsgerro("ERRO ao adicionar a playlist: "+playlistname);
+		}
 		
 		return "/resources/secure/playlist?faces-redirect=true";
 	}
