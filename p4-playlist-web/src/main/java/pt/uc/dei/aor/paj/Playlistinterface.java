@@ -1,9 +1,11 @@
 package pt.uc.dei.aor.paj;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
@@ -16,8 +18,8 @@ public class Playlistinterface implements Serializable {
 	private String msgerro;
 	private String username;
 	private String playlistname;
-	private String playlistID;
 	private String operacao;
+	private List<String> listaplaylistnames;
 	
 	@Inject
 	private Usersinterface loggeduser;
@@ -30,23 +32,7 @@ public class Playlistinterface implements Serializable {
 	}
 
 	
-	//Getter associados à variável userloggedID
-	public String getUserLogged() {
-		return username;
-	}
-	public void setUserLogged(String userLoggedID) {
-		this.username = userLoggedID;
-	}
-
-	//Getter associados à variável playlistID
-	public String getPlaylistID() {
-		return playlistID;
-	}
-	public void setPlaylistID(String playlistID) {
-		this.playlistID = playlistID;
-	}
-
-	//Getter associados à variável playlistname
+	//Getter associados à variável operacao
 	public String getOperacao() {
 		return operacao;
 	}
@@ -70,6 +56,16 @@ public class Playlistinterface implements Serializable {
 	public void setMsgerro(String msgerro) {
 		this.msgerro = msgerro;
 	}
+
+	//Getter associados à variável msgerro
+	public List<String> getListaplaylistnames() {
+		this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername());
+		return listaplaylistnames;
+	}
+	public void setListaplaylistnames(List<String> listaplaylistnames) {
+		this.listaplaylistnames = listaplaylistnames;
+	}
+
 
 	//metodo que identifica se radiobotton esta activo na posicao criar 
 	public boolean typecriar() {
@@ -100,10 +96,37 @@ public class Playlistinterface implements Serializable {
 
 	//metodo para criar uma playlist
 	public String criaplaylist() {
-		System.out.println("Adicionar playlist:" + this.playlistname + "\t do user: "+this.username);
+		//System.out.println("Adicionar playlist:" + this.playlistname + "\t do user: "+this.username);
 		playlist.addPlaylist( loggeduser.getUserLogged(), playlistname);
 		
-		return "playlist";
+		return "/resources/secure/playlist?faces-redirect=true";
+	}
+	
+	//metodo para editar uma playlist
+	public String editaplaylist() {
+		System.out.println("Editar playlist:" + this.playlistname + "\t do user: "+this.username);
+		//playlist.editPlaylist( loggeduser.getUserLogged(), playlistname);
+		
+		return "/resources/secure/playlist?faces-redirect=true";
+	}
+	
+	//metodo para apagar uma playlist
+	public String apagaplaylist() {
+		System.out.println("Apagar playlist:" + this.playlistname + "\t do user: "+this.username);
+		playlist.delPlaylist( loggeduser.getUserLogged(), playlistname);
+		
+		
+		return "/resources/secure/playlist?faces-redirect=true";
 	}
 
+	
+	//metodo para seleccionar uma playlist
+	public String selectplaylist(ActionEvent ae) {
+		//atribui o nome da playlist correspondente ao botao linha seleccionada
+		this.playlistname = (String)ae.getComponent().getAttributes().get("line");
+		
+		return "/resources/secure/playlist?faces-redirect=true";
+	}
+	
+	
 }
