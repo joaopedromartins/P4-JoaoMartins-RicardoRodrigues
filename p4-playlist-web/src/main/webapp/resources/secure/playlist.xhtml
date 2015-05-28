@@ -12,7 +12,9 @@
 			<h:outputText styleClass="txtconteudo"
 				value="Nesta pagina podes criar, editar e apagar as tuas playlists." />
 			<BR />
-			
+			<h:outputText styleClass="txtconteudo"
+				value="#{usersinterface.userLogged}, seleciona nos botões em baixo a operação pretendida." />
+			<BR />
 			<h:form>
 				<h:selectOneRadio id="radioplaylistop" styleClass="txtconteudo"
 					value="#{playlistinterface.operacao}">
@@ -20,7 +22,7 @@
 					<f:selectItem itemValue="editar" itemLabel="Editar" />
 					<f:selectItem itemValue="apagar" itemLabel="Apagar" />
 					<f:ajax event="change" execute="radioplaylistop"
-						render="formplaylist:calcbuttons calculadoraform:radiobasicacientifica headerform:calcheader" />
+						render="formplaylist:playlistop" />
 				</h:selectOneRadio>
 
 			</h:form>
@@ -36,11 +38,12 @@
 						<h:form  id="formplaylist">
 							<h:panelGroup id="playlistop"
 								style="display:block; text-align:centre">
-								<f:ajax render="calculadoraform:calcdisplay">
+								<f:ajax render="formplaylist:playlistop">
 									<h:outputText value="#{usersinterface.userLogged}, prencha os campos em baixo para criar uma playlist."
 											styleClass="txtconteudo"
 											rendered="#{playlistinterface.typecriar()}" />
-									<h:panelGrid columns="3" cellpadding="10">
+											
+									<h:panelGrid columns="4" cellpadding="10">
 										<h:outputText value="Nome playlist:"  
 											rendered="#{playlistinterface.typecriar()}" />
 										<h:inputText id="playlistname" title="Nome playlist"
@@ -49,16 +52,62 @@
 											rendered="#{playlistinterface.typecriar()}" />
 										<h:message for="playlistname" errorClass="errorMessage" 
 											rendered="#{playlistinterface.typecriar()}" />
+										<h:commandButton type="submit" value="criar"
+											styleClass="btn" action="#{playlistinterface.criaplaylist}" 
+											rendered="#{playlistinterface.typecriar()}" />
 									</h:panelGrid>
-								</f:ajax>
-							</h:panelGroup>
-							<br />
-							<h:commandButton type="submit" value="criar"
-								styleClass="btn" action="#{playlistinterface.criaplaylist}" 
-								rendered="#{playlistinterface.typecriar()}" />
+											
+									<h:panelGrid columns="4" cellpadding="10">		
+										<h:outputText value="Apagar playlist:"  
+											rendered="#{playlistinterface.typeapagar()}" />
+										<h:inputText id="delplaylistname" title="Nome playlist"
+											value="#{playlistinterface.playlistname}" required="true"
+											requiredMessage="Preencha o nome da playlist" maxlength="32" 
+											rendered="#{playlistinterface.typeapagar()}" />
+										<h:message for="delplaylistname" errorClass="errorMessage" 
+											rendered="#{playlistinterface.typeapagar()}" />
+										<h:commandButton type="submit" value="apagar"
+											styleClass="btn" action="#{playlistinterface.apagaplaylist}" 
+											rendered="#{playlistinterface.typeapagar()}" />	
+									</h:panelGrid>
+									
+									
+									<h:panelGroup id="listaplaylist">
+										<p:panel class="max_height_col1">
+											<h:panelGrid columns="1" styleClass="painel-interior">
 								
+												<h:dataTable value="#{playlistinterface.listaplaylistnames}" var="item">
+													<h:column>
+														<f:facet name="header">Playlist(s)</f:facet>
+														<h:commandButton styleClass="btn-historico"
+															actionListener="#{playlistinterface.selectplaylist()}" value="#{item}">
+															<f:attribute name="line" value="#{item}" />
+														</h:commandButton>
+													</h:column>
+												</h:dataTable>	
+
+											</h:panelGrid>	
+										</p:panel>		
+									</h:panelGroup>	
+									
+									<br/>
+									
+									<h:commandButton type="submit" value="editar"
+										styleClass="btn" action="#{playlistinterface.editaplaylist}" 
+										rendered="#{playlistinterface.typeeditar()}" />
+									
+								</f:ajax>
+							</h:panelGroup>	
+							<br />
+							<br />
+							<h:commandButton type="submit" value="Voltar ao Player" styleClass="btn"
+								action="jukebox" />
+							<h:commandButton type="submit" value="Adicionar/Apagar Musicas" styleClass="btn"
+								action="jukebox" />
+							<br />	
 						</h:form>
 						</p:panel>
+						
 					</div>
 					<div class="ui-grid-col-2" />
 				</div>

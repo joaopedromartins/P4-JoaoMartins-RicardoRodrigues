@@ -57,7 +57,7 @@ public class Playlistinterface implements Serializable {
 		this.msgerro = msgerro;
 	}
 
-	//Getter associados à variável msgerro
+	//Getter associados à variável Listaplaylistnames
 	public List<String> getListaplaylistnames() {
 		this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername());
 		return listaplaylistnames;
@@ -113,9 +113,12 @@ public class Playlistinterface implements Serializable {
 	//metodo para apagar uma playlist
 	public String apagaplaylist() {
 		System.out.println("Apagar playlist:" + this.playlistname + "\t do user: "+this.username);
-		playlist.delPlaylist( loggeduser.getUserLogged(), playlistname);
-		
-		
+		if (playlist.delPlaylist( loggeduser.getUserLogged(), playlistname) ) {
+			setMsgerro("Apagada a playlist: "+playlistname);
+			setPlaylistname(null);
+		} else {
+			setMsgerro("ERRO ao apagar a playlist: "+playlistname);
+		}
 		return "/resources/secure/playlist?faces-redirect=true";
 	}
 
