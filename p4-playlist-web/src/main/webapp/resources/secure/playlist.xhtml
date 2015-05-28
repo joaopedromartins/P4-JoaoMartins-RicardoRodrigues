@@ -1,0 +1,70 @@
+<ui:composition template="../paginas/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+ 	<link rel="stylesheet" type="text/css" href="../css/template.css" /> 
+	
+	<ui:define name="conteudo">
+		<center>
+			<h:outputText styleClass="txtconteudo"
+				value="Nesta pagina podes criar, editar e apagar as tuas playlists." />
+			<BR />
+			
+			<h:form>
+				<h:selectOneRadio id="radioplaylistop" styleClass="txtconteudo"
+					value="#{playlistinterface.operacao}">
+					<f:selectItem itemValue="criar" itemLabel="Criar" />
+					<f:selectItem itemValue="editar" itemLabel="Editar" />
+					<f:selectItem itemValue="apagar" itemLabel="Apagar" />
+					<f:ajax event="change" execute="radioplaylistop"
+						render="formplaylist:calcbuttons calculadoraform:radiobasicacientifica headerform:calcheader" />
+				</h:selectOneRadio>
+
+			</h:form>
+
+			<div id="container" class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row ">
+					<div class="ui-grid-col-2" />
+					<div class="ui-grid-col-8">
+						<p:panel id="playlist" header="Editar playlist."
+							footer="#{playlistinterface.msgerro}" >
+						<br />
+						<img src="../imagens/jukebox.png" />
+						<h:form  id="formplaylist">
+							<h:panelGroup id="playlistop"
+								style="display:block; text-align:centre">
+								<f:ajax render="calculadoraform:calcdisplay">
+									<h:outputText value="#{usersinterface.userLogged}, prencha os campos em baixo para criar uma playlist."
+											styleClass="txtconteudo"
+											rendered="#{playlistinterface.typecriar()}" />
+									<h:panelGrid columns="3" cellpadding="10">
+										<h:outputText value="Nome playlist:"  
+											rendered="#{playlistinterface.typecriar()}" />
+										<h:inputText id="playlistname" title="Nome playlist"
+											value="#{playlistinterface.playlistname}" required="true"
+											requiredMessage="Preencha o nome da playlist" maxlength="32" 
+											rendered="#{playlistinterface.typecriar()}" />
+										<h:message for="playlistname" errorClass="errorMessage" 
+											rendered="#{playlistinterface.typecriar()}" />
+									</h:panelGrid>
+								</f:ajax>
+							</h:panelGroup>
+							<br />
+							<h:commandButton type="submit" value="criar"
+								styleClass="btn" action="#{playlistinterface.criaplaylist}" 
+								rendered="#{playlistinterface.typecriar()}" />
+								
+						</h:form>
+						</p:panel>
+					</div>
+					<div class="ui-grid-col-2" />
+				</div>
+			</div>
+		</center>
+
+
+	</ui:define>
+</ui:composition>
