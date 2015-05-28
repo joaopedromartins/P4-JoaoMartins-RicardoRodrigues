@@ -50,6 +50,7 @@ public class LoginEJB {
 		q.setParameter("password", password);
 		
 		List<User> users = q.getResultList();
+		
 		if (users.isEmpty()) return false;
 		return true;
 	}

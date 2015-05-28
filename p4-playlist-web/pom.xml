@@ -29,15 +29,8 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>5.2</version>
-			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>1.0.9</version>
-			<scope>compile</scope>
-		</dependency>
+		
 		<!-- JSF 2 API -->
     	<dependency>
         	<groupId>com.sun.faces</groupId>
@@ -54,14 +47,6 @@
         </dependency>
 	</dependencies>
 	
-	<!-- Primefaces -->
-	<repositories>
-		<repository>
-			<id>prime-repo</id>
-			<name>PrimeFaces Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
+	
 	
 </project>
