@@ -15,6 +15,18 @@ public class Music implements Serializable {
 
 	@Column
 	private String title;
+	@Column
+	private String author;
+	@Column
+	private String album;
+	@Column
+	private String genre;
+	@Column
+	private String filename;
+	@Column
+	private int duration;
+	@Column 
+	private int year;
 
 	@ManyToOne
 	private User user;
@@ -23,9 +35,106 @@ public class Music implements Serializable {
 		super();
 	}
 
-	public Music(String title, User user) {
-		this.user = user;
+	
+
+	public Music(String title, String author, String album,
+			String genre, String filename, int duration, User user, int year) {
 		this.title = title;
+		this.author = author;
+		this.album = album;
+		this.genre = genre;
+		this.filename = filename;
+		this.duration = duration;
+		this.user = user;
+		this.year = year;
+	}
+
+
+
+	public int getId() {
+		return id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public String getAlbum() {
+		return album;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public User getUser() {
+		return user;
 	}
    
+	public int getYear() { return year; }
+	
+	public void setYear(int year) { this.year = year; }
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+
+
+	public void setAlbum(String album) {
+		this.album = album;
+	}
+
+
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
+	
 }
