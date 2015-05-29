@@ -67,7 +67,7 @@
 									
 									<h:panelGrid columns="4" cellpadding="10" rendered="#{playlistinterface.typeeditar()}" >	
 										<h:panelGroup id="listaplaylist">
-											<h:outputText value="1. Selecione"/>
+											<h:outputText value="1. Selecione a"/>
 											<br />
 											<h:outputText value="Playlist"/>
 											<br />
@@ -85,8 +85,8 @@
 											</p:panel>		
 										</h:panelGroup>	
 										
-										<h:panelGroup id="listamusicasplaylist">
-											<h:outputText value="2. Seleccione Musica"/>
+										<h:panelGroup id="listamusicasplaylist" rendered="#{!empty playlistinterface.playlistname}">
+											<h:outputText value="2. Seleccione a Musica"/>
 											<br />
 											<h:outputText value="da Playlist"/>
 											<br />
@@ -95,6 +95,9 @@
 													<h:dataTable value="#{playlistinterface.listaplaylistmusics}" var="musicplst">
 														<h:column>
 															<h:outputText value="#{musicplst.title},"/>
+															<h:commandLink actionListener="#{playlistinterface.selectmusic}" value="musicplst" >
+																<f:attribute name="selectedmusicline" value="#{musicplst.id}" />
+															</h:commandLink>
 														</h:column>
 														<h:column>
 															<h:outputText value="#{musicplst.author}"/>
@@ -103,6 +106,15 @@
 												</h:panelGrid>	
 											</p:panel>		
 										</h:panelGroup>	
+										
+										<h:panelGroup id="musicaselecionada" rendered="#{!empty playlistinterface.playlistname}">
+											<h:panelGrid columns="2" styleClass="painel-interior">
+												<h:outputText value="Nome: "/>
+												<h:outputText value="#{musicplst.author}"/>
+											
+											
+											</h:panelGrid>
+										</h:panelGroup>
 										
 									</h:panelGrid>
 								</f:ajax>

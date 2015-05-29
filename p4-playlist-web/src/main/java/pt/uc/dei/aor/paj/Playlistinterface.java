@@ -22,6 +22,7 @@ public class Playlistinterface implements Serializable {
 	private String operacao;
 	private List<String> listaplaylistnames;
 	private List<PlaylistMusicDTO> listaplaylistmusics;
+	private PlaylistMusicDTO selectedmusic;
 	
 	@Inject
 	private Usersinterface loggeduser;
@@ -74,6 +75,11 @@ public class Playlistinterface implements Serializable {
 			
 			return testlist;
 		}
+
+	//Getter associados ao DTO selectedmusic
+	public PlaylistMusicDTO getSelectedmusic() {
+		return selectedmusic;
+	}
 
 
 	//Getter  associados à variável msgerro
@@ -140,6 +146,10 @@ public class Playlistinterface implements Serializable {
 		playlistname = (String)ae.getComponent().getAttributes().get("selectedline");
 	}
 	
-	
+	//metodo para seleccionar uma playlist
+	public void selectmusic(ActionEvent ae) {
+		//atribui o nome da playlist correspondente ao botao da linha seleccionada
+		selectedmusic = (PlaylistMusicDTO)ae.getComponent().getAttributes().get("selectedmusicline");
+	}
 	
 }
