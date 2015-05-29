@@ -55,7 +55,9 @@ public class LoginEJB {
 		return true;
 	}
 
-
+	
+	
+	// Tive de criar isto para testar
 	public void setEm(EntityManager em) {
 		// TODO Auto-generated method stub
 		this.em = em;
