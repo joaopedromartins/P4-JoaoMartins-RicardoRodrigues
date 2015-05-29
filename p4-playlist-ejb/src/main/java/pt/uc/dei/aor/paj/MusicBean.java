@@ -62,7 +62,7 @@ public class MusicBean {
 	}
 
 	public String getFilename() {
-		return "/uploads/"+filename;
+		return System.getProperty("user.dir")+"/music/"+filename;
 	}
 
 	public void setFilename(String filename) {

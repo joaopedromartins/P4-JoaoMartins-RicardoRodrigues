@@ -25,7 +25,6 @@ public class MusicEJB {
     	TypedQuery<Music> q = em.createQuery("from Music", Music.class);
     	
     	List<Music> list = q.getResultList();
-    	System.out.println(list);
     	List<MusicBean> result = new ArrayList<>();
     	for (Music m : list) {
     		result.add(new MusicBean(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));

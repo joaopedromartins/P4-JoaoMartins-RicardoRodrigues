@@ -45,7 +45,7 @@ public class LoginEJB {
 		if (login.contains("@")) query = "from User u where u.email like :login and u.password like :password";
 		else query = "from User u where u.name like :login and u.password like :password"; 
 		
-		Query q = em.createQuery(query);
+		TypedQuery<User> q = em.createQuery(query, User.class);
 		q.setParameter("login", login);
 		q.setParameter("password", password);
 		
@@ -53,6 +53,18 @@ public class LoginEJB {
 		
 		if (users.isEmpty()) return false;
 		return true;
+	}
+
+
+	public void setEm(EntityManager em) {
+		// TODO Auto-generated method stub
+		this.em = em;
+	}
+
+
+	public EntityManager getEm() {
+		// TODO Auto-generated method stub
+		return em;
 	}
 
 

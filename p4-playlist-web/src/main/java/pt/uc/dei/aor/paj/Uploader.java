@@ -112,4 +112,8 @@ public class Uploader {
 		}
 	}
 	
+	public boolean isEditable(int id) {
+		return ejb.isEditable(id, usersInterface.getUserLogged());
+	}
+	
 }

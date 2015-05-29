@@ -83,4 +83,16 @@ public class UploadEJB {
 		return true;
 		
 	}
+
+	public boolean isEditable(int id, String userLogged) {
+		TypedQuery<User> qU = em.createQuery("from User u where u.name = :username", User.class);
+		qU.setParameter("username", userLogged);
+		User u = qU.getSingleResult();
+		
+		TypedQuery<Music> qM = em.createQuery("from Music m where m.id = :id and m.user = :user", Music.class);
+		qM.setParameter("id", id).setParameter("user", u);
+		
+		List<Music> list = qM.getResultList();
+		return !list.isEmpty();
+	}
 }
