@@ -1,5 +1,8 @@
 package pt.uc.dei.aor.paj;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -32,12 +35,29 @@ public class SigninEJB {
     	
     	if (!password.equals(confirm)) return false;
     	
-    	em.persist(new User(username, password, email));
-    	return true;
+    	String crypt = getCrypt(password);
+    	if (crypt != null) {
+    		em.persist(new User(username, password, email));
+    		return true;
+    	}
+    	return false;
     }
     
     
-    public boolean delete(String username) {
+    private String getCrypt(String password) {
+    	MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+			md.update(password.getBytes());
+			return bytesToHex(md.digest());
+		} catch (NoSuchAlgorithmException e) {
+			return null;
+		}
+    	
+	}
+
+
+	public boolean delete(String username) {
     	em.createQuery("delete from User u where u.name like :username").
 		setParameter("username", username).executeUpdate();
     	
@@ -59,5 +79,16 @@ public class SigninEJB {
     	}
     	return false;
     	
+    }
+    
+    public static String bytesToHex(byte[] bytes) {
+    	final char[] hexArray = "0123456789ABCDEF".toCharArray();
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
     }
 }
