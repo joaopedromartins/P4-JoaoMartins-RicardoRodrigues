@@ -46,8 +46,8 @@ public class MusicEJB {
     
     
     public List<MusicBean> findMusicListByTitle(String title) {
-    	TypedQuery<Music> q = em.createQuery("from Music m where m.title like :title", Music.class);
-    	q.setParameter("title", "%"+title+"%");
+    	TypedQuery<Music> q = em.createQuery("from Music m where lower(m.title) like :title", Music.class);
+    	q.setParameter("title", "%"+title.toLowerCase()+"%");
     	List<Music> list = q.getResultList();
     	
     	List<MusicBean> result = new ArrayList<>();
@@ -59,8 +59,8 @@ public class MusicEJB {
     }
     
     public List<MusicBean> findMusicListByArtist(String artist) {
-    	TypedQuery<Music> q = em.createQuery("from Music m where m.author like :artist", Music.class);
-    	q.setParameter("artist", "%"+artist+"%");
+    	TypedQuery<Music> q = em.createQuery("from Music m where lower(m.author) like :artist", Music.class);
+    	q.setParameter("artist", "%"+artist.toLowerCase()+"%");
     	List<Music> list = q.getResultList();
     	
     	List<MusicBean> result = new ArrayList<>();
@@ -71,11 +71,5 @@ public class MusicEJB {
     	return result;
     }
     
-    public List<MusicBean> findMusicListByArtistOrTitle(String artist, String title) {
-    	List<MusicBean> result = new ArrayList<>();
-    	result.addAll(findMusicListByTitle(title));
-    	result.addAll(findMusicListByArtist(artist));
-    	
-    	return result;
-    }
+    
 }
