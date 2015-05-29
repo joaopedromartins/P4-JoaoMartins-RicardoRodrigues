@@ -92,5 +92,25 @@ public class PlaylistEJB {
 		
     	return l;
     }	
+	
+	public Playlist findPlaylistByUsernameAndPlaylistName(String username, String playlistname) {
+		if (username.length() <= 2) return null;
+    	if (playlistname.length() <= 2) return null;
+    	
+    	//testar se existe o utilizador com esse nome
+    	User loggedUser = loginEJB.findUserByUsername(username);
+    	if ( loggedUser == null) return null;
+    	
+    	//testar se exite playlist com esse nome
+		TypedQuery<Playlist> q = em.createQuery("from Playlist l where l.user = :user and l.title like :title", Playlist.class);
+		q.setParameter("user", loggedUser);
+		q.setParameter("title", playlistname);
+		List<Playlist> l = q.getResultList();
+    	if (l.isEmpty()) {
+    		return null;
+    	} else {
+    		return l.get(0);
+    	}
+	}
 
 }

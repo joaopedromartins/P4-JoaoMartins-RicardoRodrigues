@@ -1,6 +1,7 @@
 package pt.uc.dei.aor.paj;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -20,16 +21,20 @@ public class Playlistinterface implements Serializable {
 	private String playlistname;
 	private String operacao;
 	private List<String> listaplaylistnames;
+	private List<PlaylistMusicDTO> listaplaylistmusics;
 	
 	@Inject
 	private Usersinterface loggeduser;
 
 	@Inject 
 	private PlaylistEJB playlist;
+	
+	@Inject 
+	private PlaylistEntryEJB playlistEntry;
 
 	public Playlistinterface() {
 		operacao="criar";
-		setMsgerro("");
+		msgerro="";
 	}
 
 	
@@ -49,24 +54,34 @@ public class Playlistinterface implements Serializable {
 		this.playlistname = playlistname;
 	}
 
-
-	//Getter associados à variável msgerro
-	public String getMsgerro() {
-		return msgerro;
-	}
-	public void setMsgerro(String msgerro) {
-		this.msgerro = msgerro;
-	}
-
-	//Getter associados à variável Listaplaylistnames
+	//Getter associados à lista Listaplaylistnames
 	public List<String> getListaplaylistnames() {
 		this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername());
 		return listaplaylistnames;
 	}
-	public void setListaplaylistnames(List<String> listaplaylistnames) {
-		this.listaplaylistnames = listaplaylistnames;
+	
+	//Getter associados à lista Listaplaylistmusics
+		public List<PlaylistMusicDTO> getListaplaylistmusics() {
+			//this.listaplaylistmusics=    ( playlist.listPlaylistmusic(loggeduser.getUsername(), playlistname) );
+			
+			//teste
+			ArrayList<PlaylistMusicDTO> testlist = new ArrayList<PlaylistMusicDTO>();
+			
+			for (int i=1; i<10; i++) {
+				testlist.add( new PlaylistMusicDTO("title"+i, "author"+i, "album"+i,
+				"genre"+i, (int)(10.0*Math.random()), (2015-i), i, i) );
+			}
+			
+			return testlist;
+		}
+
+
+	//Getter  associados à variável msgerro
+	public String getMsgerro() {
+		return msgerro;
 	}
 
+	
 
 	//metodo que identifica se radiobotton esta activo na posicao criar 
 	public boolean typecriar() {
@@ -86,22 +101,13 @@ public class Playlistinterface implements Serializable {
 		}
 	}
 
-	//metodo que identifica se radiobotton esta activo na posicao criar 
-	public boolean typeapagar() {
-		if (operacao.equals("apagar")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	//metodo para criar uma playlist
 	public String criaplaylist() {
 		//System.out.println("Adicionar playlist:" + this.playlistname + "\t do user: "+this.username);
 		if (playlist.addPlaylist( loggeduser.getUserLogged(), playlistname) ) {
-			setMsgerro("Adicionada a playlist: "+playlistname);
+			msgerro="Adicionada a playlist: "+playlistname;
 		} else {
-			setMsgerro("ERRO ao adicionar a playlist: "+playlistname);
+			msgerro="ERRO ao adicionar a playlist: "+playlistname;
 		}
 		
 		return "/resources/secure/playlist?faces-redirect=true";
@@ -119,22 +125,21 @@ public class Playlistinterface implements Serializable {
 	public String apagaplaylist() {
 		System.out.println("Apagar playlist:" + this.playlistname + "\t do user: "+this.username);
 		if (playlist.delPlaylist( loggeduser.getUserLogged(), playlistname) ) {
-			setMsgerro("Apagada a playlist: "+playlistname);
+			msgerro="Apagada a playlist: "+playlistname;
 			setPlaylistname(null);
 		} else {
-			setMsgerro("ERRO ao apagar a playlist: "+playlistname);
+			msgerro="ERRO ao apagar a playlist: "+playlistname;
 		}
 		return "/resources/secure/playlist?faces-redirect=true";
 	}
 
 	
 	//metodo para seleccionar uma playlist
-	public String selectplaylist(ActionEvent ae) {
-		//atribui o nome da playlist correspondente ao botao linha seleccionada
-		this.playlistname = (String)ae.getComponent().getAttributes().get("line");
-		
-		return "/resources/secure/playlist?faces-redirect=true";
+	public void selectplaylist(ActionEvent ae) {
+		//atribui o nome da playlist correspondente ao botao da linha seleccionada
+		playlistname = (String)ae.getComponent().getAttributes().get("selectedline");
 	}
+	
 	
 	
 }

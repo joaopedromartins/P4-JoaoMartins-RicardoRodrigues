@@ -20,7 +20,7 @@
 					value="#{playlistinterface.operacao}">
 					<f:selectItem itemValue="criar" itemLabel="Criar" />
 					<f:selectItem itemValue="editar" itemLabel="Editar" />
-					<f:selectItem itemValue="apagar" itemLabel="Apagar" />
+					<!--  <f:selectItem itemValue="apagar" itemLabel="Apagar" /> -->
 					<f:ajax event="change" execute="radioplaylistop"
 						render="formplaylist:playlistop" />
 				</h:selectOneRadio>
@@ -57,45 +57,54 @@
 											rendered="#{playlistinterface.typecriar()}" />
 									</h:panelGrid>
 											
-									<h:panelGrid columns="4" cellpadding="10">		
-										<h:outputText value="Apagar playlist:"  
-											rendered="#{playlistinterface.typeapagar()}" />
-										<h:inputText id="delplaylistname" title="Nome playlist"
-											value="#{playlistinterface.playlistname}" required="true"
-											requiredMessage="Preencha o nome da playlist" maxlength="32" 
-											rendered="#{playlistinterface.typeapagar()}" />
-										<h:message for="delplaylistname" errorClass="errorMessage" 
-											rendered="#{playlistinterface.typeapagar()}" />
+									<h:panelGrid columns="4" cellpadding="10" rendered="#{playlistinterface.typeeditar()}" >		
+										<h:outputText value="Nome playlist:" />
+										<h:outputText value="#{playlistinterface.playlistname}" />
+										<h:message for="delplaylistname" errorClass="errorMessage" />
 										<h:commandButton type="submit" value="apagar"
-											styleClass="btn" action="#{playlistinterface.apagaplaylist}" 
-											rendered="#{playlistinterface.typeapagar()}" />	
+											styleClass="btn" action="#{playlistinterface.apagaplaylist}" />	
 									</h:panelGrid>
 									
-									
-									<h:panelGroup id="listaplaylist">
-										<p:panel class="max_height_col1">
-											<h:panelGrid columns="1" styleClass="painel-interior">
-								
-												<h:dataTable value="#{playlistinterface.listaplaylistnames}" var="item">
-													<h:column>
-														<f:facet name="header">Playlist(s)</f:facet>
-														<h:commandButton styleClass="btn-historico"
-															actionListener="#{playlistinterface.selectplaylist()}" value="#{item}">
-															<f:attribute name="line" value="#{item}" />
-														</h:commandButton>
-													</h:column>
-												</h:dataTable>	
-
-											</h:panelGrid>	
-										</p:panel>		
-									</h:panelGroup>	
-									
-									<br/>
-									
-									<h:commandButton type="submit" value="editar"
-										styleClass="btn" action="#{playlistinterface.editaplaylist}" 
-										rendered="#{playlistinterface.typeeditar()}" />
-									
+									<h:panelGrid columns="4" cellpadding="10" rendered="#{playlistinterface.typeeditar()}" >	
+										<h:panelGroup id="listaplaylist">
+											<h:outputText value="1. Selecione"/>
+											<br />
+											<h:outputText value="Playlist"/>
+											<br />
+											<p:panel class="max_height_col1">
+												<h:panelGrid columns="1" styleClass="painel-interior">
+													<h:dataTable value="#{playlistinterface.listaplaylistnames}" var="item">
+														<h:column>
+															<h:commandButton styleClass="btn-historico"
+																actionListener="#{playlistinterface.selectplaylist}" value="#{item}" >
+																<f:attribute name="selectedline" value="#{item}" />
+															</h:commandButton>
+														</h:column>
+													</h:dataTable>	
+												</h:panelGrid>	
+											</p:panel>		
+										</h:panelGroup>	
+										
+										<h:panelGroup id="listamusicasplaylist">
+											<h:outputText value="2. Seleccione Musica"/>
+											<br />
+											<h:outputText value="da Playlist"/>
+											<br />
+											<p:panel class="max_height_col1">
+												<h:panelGrid columns="1" styleClass="painel-interior">
+													<h:dataTable value="#{playlistinterface.listaplaylistmusics}" var="musicplst">
+														<h:column>
+															<h:outputText value="#{musicplst.title},"/>
+														</h:column>
+														<h:column>
+															<h:outputText value="#{musicplst.author}"/>
+														</h:column>
+													</h:dataTable>	
+												</h:panelGrid>	
+											</p:panel>		
+										</h:panelGroup>	
+										
+									</h:panelGrid>
 								</f:ajax>
 							</h:panelGroup>	
 							<br />
