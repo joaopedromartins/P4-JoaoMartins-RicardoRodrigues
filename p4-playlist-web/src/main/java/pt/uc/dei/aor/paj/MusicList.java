@@ -18,6 +18,8 @@ public class MusicList implements Serializable {
 	private MusicEJB ejb;
 	
 	private List<MusicBean> musics;
+	private String searchField;
+	private List<MusicBean> filteredMusicList;
 	
 	@PostConstruct
 	public void init() {
@@ -34,6 +36,32 @@ public class MusicList implements Serializable {
 	
 	public void addMusic(MusicBean m) {
 		musics.add(m);
+	}
+	
+	public void searchMusic() {
+		if (searchField.trim().equals("")) {
+			filteredMusicList.clear();
+			filteredMusicList.addAll(musics);
+		}
+		else {
+			filteredMusicList = ejb.findMusicListByArtistOrTitle(searchField, searchField);
+		}
+	}
+
+	public String getSearchField() {
+		return searchField;
+	}
+
+	public void setSearchField(String searchField) {
+		this.searchField = searchField;
+	}
+
+	public List<MusicBean> getFilteredMusicList() {
+		return filteredMusicList;
+	}
+
+	public void setFilteredMusicList(List<MusicBean> filteredMusicList) {
+		this.filteredMusicList = filteredMusicList;
 	}
 	
 	
