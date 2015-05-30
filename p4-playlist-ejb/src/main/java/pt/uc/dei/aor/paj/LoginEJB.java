@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -14,6 +15,9 @@ import javax.persistence.TypedQuery;
 public class LoginEJB {
 	@PersistenceContext(name = "Utilizador")
 	private EntityManager em;
+	
+	@Inject
+	private EncryptEJB crypt;
 
     public LoginEJB() {
         // TODO Auto-generated constructor stub
@@ -42,12 +46,21 @@ public class LoginEJB {
 	
 	public boolean validateUser(String login, String password) {
 		String query;
-		if (login.contains("@")) query = "from User u where u.email like :login and u.password like :password";
-		else query = "from User u where u.name like :login and u.password like :password"; 
+		String username = null;
+		if (login.contains("@")) {
+			query = "from User u where u.email like :login and u.password like :password";
+			List<User> users = em.createQuery("from User u where u.email like :email", User.class).setParameter("email", login).getResultList();
+			if (users.isEmpty()) return false;
+			username = users.get(0).getName();
+		}
+		else {
+			query = "from User u where u.name like :login and u.password like :password"; 
+			username = login;
+		}
 		
 		TypedQuery<User> q = em.createQuery(query, User.class);
 		q.setParameter("login", login);
-		q.setParameter("password", password);
+		q.setParameter("password", crypt.encrypt(password, username));
 		
 		List<User> users = q.getResultList();
 		
@@ -55,7 +68,9 @@ public class LoginEJB {
 		return true;
 	}
 
-
+	
+	
+	// Tive de criar isto para testar
 	public void setEm(EntityManager em) {
 		// TODO Auto-generated method stub
 		this.em = em;

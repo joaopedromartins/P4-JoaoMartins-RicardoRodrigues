@@ -1,5 +1,8 @@
 package pt.uc.dei.aor.paj;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,12 +19,16 @@ public class SigninEJB {
 	@Inject
 	private LoginEJB loginEJB;
 	
+	@Inject
+	private EncryptEJB crypt;
+	
     public SigninEJB() {
         // TODO Auto-generated constructor stub
     }
 
     
     public boolean register(String username, String password, String confirm, String email) {
+   
     	if (username.contains("@") || !email.contains("@")) return false;
     	
     	if (loginEJB.findUserByUsername(username) != null) return false;
@@ -32,12 +39,20 @@ public class SigninEJB {
     	
     	if (!password.equals(confirm)) return false;
     	
-    	em.persist(new User(username, password, email));
-    	return true;
+    	String masked = crypt.encrypt(password, username);
+    	if (crypt != null) {
+    		User u = new User(username, masked, email);
+    		em.persist(u);
+    		return true;
+    	}
+    	return false;
     }
     
     
-    public boolean delete(String username) {
+    
+
+
+	public boolean delete(String username) {
     	em.createQuery("delete from User u where u.name like :username").
 		setParameter("username", username).executeUpdate();
     	
@@ -60,4 +75,6 @@ public class SigninEJB {
     	return false;
     	
     }
+    
+   
 }

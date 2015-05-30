@@ -11,8 +11,15 @@
 
 <h:body>
 	<ui:composition>
+	
+		<audio id="audioPlayer" />
+		
 		<ui:repeat value="#{musicList.musics}" var="item" varStatus="status">
-			<div class="musicRow" id="musicRow#{status.index}">#{item}</div>
+			<div class="musicRow" id="musicRow#{status.index}">
+				<span>#{item}</span>
+				<h:link value="play" styleClass="playButton" />
+				<h:inputHidden value="#{item.filename}" name="filename" />
+			</div>
 
 			<h:panelGroup class="musicEditRow editmusicRow#{status.index}" rendered="#{uploader.isEditable(item.id)}">
 				<h:form id="form">
