@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -17,6 +18,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.Part;
+import javax.sound.sampled.AudioFileFormat;
+
+import javazoom.spi.mpeg.sampled.file.MpegAudioFileReader;
 
 @Stateless
 public class UploadEJB {
@@ -49,10 +53,15 @@ public class UploadEJB {
 	        out.close();  
 	        in.close();
 	        
-	        Music m = new Music(title, author, album, genre, filename, 100, loginEJB.findUserByUsername(username), year);
+	        AudioFileFormat baseFileFormat = new MpegAudioFileReader().getAudioFileFormat(outFile);
+			Map<String, Object> properties = baseFileFormat.properties();
+			System.out.println(properties.get("duration"));
+			int duration = (int) ((long)properties.get("duration")/1000000);
+			
+	        Music m = new Music(title, author, album, genre, filename, duration, loginEJB.findUserByUsername(username), year);
 	        em.persist(m);
 	        
-			return new MusicDTO(title, author, album, genre, 100, filename, year, m.getId()); 
+			return new MusicDTO(title, author, album, genre, duration, filename, year, m.getId()); 
 		}
 		catch (Exception e) {
 			return null;

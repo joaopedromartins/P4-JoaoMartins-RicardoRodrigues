@@ -39,5 +39,9 @@
 			<artifactId>p4-playlist-jpa</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+				<groupId>com.googlecode.soundlibs</groupId>
+				<artifactId>mp3spi</artifactId>
+			</dependency>
 	</dependencies>
 </project>
