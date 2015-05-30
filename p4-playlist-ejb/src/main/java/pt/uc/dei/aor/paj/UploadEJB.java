@@ -26,7 +26,7 @@ public class UploadEJB {
 	@Inject
 	private LoginEJB loginEJB;
 	
-	public MusicBean upload(Part part, String title, String author, String album, String genre, String username, int year) {
+	public MusicDTO upload(Part part, String title, String author, String album, String genre, String username, int year) {
 		String filename = title+"_"+author+"_"+album+".mp3";
 		try {
 			String ext = part.getSubmittedFileName().split("\\.")[1];
@@ -52,7 +52,7 @@ public class UploadEJB {
 	        Music m = new Music(title, author, album, genre, filename, 100, loginEJB.findUserByUsername(username), year);
 	        em.persist(m);
 	        
-			return new MusicBean(title, author, album, genre, 100, filename, year, m.getId()); 
+			return new MusicDTO(title, author, album, genre, 100, filename, year, m.getId()); 
 		}
 		catch (Exception e) {
 			return null;

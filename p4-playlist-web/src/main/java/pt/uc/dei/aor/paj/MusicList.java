@@ -18,9 +18,9 @@ public class MusicList implements Serializable {
 	@Inject
 	private MusicEJB ejb;
 	
-	private List<MusicBean> musics;
+	private List<MusicDTO> musics;
 	private String searchField = "";
-	private List<MusicBean> filteredMusicList = new ArrayList<>();
+	private List<MusicDTO> filteredMusicList = new ArrayList<>();
 	private String searchType = "all";
 	
 	@PostConstruct
@@ -28,15 +28,15 @@ public class MusicList implements Serializable {
 		setMusics(ejb.getMusicList());
 	}
 
-	public List<MusicBean> getMusics() {
+	public List<MusicDTO> getMusics() {
 		return musics;
 	}
 
-	public void setMusics(List<MusicBean> musics) {
+	public void setMusics(List<MusicDTO> musics) {
 		this.musics = musics;
 	}
 	
-	public void addMusic(MusicBean m) {
+	public void addMusic(MusicDTO m) {
 		musics.add(m);
 	}
 	
@@ -61,11 +61,11 @@ public class MusicList implements Serializable {
 		this.searchField = searchField;
 	}
 
-	public List<MusicBean> getFilteredMusicList() {
+	public List<MusicDTO> getFilteredMusicList() {
 		return filteredMusicList;
 	}
 
-	public void setFilteredMusicList(List<MusicBean> filteredMusicList) {
+	public void setFilteredMusicList(List<MusicDTO> filteredMusicList) {
 		this.filteredMusicList = filteredMusicList;
 	}
 

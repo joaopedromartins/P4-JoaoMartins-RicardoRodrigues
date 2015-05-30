@@ -21,51 +21,51 @@ public class MusicEJB {
     }
 
     
-    public List<MusicBean> getMusicList() {
+    public List<MusicDTO> getMusicList() {
     	TypedQuery<Music> q = em.createQuery("from Music", Music.class);
     	
     	List<Music> list = q.getResultList();
-    	List<MusicBean> result = new ArrayList<>();
+    	List<MusicDTO> result = new ArrayList<>();
     	for (Music m : list) {
-    		result.add(new MusicBean(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
+    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
     	}
     	
     	return result;
     }
     
     
-    public MusicBean insertMusic() {
+    public MusicDTO insertMusic() {
     	User u = new User("user", "email", "password");
     	Music m = new Music("title", "author", "album", "genre", "filename", 300, u, 1967);
     	em.persist(u);
     	em.persist(m);
     	
-    	MusicBean mb = new MusicBean(m.getTitle(), m.getAlbum(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId());
+    	MusicDTO mb = new MusicDTO(m.getTitle(), m.getAlbum(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId());
     	return mb;
     }
     
     
-    public List<MusicBean> findMusicListByTitle(String title) {
+    public List<MusicDTO> findMusicListByTitle(String title) {
     	TypedQuery<Music> q = em.createQuery("from Music m where lower(m.title) like :title", Music.class);
     	q.setParameter("title", "%"+title.toLowerCase()+"%");
     	List<Music> list = q.getResultList();
     	
-    	List<MusicBean> result = new ArrayList<>();
+    	List<MusicDTO> result = new ArrayList<>();
     	for (Music m : list) {
-    		result.add(new MusicBean(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
+    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
     	}
     	
     	return result;
     }
     
-    public List<MusicBean> findMusicListByArtist(String artist) {
+    public List<MusicDTO> findMusicListByArtist(String artist) {
     	TypedQuery<Music> q = em.createQuery("from Music m where lower(m.author) like :artist", Music.class);
     	q.setParameter("artist", "%"+artist.toLowerCase()+"%");
     	List<Music> list = q.getResultList();
     	
-    	List<MusicBean> result = new ArrayList<>();
+    	List<MusicDTO> result = new ArrayList<>();
     	for (Music m : list) {
-    		result.add(new MusicBean(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
+    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
     	}
     	
     	return result;

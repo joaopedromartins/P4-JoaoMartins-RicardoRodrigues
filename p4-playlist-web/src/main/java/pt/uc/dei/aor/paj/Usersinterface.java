@@ -2,14 +2,14 @@ package pt.uc.dei.aor.paj;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 @Named 
-@SessionScoped
+@RequestScoped
 public class Usersinterface implements Serializable {
 	private static final long serialVersionUID = -8310185641498834904L;
 
@@ -18,7 +18,6 @@ public class Usersinterface implements Serializable {
 	private String password;
 	private String cpassword;
 	private String msgerro;
-	private String userLogged;
 	private HttpSession session;
 
 	@Inject 
@@ -26,9 +25,12 @@ public class Usersinterface implements Serializable {
 	
 	@Inject 
 	private LoginEJB login;
+	
+	@Inject
+	private UserSession userSession;
+	
 
 	public Usersinterface() {
-		this.setUserLogged(null);
 		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 	}
 
@@ -64,16 +66,7 @@ public class Usersinterface implements Serializable {
 		this.cpassword = cpassword;
 	}
 
-	//Getter associados à variável userlogged
-	public String getUserLogged() {
-		//System.out.println("get user logges="+userLogged);
-		return userLogged;
-	}
-	public void setUserLogged(String userLogged) {
-		this.userLogged = userLogged;
-		//System.out.println("set user logges="+userLogged);
-	}
-
+	
 	//Getter associados à variável msgerro
 	public String getMsgerro() {
 		return msgerro;
@@ -84,23 +77,19 @@ public class Usersinterface implements Serializable {
 
 	//funcao para efectuar logout
 	public String userlogout() {
-		this.setUsername(null);
-		this.setPassword(null);
-		this.setUserLogged(null);
-		session.setAttribute("loggedin", false);
+		clearSession();
 		return "/resources/paginas/login";
 	}
 
 	
 	//funcao para efectuar registo de utilizador
 	public String usersignup() {
-		if (signin.register(username, password, cpassword, email)) {
-			setUserLogged(username);
+		UserDTO user;
+		if ((user = signin.register(username, password, cpassword, email)) != null) {
+			startSession(user);
 			setMsgerro(null);
-			session.setAttribute("loggedin", true);
 			return "/resources/secure/jukebox?faces-redirect=true";
 		} else {
-			setUserLogged(null);
 			setMsgerro("Erro na criação de utilizador!");
 			return "signup";
 		}
@@ -108,13 +97,12 @@ public class Usersinterface implements Serializable {
 	
 	//funcao para efectuar login
 	public String userlogin() {
-		if ( login.validateUser(username, password) ) {
-			setUserLogged(username);
+		UserDTO user;
+		if ((user = login.validateUser(username, password)) != null) {
+			startSession(user);
 			setMsgerro(null);
-			session.setAttribute("loggedin", true);
 			return "/resources/secure/jukebox?faces-redirect=true";
 		} else {
-			setUserLogged(null);
 			setMsgerro("Erro: Utilizador ou password inválido(s)!");
 			return "login";
 		}
@@ -122,21 +110,31 @@ public class Usersinterface implements Serializable {
 	
 	
 	public String delete() {
-		if (signin.delete(userLogged)) {
-			this.setUsername(null);
-			this.setPassword(null);
-			this.setUserLogged(null);
-			session.setAttribute("loggedin", false);
+		if (signin.delete(userSession.getUsername())) {
+			clearSession();
 			return "/resources/paginas/login";
 		}
 		return null;
 	}
 	
 	public String update() {
-		signin.update(userLogged, password, cpassword, email); 
-			
-		
+		startSession(signin.update(username, password, cpassword, email)); 
+		username = null;
+		email = null;
 		return null;
+	}
+	
+	
+	private void clearSession() {
+		userSession.setEmail(null);
+		userSession.setUsername(null);
+		session.setAttribute("loggedin", false);
+	}
+	
+	private void startSession(UserDTO user) {
+		userSession.setEmail(user.getEmail());
+		userSession.setUsername(user.getUsername());
+		session.setAttribute("loggedin", true);
 	}
 }
 

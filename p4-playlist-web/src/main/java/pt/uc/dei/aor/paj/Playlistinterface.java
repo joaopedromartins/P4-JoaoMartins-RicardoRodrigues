@@ -25,7 +25,7 @@ public class Playlistinterface implements Serializable {
 	private PlaylistMusicDTO selectedmusic;
 	
 	@Inject
-	private Usersinterface loggeduser;
+	private UserSession loggeduser;
 
 	@Inject 
 	private PlaylistEJB playlist;
@@ -110,7 +110,7 @@ public class Playlistinterface implements Serializable {
 	//metodo para criar uma playlist
 	public String criaplaylist() {
 		//System.out.println("Adicionar playlist:" + this.playlistname + "\t do user: "+this.username);
-		if (playlist.addPlaylist( loggeduser.getUserLogged(), playlistname) ) {
+		if (playlist.addPlaylist( loggeduser.getUsername(), playlistname) ) {
 			msgerro="Adicionada a playlist: "+playlistname;
 		} else {
 			msgerro="ERRO ao adicionar a playlist: "+playlistname;
@@ -130,7 +130,7 @@ public class Playlistinterface implements Serializable {
 	//metodo para apagar uma playlist
 	public String apagaplaylist() {
 		System.out.println("Apagar playlist:" + this.playlistname + "\t do user: "+this.username);
-		if (playlist.delPlaylist( loggeduser.getUserLogged(), playlistname) ) {
+		if (playlist.delPlaylist( loggeduser.getUsername(), playlistname) ) {
 			msgerro="Apagada a playlist: "+playlistname;
 			setPlaylistname(null);
 		} else {

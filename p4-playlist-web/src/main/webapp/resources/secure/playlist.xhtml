@@ -13,7 +13,7 @@
 				value="Nesta pagina podes criar, editar e apagar as tuas playlists." />
 			<BR />
 			<h:outputText styleClass="txtconteudo"
-				value="#{usersinterface.userLogged}, seleciona nos botões em baixo a operação pretendida." />
+				value="#{userSession.username}, seleciona nos botões em baixo a operação pretendida." />
 			<BR />
 			<h:form>
 				<h:selectOneRadio id="radioplaylistop" styleClass="txtconteudo"
@@ -39,7 +39,7 @@
 							<h:panelGroup id="playlistop"
 								style="display:block; text-align:centre">
 								<f:ajax render="formplaylist:playlistop">
-									<h:outputText value="#{usersinterface.userLogged}, prencha os campos em baixo para criar uma playlist."
+									<h:outputText value="#{userSession.username}, prencha os campos em baixo para criar uma playlist."
 											styleClass="txtconteudo"
 											rendered="#{playlistinterface.typecriar()}" />
 											

@@ -1,6 +1,6 @@
 package pt.uc.dei.aor.paj;
 
-public class MusicBean {
+public class MusicDTO {
 	private String title;
 	private String author;
 	private String album;
@@ -10,7 +10,7 @@ public class MusicBean {
 	private int year;
 	private int id;
 	
-	public MusicBean(String title, String author, String album, String genre,
+	public MusicDTO(String title, String author, String album, String genre,
 			int duration, String filename, int year, int id) {
 		this.title = title;
 		this.author = author;

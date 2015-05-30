@@ -8,21 +8,21 @@
 
 	<center>
 		<BR />
-		<h:outputText value="Bem vindo, #{usersinterface.userLogged}"
+		<h:outputText value="Bem vindo, #{userSession.username}"
 			styleClass="txtcabecalho"
-			rendered="#{!empty usersinterface.userLogged}" />
+			rendered="#{!empty userSession.username}" />
 		
-		<h:link outcome="/resources/secure/user" value="account" rendered="#{usersinterface.userLogged != null}"/> 
+		<h:link outcome="/resources/secure/user" value="account" rendered="#{userSession.username != null}"/> 
 		
 		<h:outputText value="Bem vindo ao nosso site!"
 			styleClass="txtcabecalho"
-			rendered="#{empty usersinterface.userLogged}" />
+			rendered="#{empty userSession.username}" />
 		<BR />
 		<h:panelGrid columns="2" cellpadding="6" cellspacing="6">
 			<h:form>
 				<h:commandButton value="Terminar sessão" styleClass="btn"
 					type="submit" action="#{usersinterface.userlogout()}"
-					rendered="#{!empty usersinterface.userLogged}" />
+					rendered="#{!empty userSession.username}" />
 			</h:form>
 		</h:panelGrid>
 	</center>

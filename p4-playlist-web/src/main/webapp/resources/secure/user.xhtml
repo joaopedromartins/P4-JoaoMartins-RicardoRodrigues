@@ -10,10 +10,10 @@
 
 	<h:body>
 	
-		<h1>#{usersinterface.username}</h1>
+		<h1>#{userSession.username}</h1>
 		<h:form>
 			<h:outputLabel value="email" />
-			<h:outputText value="#{usersinterface.email}" />
+			<h:outputText value="#{userSession.email}" />
 			
   			<h:commandButton value="Delete Account"
       					action="#{usersinterface.delete}"/>

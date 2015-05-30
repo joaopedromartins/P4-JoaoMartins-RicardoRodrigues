@@ -16,7 +16,7 @@ public class Uploader {
 	private UploadEJB ejb;
 	
 	@Inject
-	private Usersinterface usersInterface;
+	private UserSession userSession;
 	
 	@Inject 
 	private MusicList musicList;
@@ -66,7 +66,7 @@ public class Uploader {
 	
 	
 	public void upload() {
-		musicList.addMusic(ejb.upload(file, title, author, album, genre, usersInterface.getUsername(), year));
+		musicList.addMusic(ejb.upload(file, title, author, album, genre, userSession.getUsername(), year));
 	}
 
 	public String getAlbum() {
@@ -88,7 +88,7 @@ public class Uploader {
 	
 	public void edit(int id) {
 		if (ejb.editMusic(id, title, author, album, genre, year)) {
-			for (MusicBean m : musicList.getMusics()) {
+			for (MusicDTO m : musicList.getMusics()) {
 				if (m.getId() == id) {
 					m.setAlbum(album);
 					m.setAuthor(author);
@@ -103,7 +103,7 @@ public class Uploader {
 	
 	public void remove(int id) {
 		if (ejb.removeMusic(id)) {
-			for (MusicBean m : musicList.getMusics()) {
+			for (MusicDTO m : musicList.getMusics()) {
 				if (m.getId() == id) {
 					musicList.getMusics().remove(m);
 					break;
@@ -113,7 +113,7 @@ public class Uploader {
 	}
 	
 	public boolean isEditable(int id) {
-		return ejb.isEditable(id, usersInterface.getUserLogged());
+		return ejb.isEditable(id, userSession.getUsername());
 	}
 	
 }

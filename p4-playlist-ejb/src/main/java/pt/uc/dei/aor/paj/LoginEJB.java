@@ -44,13 +44,13 @@ public class LoginEJB {
     	return users.get(0);
 	}
 	
-	public boolean validateUser(String login, String password) {
+	public UserDTO validateUser(String login, String password) {
 		String query;
 		String username = null;
 		if (login.contains("@")) {
 			query = "from User u where u.email like :login and u.password like :password";
 			List<User> users = em.createQuery("from User u where u.email like :email", User.class).setParameter("email", login).getResultList();
-			if (users.isEmpty()) return false;
+			if (users.isEmpty()) return null;
 			username = users.get(0).getName();
 		}
 		else {
@@ -64,8 +64,9 @@ public class LoginEJB {
 		
 		List<User> users = q.getResultList();
 		
-		if (users.isEmpty()) return false;
-		return true;
+		if (users.isEmpty()) return null;
+		
+		return new UserDTO(users.get(0).getName(), users.get(0).getEmail());
 	}
 
 	
