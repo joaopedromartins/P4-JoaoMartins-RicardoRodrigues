@@ -2,8 +2,10 @@ package pt.uc.dei.aor.paj;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,10 +24,13 @@ public class MusicList implements Serializable {
 	private String searchField = "";
 	private List<MusicDTO> filteredMusicList = new ArrayList<>();
 	private String searchType = "all";
+	private String path;
 	
 	@PostConstruct
 	public void init() {
 		setMusics(ejb.getMusicList());
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		path = session.getServletContext().getContextPath();
 	}
 
 	public List<MusicDTO> getMusics() {
@@ -77,5 +82,5 @@ public class MusicList implements Serializable {
 		this.searchType = searchType;
 	}
 	
-	
+	public String getPath() { return path; }
 }

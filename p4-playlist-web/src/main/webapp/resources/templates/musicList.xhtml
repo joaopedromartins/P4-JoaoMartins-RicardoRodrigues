@@ -19,7 +19,7 @@
 			<div class="musicRow" id="musicRow#{status.index}">
 				<span>#{item}</span>
 				<h:link value="play" class="playBtn" id="btn#{status.index}" />
-				<h:inputHidden id="hidden#{status.index}" value="#{item.filename}" />
+				<h:inputHidden id="hidden#{status.index}" value="#{musicList.path}#{item.filename}" />
 			</div>
 
 			<h:panelGroup class="musicEditRow editmusicRow#{status.index}" rendered="#{uploader.isEditable(item.id)}">
