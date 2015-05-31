@@ -43,5 +43,6 @@
 				<groupId>com.googlecode.soundlibs</groupId>
 				<artifactId>mp3spi</artifactId>
 			</dependency>
+		
 	</dependencies>
 </project>

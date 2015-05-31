@@ -152,4 +152,5 @@ public class Playlistinterface implements Serializable {
 		selectedmusic = (PlaylistMusicDTO)ae.getComponent().getAttributes().get("selectedmusicline");
 	}
 	
+	
 }

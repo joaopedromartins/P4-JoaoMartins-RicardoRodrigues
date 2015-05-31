@@ -17,8 +17,7 @@
 		<ui:repeat value="#{musicList.musics}" var="item" varStatus="status">
 			<div class="musicRow" id="musicRow#{status.index}">
 				<span>#{item}</span>
-				<h:link value="play" styleClass="playButton" />
-				<h:inputHidden value="#{item.filename}" name="filename" />
+				<h:form><h:commandLink value="play" action="#{musicPlayer.play(item.filename)}" /></h:form>
 			</div>
 
 			<h:panelGroup class="musicEditRow editmusicRow#{status.index}" rendered="#{uploader.isEditable(item.id)}">
