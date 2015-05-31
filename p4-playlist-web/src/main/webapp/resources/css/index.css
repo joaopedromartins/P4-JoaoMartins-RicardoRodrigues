@@ -1,0 +1,18 @@
+body {
+	background-image: url("imagens/bg.jpg");
+}
+
+.container {
+	margin-top: 10%;
+}
+
+.formRow {
+	height: 45px;
+	text-align: center;
+}
+
+label {
+	width: 100px;
+  	display: inline-block;
+  	text-align: left;
+}

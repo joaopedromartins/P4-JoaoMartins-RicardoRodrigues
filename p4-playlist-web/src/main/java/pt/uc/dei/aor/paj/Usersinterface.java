@@ -3,6 +3,7 @@ package pt.uc.dei.aor.paj;
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,7 +18,6 @@ public class Usersinterface implements Serializable {
 	private String email;
 	private String password;
 	private String cpassword;
-	private String msgerro;
 	private HttpSession session;
 
 	@Inject 
@@ -67,18 +67,10 @@ public class Usersinterface implements Serializable {
 	}
 
 	
-	//Getter associados à variável msgerro
-	public String getMsgerro() {
-		return msgerro;
-	}
-	public void setMsgerro(String msgerro) {
-		this.msgerro = msgerro;
-	}
-
 	//funcao para efectuar logout
 	public String userlogout() {
 		clearSession();
-		return "/resources/paginas/login";
+		return "/index?faces-redirect=true";
 	}
 
 	
@@ -87,11 +79,10 @@ public class Usersinterface implements Serializable {
 		UserDTO user;
 		if ((user = signin.register(username, password, cpassword, email)) != null) {
 			startSession(user);
-			setMsgerro(null);
 			return "/resources/secure/jukebox?faces-redirect=true";
 		} else {
-			setMsgerro("Erro na criação de utilizador!");
-			return "signup";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error creating user"));
+			return null;
 		}
 	}
 	
@@ -100,11 +91,10 @@ public class Usersinterface implements Serializable {
 		UserDTO user;
 		if ((user = login.validateUser(username, password)) != null) {
 			startSession(user);
-			setMsgerro(null);
 			return "/resources/secure/jukebox?faces-redirect=true";
 		} else {
-			setMsgerro("Erro: Utilizador ou password inválido(s)!");
-			return "login";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login or password incorrect"));
+			return null;
 		}
 	}
 	
