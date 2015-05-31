@@ -1,4 +1,5 @@
 $(function() {
+	var audioPlayer = $("#audioPlayer")[0];
 	
 	$(".musicRow").click(function() {
 		$(".musicEditRow").hide();
@@ -7,6 +8,11 @@ $(function() {
 	});
 	
 	
-	
+	$(".playBtn").click(function(e) {
+		var music = $(this)[0].nextElementSibling.value;
+		audioPlayer.src = music;
+		audioPlayer.play();
+		return false;
+	});
 	
 })

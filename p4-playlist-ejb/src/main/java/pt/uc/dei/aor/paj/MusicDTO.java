@@ -62,7 +62,7 @@ public class MusicDTO {
 	}
 
 	public String getFilename() {
-		return System.getProperty("user.dir")+"\\music\\"+filename;
+		return "/p4-playlist-web/music/"+filename;
 	}
 
 	public void setFilename(String filename) {
