@@ -112,5 +112,37 @@ public class PlaylistEJB {
     		return l.get(0);
     	}
 	}
-
+	
+	public List<PlaylistMusicDTO> findMusicsByUsernameAndPlaylistName(String username, String playlistname) {
+		if (username.length() <= 2) return null;
+    	if (playlistname.length() <= 2) return null;
+    	
+    	//testar se existe o utilizador com esse nome
+    	User loggedUser = loginEJB.findUserByUsername(username);
+    	if ( loggedUser == null) return null;
+    	
+    	//testar se exite playlist com esse nome
+		TypedQuery<Playlist> q = em.createQuery("from Playlist l where l.user = :user and l.title like :title", Playlist.class);
+		q.setParameter("user", loggedUser);
+		q.setParameter("title", playlistname);
+		List<Playlist> l = q.getResultList();
+    	if (l.isEmpty()) {
+    		return null;
+    	} else {
+    		///////...................................
+    		TypedQuery<PlaylistMusicDTO> lm = em.createQuery("select m.title title,"
+    				+ "	m.author author, m.album album, m.genre genre, m.duration duration,"
+    				+ " m.year year, m.id id, ple.position order"
+    				+ "from playlistentry ple, playlist pl, music m"
+    				+ "where pl.user like :user"
+    				+ "	and pl.title like :title"
+    				+ "	and pl.id = ple.playlist_id"
+    				+ "	and m.id = ple.music_id"
+    				+ "	order by ple.position", PlaylistMusicDTO.class);
+    		q.setParameter("user", loggedUser);
+    		q.setParameter("title", playlistname);
+    		return lm.getResultList();
+    	}
+	}
+	
 }

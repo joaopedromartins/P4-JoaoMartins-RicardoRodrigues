@@ -63,17 +63,24 @@ public class Playlistinterface implements Serializable {
 	
 	//Getter associados à lista Listaplaylistmusics
 		public List<PlaylistMusicDTO> getListaplaylistmusics() {
-			//this.listaplaylistmusics=    ( playlist.listPlaylistmusic(loggeduser.getUsername(), playlistname) );
 			
-			//teste
-			ArrayList<PlaylistMusicDTO> testlist = new ArrayList<PlaylistMusicDTO>();
+		//this.listaplaylistmusics = playlist.findMusicsByUsernameAndPlaylistName( username, playlistname);
+		//
+		//System.out.println("Title\tAlbum\t");
+		//for (PlaylistMusicDTO i: listaplaylistmusics) {
+		//	System.out.println(i.getTitle()+"\t"+i.getAuthor()+"\t"+i.getAlbum()+"\t"+i.getGenre()+"\t"+i.getDuration());
+		//}
+		//return listaplaylistmusics;
 			
-			for (int i=1; i<10; i++) {
-				testlist.add( new PlaylistMusicDTO("title"+i, "author"+i, "album"+i,
-				"genre"+i, (int)(10.0*Math.random()), (2015-i), i, i) );
-			}
+		//teste
+		ArrayList<PlaylistMusicDTO> testlist = new ArrayList<PlaylistMusicDTO>();
+		for (int i=1; i<10; i++) {
+			testlist.add( new PlaylistMusicDTO("title"+i, "author"+i, "album"+i,
+			"genre"+i, (int)(10.0*Math.random()), (2015-i), i, i) );
+		}
+		return testlist;
 			
-			return testlist;
+			
 		}
 
 	//Getter associados ao DTO selectedmusic
@@ -152,5 +159,19 @@ public class Playlistinterface implements Serializable {
 		selectedmusic = (PlaylistMusicDTO)ae.getComponent().getAttributes().get("selectedmusicline");
 	}
 	
+	//metodo para apagar uma musica da playlist
+	public void delmusicfromplaylist(ActionEvent ae) {
+
+	}
+	
+	//metodo para mover para cima uma musica na playlist
+	public void moveupmusicfromplaylist(ActionEvent ae) {
+
+	}
+	
+	//metodo para mover para cima uma musica na playlist
+	public void movedownmusicfromplaylist(ActionEvent ae) {
+
+	}
 	
 }
