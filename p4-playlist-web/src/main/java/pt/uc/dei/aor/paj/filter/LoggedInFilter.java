@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter("/resources/paginas/*")
+@WebFilter
 public class LoggedInFilter implements Filter {
 	@Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException { 
@@ -26,7 +26,7 @@ public class LoggedInFilter implements Filter {
         } else {
             // User is not logged in, so redirect to index.
             HttpServletResponse res = (HttpServletResponse) response;
-            res.sendRedirect(req.getContextPath() + "/resources/secure/jukebox.xhtml");
+            res.sendRedirect(req.getContextPath() + "/app/playlist.xhtml");
         }
     }
 

@@ -26,33 +26,22 @@ public class SigninEJB {
 
     
     public UserDTO register(String username, String password, String confirm, String email) {
-    	System.out.println(username);
-    	System.out.println(password);
-    	System.out.println(confirm);
-    	System.out.println(email);
     	if (username.contains("@") || !email.contains("@")) return null;
-    	System.out.println("@");
     	
     	if (loginEJB.findUserByUsername(username) != null) return null;
-    	System.out.println("user");
     	
     	if (loginEJB.findUserByEmail(email) != null) return null;
-    	System.out.println("email");
     	
     	if (username.length() <= 2) return null;
-    	System.out.println("length");
     	
     	if (!password.equals(confirm)) return null;
-    	System.out.println("confirm");
     	
     	String masked = crypt.encrypt(password, username);
     	
-    	System.out.println(masked);
     	if (crypt != null) {
     		User u = new User(username, masked, email);
     		em.persist(u);
     		UserDTO dto = new UserDTO(username, email);
-    		System.out.println(dto);
     		return dto;
     	}
     	return null;

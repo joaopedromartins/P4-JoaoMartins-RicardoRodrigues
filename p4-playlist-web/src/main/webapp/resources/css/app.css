@@ -1,0 +1,27 @@
+html, body {
+	overflow: hidden;
+}
+
+#accountScreen {
+	display: none;
+}
+
+#playerScreen {
+	height: 1200px;
+	background: red;
+	width: 30%;
+	position: absolute;
+	left: 97%;
+	top: 0;
+	transition: left 1s;
+}
+
+
+#playerScreen:hover {
+	left: 70%;
+}
+
+#audioPlayer {
+	margin: 20px auto;
+	display: block;
+}

@@ -12,17 +12,9 @@
 
 <h:body>
 	<ui:composition>
-		<nav id="headerNav">
-			<ul>
-				<li><a href="" id="playlistNav">Playlist</a></li>
-				<li><a href="" id="accountNav">Account</a></li>
-				<li>
-					<h:form>
-						<h:commandLink value="Logout" action="#{usersinterface.userlogout()}" />
-					</h:form>
-				</li>
-			</ul>
-		</nav>
+		<div id="playerScreen">
+			<audio id="audioPlayer" controls="true" />
+		</div>
 
 	</ui:composition>
 </h:body>

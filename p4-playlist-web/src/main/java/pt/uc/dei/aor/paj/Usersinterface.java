@@ -79,7 +79,7 @@ public class Usersinterface implements Serializable {
 		UserDTO user;
 		if ((user = signin.register(username, password, cpassword, email)) != null) {
 			startSession(user);
-			return "/resources/secure/jukebox?faces-redirect=true";
+			return "/app/playlist?faces-redirect=true";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error creating user"));
 			return null;
@@ -91,7 +91,7 @@ public class Usersinterface implements Serializable {
 		UserDTO user;
 		if ((user = login.validateUser(username, password)) != null) {
 			startSession(user);
-			return "/resources/secure/jukebox?faces-redirect=true";
+			return "/app/playlist?faces-redirect=true";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login or password incorrect"));
 			return null;
@@ -102,7 +102,7 @@ public class Usersinterface implements Serializable {
 	public String delete() {
 		if (signin.delete(userSession.getUsername())) {
 			clearSession();
-			return "/resources/paginas/login";
+			return "/index?faces-redirect=true";
 		}
 		return null;
 	}
