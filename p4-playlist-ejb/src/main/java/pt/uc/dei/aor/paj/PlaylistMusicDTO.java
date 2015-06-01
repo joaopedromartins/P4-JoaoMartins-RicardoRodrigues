@@ -72,4 +72,14 @@ public class PlaylistMusicDTO {
 	public void setOrder(int order) {
 		this.order = order;
 	}
+
+	@Override
+	public String toString() {
+		return "PlaylistMusicDTO [title=" + title + ", author=" + author
+				+ ", album=" + album + ", genre=" + genre + ", duration="
+				+ duration + ", year=" + year + ", id=" + id + ", order="
+				+ order + "]";
+	}
+	
+	
 }

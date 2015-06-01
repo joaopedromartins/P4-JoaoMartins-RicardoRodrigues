@@ -47,6 +47,12 @@ public class Playlistinterface implements Serializable {
 		this.operacao = operacao;
 	}
 
+	//Getter associados à variável username
+	public String getUsername() {
+		this.username=loggeduser.getUsername();
+		return username;
+	}
+
 	//Getter associados à variável playlistname
 	public String getPlaylistname() {
 		return playlistname;
@@ -64,21 +70,21 @@ public class Playlistinterface implements Serializable {
 	//Getter associados à lista Listaplaylistmusics
 		public List<PlaylistMusicDTO> getListaplaylistmusics() {
 			
-		//this.listaplaylistmusics = playlist.findMusicsByUsernameAndPlaylistName( username, playlistname);
+		this.listaplaylistmusics = playlist.findMusicsByUsernameAndPlaylistName( loggeduser.getUsername(), playlistname);
 		//
 		//System.out.println("Title\tAlbum\t");
 		//for (PlaylistMusicDTO i: listaplaylistmusics) {
 		//	System.out.println(i.getTitle()+"\t"+i.getAuthor()+"\t"+i.getAlbum()+"\t"+i.getGenre()+"\t"+i.getDuration());
 		//}
-		//return listaplaylistmusics;
+		return listaplaylistmusics;
 			
 		//teste
-		ArrayList<PlaylistMusicDTO> testlist = new ArrayList<PlaylistMusicDTO>();
-		for (int i=1; i<10; i++) {
-			testlist.add( new PlaylistMusicDTO("title"+i, "author"+i, "album"+i,
-			"genre"+i, (int)(10.0*Math.random()), (2015-i), i, i) );
-		}
-		return testlist;
+		//ArrayList<PlaylistMusicDTO> testlist = new ArrayList<PlaylistMusicDTO>();
+		//for (int i=1; i<10; i++) {
+		//	testlist.add( new PlaylistMusicDTO("title"+i, "author"+i, "album"+i,
+		//	"genre"+i, (int)(10.0*Math.random()), (2015-i), i, i) );
+		//}
+		//return testlist;
 			
 			
 		}

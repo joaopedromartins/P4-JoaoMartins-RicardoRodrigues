@@ -1,6 +1,8 @@
 package pt.uc.dei.aor.paj;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -114,12 +116,28 @@ public class PlaylistEJB {
 	}
 	
 	public List<PlaylistMusicDTO> findMusicsByUsernameAndPlaylistName(String username, String playlistname) {
-		if (username.length() <= 2) return null;
-    	if (playlistname.length() <= 2) return null;
+		System.out.println("findMusicsByUsernameAndPlaylistName");
+		System.out.println("username: "+username);
+		System.out.println("playlistname"+playlistname);
+		if (username.length() <= 2) {
+			System.out.println("username < 2 : "+username);
+			return null;
+		}
+    	
+    	if (playlistname.length() <= 2) {
+    		System.out.println("playlistname < 2 : "+playlistname);
+    		return null;
+    	}
     	
     	//testar se existe o utilizador com esse nome
     	User loggedUser = loginEJB.findUserByUsername(username);
-    	if ( loggedUser == null) return null;
+    	System.out.println("user id : "+loggedUser.getId());
+    	System.out.println("user name : "+loggedUser.getName());
+    	System.out.println("user email : "+loggedUser.getEmail());
+    	if ( loggedUser == null) {
+    		System.out.println("loggeduser = null ");
+    		return null;
+    	}
     	
     	//testar se exite playlist com esse nome
 		TypedQuery<Playlist> q = em.createQuery("from Playlist l where l.user = :user and l.title like :title", Playlist.class);
@@ -127,21 +145,57 @@ public class PlaylistEJB {
 		q.setParameter("title", playlistname);
 		List<Playlist> l = q.getResultList();
     	if (l.isEmpty()) {
+    		System.out.println("Playlist is empty! ");
     		return null;
     	} else {
+    		System.out.println("Before TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     		///////...................................
-    		TypedQuery<PlaylistMusicDTO> lm = em.createQuery("select m.title title,"
-    				+ "	m.author author, m.album album, m.genre genre, m.duration duration,"
-    				+ " m.year year, m.id id, ple.position order"
-    				+ "from playlistentry ple, playlist pl, music m"
-    				+ "where pl.user like :user"
-    				+ "	and pl.title like :title"
-    				+ "	and pl.id = ple.playlist_id"
-    				+ "	and m.id = ple.music_id"
-    				+ "	order by ple.position", PlaylistMusicDTO.class);
-    		q.setParameter("user", loggedUser);
-    		q.setParameter("title", playlistname);
-    		return lm.getResultList();
+			//TypedQuery<PlaylistEntry> lm = em.createQuery("select ple "
+			//		+ "from PlaylistEntry ple "
+			//		+ "inner join ple.playlist pl "
+			//		+ "where pl.user = :user"
+			//		+ "	and pl.title like :title"
+			//		+ "	order by ple.position", PlaylistEntry.class);
+			//lm.setParameter("user", loggedUser);
+			//lm.setParameter("title", playlistname);
+			//List<PlaylistEntry> result = lm.getResultList();
+			//
+			//for (PlaylistEntry i: result) {
+			//	System.out.println("id="+i);
+			//}
+    		System.out.println("User: "+loggedUser);
+    		System.out.println("playlistname: "+playlistname);
+    		TypedQuery<PlaylistEntry> lm = em.createQuery("select ple "
+					+ "from PlaylistEntry ple "
+					+ "inner join ple.playlist pl " 
+					+ "where pl.user = :user"
+					+ "	and pl.title like :title", PlaylistEntry.class);
+			lm.setParameter("user", loggedUser);
+			lm.setParameter("title", playlistname);
+			List<PlaylistEntry> result = lm.getResultList();
+			
+			
+			//ALTERAR OU APAGAR
+			//public PlaylistMusicDTO(PlaylistEntry ple) {
+			//	this.title = "aa";
+			//	this.author = "aa";
+			//	this.album = "aa";
+			//	this.genre = "aa";
+			//	this.duration = 0;
+			//	this.year = 1920;
+			//	this.id = 100;
+			//	this.order = 120;
+			//}
+			
+			List<PlaylistMusicDTO> retorno = new ArrayList<PlaylistMusicDTO>();
+			for (PlaylistEntry i: result) {
+				System.out.println("id="+i);
+				retorno.add(new PlaylistMusicDTO(i.getMusicTitle(), i.getMusicAuthor() , 
+					i.getMusicAlbum(), i.getMusicGenre(), i.getMusicDuration(), i.getMusicYear(), i.getMusicId(), i.getPosition() ) );
+			}
+    		
+			System.out.println("AFTER TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    		return retorno;
     	}
 	}
 	

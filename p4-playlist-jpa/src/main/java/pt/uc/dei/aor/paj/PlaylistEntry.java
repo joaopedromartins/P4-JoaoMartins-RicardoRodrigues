@@ -33,5 +33,48 @@ public class PlaylistEntry implements Serializable {
 		this.music = music;
 		this.position = position;
 	}
+
+
+	public int getPosition() {
+		return position;
+	}
+	
+	public int getMusicId() {
+		return music.getId();
+	}
+
+	public String getMusicTitle() {
+		return music.getTitle();
+	}
+
+	public String getMusicAuthor() {
+		return music.getAuthor();
+	}
+
+	public String getMusicAlbum() {
+		return music.getAlbum();
+	}
+
+	public String getMusicGenre() {
+		return music.getGenre();
+	}
+
+	
+	public int getMusicDuration() {
+		return music.getDuration();
+	}
+
    
+	public int getMusicYear() { 
+		return music.getYear(); 
+	}
+	
+
+	@Override
+	public String toString() {
+		return "PlaylistEntry [id=" + id + ", position=" + position
+				+ ", playlist=" + playlist + ", music=" + music + "]";
+	}
+   
+	
 }
