@@ -20,7 +20,6 @@ public class MusicList implements Serializable {
 	@Inject
 	private MusicEJB ejb;
 	
-	private List<MusicDTO> musics;
 	private String searchField = "";
 	private List<MusicDTO> filteredMusicList = new ArrayList<>();
 	private String searchType = "all";
@@ -28,27 +27,21 @@ public class MusicList implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		setMusics(ejb.getMusicList());
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		path = session.getServletContext().getContextPath();
 	}
 
 	public List<MusicDTO> getMusics() {
-		return musics;
+		return ejb.getMusicList();
 	}
 
-	public void setMusics(List<MusicDTO> musics) {
-		this.musics = musics;
-	}
 	
-	public void addMusic(MusicDTO m) {
-		musics.add(m);
-	}
+	
 	
 	public void searchMusic() {
 		if (searchField.trim().equals("") || searchType.equals("all")) {
 			filteredMusicList.clear();
-			filteredMusicList.addAll(musics);
+			filteredMusicList.addAll(ejb.getMusicList());
 		}
 		else {
 			if (searchType.equals("title"))

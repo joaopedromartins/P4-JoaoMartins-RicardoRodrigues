@@ -8,9 +8,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Stateless
 @LocalBean
 public class SigninEJB {
+	private static final Logger logger = LoggerFactory.getLogger(SigninEJB.class);
+	
 	@PersistenceContext(name = "Utilizador")
 	private EntityManager em;
 
@@ -41,6 +46,7 @@ public class SigninEJB {
     	if (crypt != null) {
     		User u = new User(username, masked, email);
     		em.persist(u);
+    		logger.debug("User "+u+" created");
     		UserDTO dto = new UserDTO(username, email);
     		return dto;
     	}

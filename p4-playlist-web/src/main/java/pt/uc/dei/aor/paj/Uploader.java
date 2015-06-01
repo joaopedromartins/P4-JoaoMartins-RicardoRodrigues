@@ -64,7 +64,7 @@ public class Uploader {
 	
 	
 	public void upload() {
-		musicList.addMusic(ejb.upload(file, title, author, album, genre, userSession.getUsername(), year));
+		ejb.upload(file, title, author, album, genre, userSession.getUsername(), year);
 	}
 
 	public String getAlbum() {

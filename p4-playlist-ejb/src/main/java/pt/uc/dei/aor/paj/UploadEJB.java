@@ -55,7 +55,7 @@ public class UploadEJB {
 	        
 	        AudioFileFormat baseFileFormat = new MpegAudioFileReader().getAudioFileFormat(outFile);
 			Map<String, Object> properties = baseFileFormat.properties();
-			System.out.println(properties.get("duration"));
+
 			int duration = (int) ((long)properties.get("duration")/1000000);
 			
 	        Music m = new Music(title, author, album, genre, filename, duration, loginEJB.findUserByUsername(username), year);

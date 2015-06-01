@@ -34,17 +34,6 @@ public class MusicEJB {
     }
     
     
-    public MusicDTO insertMusic() {
-    	User u = new User("user", "email", "password");
-    	Music m = new Music("title", "author", "album", "genre", "filename", 300, u, 1967);
-    	em.persist(u);
-    	em.persist(m);
-    	
-    	MusicDTO mb = new MusicDTO(m.getTitle(), m.getAlbum(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId());
-    	return mb;
-    }
-    
-    
     public List<MusicDTO> findMusicListByTitle(String title) {
     	TypedQuery<Music> q = em.createQuery("from Music m where lower(m.title) like :title", Music.class);
     	q.setParameter("title", "%"+title.toLowerCase()+"%");
