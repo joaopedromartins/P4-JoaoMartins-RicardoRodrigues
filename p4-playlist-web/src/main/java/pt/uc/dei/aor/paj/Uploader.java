@@ -1,8 +1,6 @@
 package pt.uc.dei.aor.paj;
 
-import java.io.File;
-import java.io.IOException;
-
+import java.time.LocalDate;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,9 +25,9 @@ public class Uploader {
 	private String author;
 	private String album;
 	private String genre;
-	private int year;
+	private int year = LocalDate.now().getYear();
 	
-
+	
 	public String getTitle() {
 		return title;
 	}
