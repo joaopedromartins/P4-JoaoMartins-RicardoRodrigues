@@ -69,6 +69,10 @@ public class PlaylistEJB {
 		List<Playlist> l = q.getResultList();
     	if (l.isEmpty()) return false;
     	
+    	//apagar registos playlistentry
+    	em.createQuery("delete from PlaylistEntry ple where ple.playlist = :playlist").
+    	setParameter("playlist", l).executeUpdate();
+    	
 		//apagar playlist
     	em.createQuery("delete from Playlist l where l.user = :user and l.title like :title").
 		setParameter("user", loggedUser).
