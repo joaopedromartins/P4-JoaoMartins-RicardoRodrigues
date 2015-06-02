@@ -23,16 +23,12 @@ public class UsernameValidator implements Validator {
             return;
         }
         
-        if (username.length() <= 2) {
-        	throw new ValidatorException(new FacesMessage("Username too short"));
-        }
-        
         if (username.contains("@")) {
-        	throw new ValidatorException(new FacesMessage("Username contains invalid characters"));
+        	throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username contains invalid characters", null));
         }
         
         if (ejb.findUserByUsername(username) != null) {
-        	throw new ValidatorException(new FacesMessage("Username already registered"));
+        	throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username already registered", null));
         }
     }
 

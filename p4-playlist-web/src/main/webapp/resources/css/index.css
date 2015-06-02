@@ -16,3 +16,8 @@ label {
   	display: inline-block;
   	text-align: left;
 }
+
+.formContainer {
+	border: 1px solid black;
+	background: whitesmoke;
+}

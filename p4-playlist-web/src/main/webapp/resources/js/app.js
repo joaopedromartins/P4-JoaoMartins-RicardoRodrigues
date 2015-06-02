@@ -9,6 +9,10 @@ $(function() {
 		accountBtn.removeClass("selectLink");
 		playlist.show();
 		account.hide();
+		$("li.selected").removeClass("selected");
+		playlistBtn.parent().addClass("selected");
+		$(".accountDetailsForm").hide();
+		$("#accountDetails").css("width", "400px");
 		
 		return false;
 	});
@@ -18,6 +22,8 @@ $(function() {
 		playlistBtn.removeClass("selectLink");
 		account.show();
 		playlist.hide();
+		$("li.selected").removeClass("selected");
+		accountBtn.parent().addClass("selected");
 		
 		return false;
 	});
@@ -36,6 +42,28 @@ $(function() {
 		var music = $(this)[0].nextElementSibling.value;
 		audioPlayer.src = music;
 		audioPlayer.play();
+		return false;
+	});
+	
+	
+	$("#usernameEditor").click(function(e) {
+		$(".accountDetailsForm").hide();
+		$("#accountDetails").css("width", "550px");
+		$("#usernameDetailsForm").show();
+		return false;
+	});
+	
+	$("#emailEditor").click(function(e) {
+		$(".accountDetailsForm").hide();
+		$("#accountDetails").css("width", "550px");
+		$("#emailDetailsForm").show();
+		return false;
+	});
+	
+	$("#passwordEditor").click(function(e) {
+		$(".accountDetailsForm").hide();
+		$("#accountDetails").css("width", "755px");
+		$("#passwordDetailsForm").show();
 		return false;
 	});
 });

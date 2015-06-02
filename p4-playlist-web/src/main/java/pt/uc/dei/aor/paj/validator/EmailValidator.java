@@ -31,11 +31,11 @@ public class EmailValidator implements Validator {
         Pattern mask = Pattern.compile(EMAIL_REGEXP);
         Matcher matcher = mask.matcher(email);
         if (!matcher.matches()) {
-        	throw new ValidatorException(new FacesMessage("Email format is incorrect"));
+        	throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email format is incorrect", null));
         }
         
         if (ejb.findUserByEmail(email) != null) {
-        	throw new ValidatorException(new FacesMessage("Email already registered"));
+        	throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email is already registed", null));
         }
     }
 

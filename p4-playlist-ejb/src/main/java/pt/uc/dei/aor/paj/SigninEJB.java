@@ -53,23 +53,48 @@ public class SigninEJB {
     	return true;
     }
     
-    public UserDTO update(String username, String password, String confirm, String email) {
-    	if (password.equals(confirm)) {
-    		TypedQuery<User> q = em.createQuery("from User u where u.name like :username", User.class).setParameter("username", username);
-    		User u = q.getResultList().get(0);
-
-    		u.setEmail(email);
-    		u.setName(username);
-    		u.setPassword(crypt.encrypt(password, username));
-
-    		em.persist(u);
-    		UserDTO dto = new UserDTO(username, email);
-   
-    		return dto;
-    	}
-    	return null;
-    	
-    }
     
+   public UserDTO updateUsername(String oldUsername, String username, String password) {
+	   String cryptPass = crypt.encrypt(password, oldUsername);
+	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
+			   .setParameter("username", oldUsername).setParameter("password", cryptPass);
+	   
+	   User u = q.getResultList().get(0);
+	   cryptPass = crypt.encrypt(password, username);
+	   u.setName(username);
+	   u.setPassword(cryptPass);
+	   em.merge(u);
+	   
+	   UserDTO dto = new UserDTO(username, u.getEmail());
+	   
+	   return dto;
+   }
    
+   public UserDTO updateEmail(String oldUsername, String email, String password) {
+	   String cryptPass = crypt.encrypt(password, oldUsername);
+	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
+			   .setParameter("username", oldUsername).setParameter("password", cryptPass);
+	   
+	   User u = q.getResultList().get(0);
+	   u.setEmail(email);
+	   em.merge(u);
+	   
+	   UserDTO dto = new UserDTO(oldUsername, email);
+	   
+	   return dto;
+   }
+
+
+   public void updatePassword(String username, String oldPassword,
+		   String password) {
+	   String cryptPass = crypt.encrypt(oldPassword, username);
+	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
+			   .setParameter("username", username).setParameter("password", cryptPass);
+	   
+	   User u = q.getResultList().get(0);
+	   cryptPass = crypt.encrypt(password, username);
+	   u.setPassword(cryptPass);
+	   em.merge(u);
+	   
+   }
 }

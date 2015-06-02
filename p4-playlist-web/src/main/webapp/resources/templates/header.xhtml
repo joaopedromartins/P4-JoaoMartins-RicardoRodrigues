@@ -13,15 +13,15 @@
 <h:body>
 	<ui:composition>
 		<nav id="headerNav">
-			<ul>
-				<li><a href="" id="playlistNav">Playlist</a></li>
-				<li><a href="" id="accountNav">Account</a></li>
-				<li>
-					<h:form>
-						<h:commandLink value="Logout" action="#{usersinterface.userlogout()}" />
-					</h:form>
-				</li>
-			</ul>
+			<h:form>
+				<ul>
+					<li class="selected"><a href="" id="playlistNav">Playlist</a></li>
+					<li><a href="" id="accountNav">Account</a></li>
+					<li><h:commandLink value="Logout"
+							action="#{usersinterface.userlogout()}" /></li>
+					<li class="username">#{userSession.username}</li>
+				</ul>
+			</h:form>
 		</nav>
 
 	</ui:composition>

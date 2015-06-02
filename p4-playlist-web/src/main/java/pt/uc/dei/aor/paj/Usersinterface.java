@@ -8,16 +8,20 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.Size;
 
 @Named 
 @RequestScoped
 public class Usersinterface implements Serializable {
 	private static final long serialVersionUID = -8310185641498834904L;
 
+	@Size(min = 3, max=20, message = "Please enter a valid username (3-20 characters)")
 	private String username;
+	
 	private String email;
 	private String password;
 	private String cpassword;
+	private String oldPassword;
 	private HttpSession session;
 
 	@Inject 
@@ -107,12 +111,6 @@ public class Usersinterface implements Serializable {
 		return null;
 	}
 	
-	public String update() {
-		startSession(signin.update(username, password, cpassword, email)); 
-		username = null;
-		email = null;
-		return null;
-	}
 	
 	
 	private void clearSession() {
@@ -125,6 +123,30 @@ public class Usersinterface implements Serializable {
 		userSession.setEmail(user.getEmail());
 		userSession.setUsername(user.getUsername());
 		session.setAttribute("loggedin", true);
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+	
+	public void updateUsername() {
+		UserDTO u = signin.updateUsername(userSession.getUsername(), username, password);
+		userSession.setUsername(u.getUsername());
+		username = "";
+	}
+	
+	public void updateEmail() {
+		UserDTO u = signin.updateEmail(userSession.getUsername(), email, password);
+		userSession.setEmail(u.getEmail());
+		email = "";
+	}
+	
+	public void updatePassword() {
+		signin.updatePassword(userSession.getUsername(), oldPassword, password);
 	}
 }
 
