@@ -22,11 +22,29 @@
 			<h:commandButton action="#{musicFilters.addFilter()}" value="Filter" />
 			<span id="filterList">
 				<ui:repeat var="filter" value="#{musicFilters.activeFilters}" varStatus="status">
-					<span>#{filter} <h:commandLink value="remove" action="#{musicFilters.removeFilter(status.index)}" /></span>
+					<span>#{filter}</span>
+					<span>
+						<h:commandLink style="color:red;text-decoration:none;"
+					value="x" action="#{musicFilters.removeFilter(status.index)}" />
+					</span>
 				</ui:repeat>
 			</span>
 			
 			<div id="userMusicList">
+				<h:panelGroup rendered="#{empty musicFilters.listMusics}">
+					No results
+				</h:panelGroup>
+				<h:panelGroup rendered="#{not empty musicFilters.listMusics}">
+					<div class="userMusicHeader">
+						<span>Title</span>
+						<span>Artist</span>
+						<span>Album</span>
+						<span>Year</span>				
+						<span>Genre</span>				
+						<span>Duration</span>
+					</div>
+				</h:panelGroup>
+				
 				<ui:repeat value="#{musicFilters.listMusics}" var="music">
 					<div class="userMusicRow">
 						<span>#{music.title}</span>

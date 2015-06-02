@@ -62,4 +62,10 @@ $(function() {
 		$("#passwordDetailsForm").show();
 		return false;
 	});
+	
+	$("#closeAccountEditor").click(function(e) {
+		$(".accountDetailsForm").hide();
+		$("#closeAccountForm").show();
+		return false;
+	});
 });

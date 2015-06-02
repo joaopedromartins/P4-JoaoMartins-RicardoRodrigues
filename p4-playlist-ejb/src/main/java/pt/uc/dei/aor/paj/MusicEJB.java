@@ -27,7 +27,7 @@ public class MusicEJB {
     	List<Music> list = q.getResultList();
     	List<MusicDTO> result = new ArrayList<>();
     	for (Music m : list) {
-    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
+    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), convertMinutes(m.getDuration()), m.getFilename(), m.getYear(), m.getId()));
     	}
     	
     	return result;
@@ -41,7 +41,7 @@ public class MusicEJB {
     	
     	List<MusicDTO> result = new ArrayList<>();
     	for (Music m : list) {
-    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
+    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), convertMinutes(m.getDuration()), m.getFilename(), m.getYear(), m.getId()));
     	}
     	
     	return result;
@@ -54,7 +54,7 @@ public class MusicEJB {
     	
     	List<MusicDTO> result = new ArrayList<>();
     	for (Music m : list) {
-    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
+    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), convertMinutes(m.getDuration()), m.getFilename(), m.getYear(), m.getId()));
     	}
     	
     	return result;
@@ -93,11 +93,16 @@ public class MusicEJB {
     	
     	List<MusicDTO> result = new ArrayList<>();
     	for (Music m : list) {
-    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), m.getDuration(), m.getFilename(), m.getYear(), m.getId()));
+    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), convertMinutes(m.getDuration()), m.getFilename(), m.getYear(), m.getId()));
     	}
     	
     	return result;
 	}
     
     
+	private String convertMinutes(int sec) {
+		String m = String.valueOf(sec%60);
+		if (m.length() == 1) m = "0"+m;
+		return sec/60+"m"+m+"s";
+	}
 }

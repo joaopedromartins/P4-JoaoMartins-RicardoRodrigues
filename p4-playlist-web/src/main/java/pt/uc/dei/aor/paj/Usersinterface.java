@@ -104,7 +104,7 @@ public class Usersinterface implements Serializable {
 	
 	
 	public String delete() {
-		if (signin.delete(userSession.getUsername())) {
+		if (signin.delete(userSession.getUsername(), password)) {
 			clearSession();
 			return "/index?faces-redirect=true";
 		}

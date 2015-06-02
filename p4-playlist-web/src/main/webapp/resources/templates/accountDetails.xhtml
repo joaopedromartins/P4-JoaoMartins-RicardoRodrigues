@@ -82,6 +82,16 @@
 						</h:form>
 					</div>
 				</div>
+				
+				<div>
+				<h:form>
+						<a href="" id="closeAccountEditor">close account</a>
+					<div class="accountDetailsForm" id="closeAccountForm">
+					<p:password placeholder="password" value="#{usersinterface.password}" />
+					<h:commandButton value="Close account" action="#{usersinterface.delete()}" />
+					</div>
+				</h:form>
+				</div>
 			</h:panelGroup>
 
 	</ui:composition>

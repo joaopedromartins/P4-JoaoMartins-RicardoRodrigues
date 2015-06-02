@@ -48,9 +48,10 @@ public class SigninEJB {
     
 
 
-	public boolean delete(String username) {
-    	em.createQuery("delete from User u where u.name like :username").
-		setParameter("username", username).executeUpdate();
+	public boolean delete(String username, String password) {
+		String cryptPass = crypt.encrypt(password, username);
+		em.createQuery("delete from User u where u.name like :username and u.password like :password").
+		setParameter("username", username).setParameter("password", cryptPass).executeUpdate();
     	
     	return true;
     }
