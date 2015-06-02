@@ -85,10 +85,10 @@
 				
 				<div>
 				<h:form>
-						<a href="" id="closeAccountEditor">close account</a>
+					<div class="accountDetailsMain"><a href="" id="closeAccountEditor">close account</a></div>
 					<div class="accountDetailsForm" id="closeAccountForm">
-					<p:password placeholder="password" value="#{usersinterface.password}" />
-					<h:commandButton value="Close account" action="#{usersinterface.delete()}" />
+					<span class="accountUpdateFields"><p:password placeholder="password" value="#{usersinterface.password}" /></span>
+					<span class="accountUpdateFields"><h:commandButton value="Close account" action="#{usersinterface.delete()}" /></span>
 					</div>
 				</h:form>
 				</div>

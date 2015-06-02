@@ -15,9 +15,9 @@
 	<ui:composition>
 		<div id="userMusicFilter">
 		<h:form>
-			<h:selectOneMenu value="#{musicFilters.filter}">
+			<p:selectOneMenu value="#{musicFilters.filter}">
 				<f:selectItems value="#{musicFilters.filters}" />
-			</h:selectOneMenu>
+			</p:selectOneMenu>
 			<p:inputText value="#{musicFilters.field}" />
 			<h:commandButton action="#{musicFilters.addFilter()}" value="Filter" />
 			<span id="filterList">
