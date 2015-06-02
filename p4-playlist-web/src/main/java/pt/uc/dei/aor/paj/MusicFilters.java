@@ -27,13 +27,16 @@ public class MusicFilters implements Serializable {
 	@Inject
 	private MusicEJB ejb;
 	
+	@Inject
+	private UserSession user;
+	
 	public MusicFilters() {
 		activeFilters = Arrays.asList(new String[]{null, null, null, null, null});
 	}
 	
 	@PostConstruct
 	public void init() {
-		listMusics = ejb.getFilteredMusicList(activeFilters, filters);
+		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
 	}
 	
 	
@@ -47,7 +50,7 @@ public class MusicFilters implements Serializable {
 			}
 		}
 		
-		listMusics = ejb.getFilteredMusicList(activeFilters, filters);
+		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
 		field = "";
 	}
 	
@@ -65,7 +68,7 @@ public class MusicFilters implements Serializable {
 			}
 		}
 		
-		listMusics = ejb.getFilteredMusicList(activeFilters, filters);
+		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
 		field = "";
 	}
 

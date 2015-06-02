@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -15,6 +16,10 @@ public class MusicEJB {
 
 	@PersistenceContext(name="utilizadores")
 	private EntityManager em;
+	
+	@Inject
+	private LoginEJB loginEJB;
+	
 	
     public MusicEJB() {
         // TODO Auto-generated constructor stub
@@ -61,20 +66,14 @@ public class MusicEJB {
     }
 
 
-	public List<MusicDTO> getFilteredMusicList(List<String> activeFilters, List<String> filters) {
-		String query = "from Music m";
+	public List<MusicDTO> getFilteredMusicList(List<String> activeFilters, List<String> filters, String username) {
+		User u = loginEJB.findUserByUsername(username);
+		String query = "from Music m where m.user = :user";
 		
-		boolean first = true;
 		int index = 0;
 		while (index < activeFilters.size()) {
 			if (activeFilters.get(index) != null && activeFilters.get(index).length() > 0) {
-				if (first) {
-					query += " where lower(m."+filters.get(index)+") like :"+filters.get(index);
-					first = false;
-				}
-				else {
-					query += " and lower(m."+filters.get(index)+") like :"+filters.get(index);
-				}
+				query += " and lower(m."+filters.get(index)+") like :"+filters.get(index);
 			}
 			index++;
 		}
@@ -88,6 +87,7 @@ public class MusicEJB {
 			}
 			index++;
 		}
+		q.setParameter("user", u);
 
 		List<Music> list = q.getResultList();
     	
@@ -105,4 +105,7 @@ public class MusicEJB {
 		if (m.length() == 1) m = "0"+m;
 		return sec/60+"m"+m+"s";
 	}
+
+
+	 
 }
