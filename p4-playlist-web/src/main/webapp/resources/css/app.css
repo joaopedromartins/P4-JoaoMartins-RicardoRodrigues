@@ -1,5 +1,6 @@
 html, body {
 	overflow: hidden;
+	margin: 0;
 }
 
 #accountScreen {
@@ -24,4 +25,12 @@ html, body {
 #audioPlayer {
 	margin: 20px auto;
 	display: block;
+}
+
+nav li {
+	display: inline;
+}
+
+nav li a {
+	text-decoration: none;
 }

@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
 	<title>P4-Playlist</title>
@@ -16,22 +17,24 @@
 			<div class="ui-grid-col-4 formContainer">
 				<p:growl id="growl" life="5000" />
 
-				<h:form>
-					<h2 class="formRow">Register a new Account</h2>
+				<h:form prependId="false">
+					<h2 class="formRow">Register for new account</h2>
 					<div class="formRow">
 						<p:inputText value="#{usersinterface.username}"
 							placeholder="username" required="true" maxlength="40"
-							requiredMessage="fill in an username" />
+							requiredMessage="fill in an username" validator="usernameValidator" />
 					</div>
 					<div class="formRow">
 						<p:inputText value="#{usersinterface.email}"
 							placeholder="email" required="true" maxlength="40"
-							requiredMessage="fill in an email" />
+							requiredMessage="fill in an email" validator="emailValidator" />
 					</div>
 					<div class="formRow">
 						<p:password value="#{usersinterface.password}"
 							placeholder="password" required="true" maxlength="40"
-							requiredMessage="fill in a password" />
+							requiredMessage="fill in a password">
+							
+						</p:password>
 					</div>
 					<div class="formRow">
 						<p:password value="#{usersinterface.cpassword}"

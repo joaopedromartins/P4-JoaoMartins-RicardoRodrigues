@@ -31,22 +31,11 @@ public class SigninEJB {
 
     
     public UserDTO register(String username, String password, String confirm, String email) {
-    	if (username.contains("@") || !email.contains("@")) return null;
-    	
-    	if (loginEJB.findUserByUsername(username) != null) return null;
-    	
-    	if (loginEJB.findUserByEmail(email) != null) return null;
-    	
-    	if (username.length() <= 2) return null;
-    	
-    	if (!password.equals(confirm)) return null;
-    	
     	String masked = crypt.encrypt(password, username);
     	
     	if (crypt != null) {
     		User u = new User(username, masked, email);
     		em.persist(u);
-    		logger.debug("User "+u+" created");
     		UserDTO dto = new UserDTO(username, email);
     		return dto;
     	}

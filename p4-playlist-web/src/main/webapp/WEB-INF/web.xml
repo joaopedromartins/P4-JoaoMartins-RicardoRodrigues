@@ -31,4 +31,9 @@
     <url-pattern>/index.xhtml</url-pattern>
     <url-pattern>/pages/signup.xhtml</url-pattern>
 </filter-mapping>
+
+<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>eggplant</param-value>
+	</context-param>
 </web-app>

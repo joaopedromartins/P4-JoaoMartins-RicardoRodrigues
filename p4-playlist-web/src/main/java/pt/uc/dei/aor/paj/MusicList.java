@@ -25,8 +25,7 @@ public class MusicList implements Serializable {
 	private String searchType = "all";
 	private String path;
 	
-	@PostConstruct
-	public void init() {
+	public MusicList() {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		path = session.getServletContext().getContextPath();
 	}
