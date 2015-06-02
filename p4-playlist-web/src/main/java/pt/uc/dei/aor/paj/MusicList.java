@@ -1,6 +1,5 @@
 package pt.uc.dei.aor.paj;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -20,35 +19,27 @@ public class MusicList implements Serializable {
 	@Inject
 	private MusicEJB ejb;
 	
-	private List<MusicDTO> musics;
 	private String searchField = "";
 	private List<MusicDTO> filteredMusicList = new ArrayList<>();
 	private String searchType = "all";
 	private String path;
 	
-	@PostConstruct
-	public void init() {
-		setMusics(ejb.getMusicList());
+	public MusicList() {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		path = session.getServletContext().getContextPath();
 	}
 
 	public List<MusicDTO> getMusics() {
-		return musics;
+		return ejb.getMusicList();
 	}
 
-	public void setMusics(List<MusicDTO> musics) {
-		this.musics = musics;
-	}
 	
-	public void addMusic(MusicDTO m) {
-		musics.add(m);
-	}
+	
 	
 	public void searchMusic() {
 		if (searchField.trim().equals("") || searchType.equals("all")) {
 			filteredMusicList.clear();
-			filteredMusicList.addAll(musics);
+			filteredMusicList.addAll(ejb.getMusicList());
 		}
 		else {
 			if (searchType.equals("title"))
@@ -83,4 +74,6 @@ public class MusicList implements Serializable {
 	}
 	
 	public String getPath() { return path; }
+
+	
 }

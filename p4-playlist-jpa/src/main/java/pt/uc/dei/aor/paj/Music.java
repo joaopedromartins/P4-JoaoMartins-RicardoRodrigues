@@ -3,8 +3,10 @@ package pt.uc.dei.aor.paj;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"title", "author"}))
 public class Music implements Serializable {
 
 	private static final long serialVersionUID = -5753633708037205353L;
@@ -13,19 +15,30 @@ public class Music implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column
+	@NotNull
+	@Column(nullable=false)
 	private String title;
-	@Column
+	
+	@NotNull
+	@Column(nullable=false)
 	private String author;
+	
 	@Column
 	private String album;
+	
 	@Column
 	private String genre;
-	@Column
+	
+	@NotNull
+	@Column(nullable=false)
 	private String filename;
-	@Column
+	
+	@NotNull
+	@Column(nullable=false)
 	private int duration;
-	@Column 
+	
+	@NotNull
+	@Column(nullable=false)
 	private int year;
 
 	@ManyToOne

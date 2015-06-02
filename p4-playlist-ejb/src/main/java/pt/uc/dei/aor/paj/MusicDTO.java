@@ -5,13 +5,13 @@ public class MusicDTO {
 	private String author;
 	private String album;
 	private String genre;
-	private int duration;
+	private String duration;
 	private String filename;
 	private int year;
 	private int id;
 	
 	public MusicDTO(String title, String author, String album, String genre,
-			int duration, String filename, int year, int id) {
+			String duration, String filename, int year, int id) {
 		this.title = title;
 		this.author = author;
 		this.album = album;
@@ -54,10 +54,10 @@ public class MusicDTO {
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
-	public int getDuration() {
+	public String getDuration() {
 		return duration;
 	}
-	public void setDuration(int duration) {
+	public void setDuration(String duration) {
 		this.duration = duration;
 	}
 

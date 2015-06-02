@@ -1,0 +1,93 @@
+html, body {
+	overflow: hidden;
+	margin: 0;
+}
+
+#accountScreen {
+	display: none;
+}
+
+#playerScreen {
+	height: 1200px;
+	background: red;
+	width: 30%;
+	position: absolute;
+	left: 97%;
+	top: 0;
+	transition: left 1s;
+}
+
+
+#playerScreen:hover {
+	left: 70%;
+}
+
+#audioPlayer {
+	margin: 20px auto;
+	display: block;
+	width: 75%;
+}
+
+nav {
+	  background-color: black;
+  height: 47px;
+  width: 97%;
+  margin-top: -15px;
+}
+
+nav li {
+	display: inline;
+	padding: 12px 12px;
+	line-height: 47px;
+}
+
+nav li.selected {
+	background: red;
+	color: white;
+	font-weight: bold;
+}
+
+nav li.username {
+	color: white;
+	margin-left: 47%;
+}
+
+nav li a {
+	text-decoration: none;
+	color: blue;
+}
+
+.playlistScreen {
+	margin: 50px;
+}
+
+
+.accountLabel {
+	width: 100px;
+	display: inline-block;
+}
+
+.accountValue {
+	display: inline-block;
+	width: 240px;
+	text-align: center;
+}
+
+#accountDetails {
+	border: 1px solid black;
+	background: whitesmoke;
+	display: inline-block;
+	padding: 5px 20px;
+}
+
+.accountDetailsMain {
+	margin: 16px 10px;
+}
+
+.accountDetailsForm {
+	display: none;
+}
+
+.accountUpdateFields {
+	margin: 0 0 15px 15px;
+}

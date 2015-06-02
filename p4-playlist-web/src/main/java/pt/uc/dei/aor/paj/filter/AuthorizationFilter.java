@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebFilter("/resources/secure/*")
+@WebFilter("/app/*")
 public class AuthorizationFilter implements Filter {
 	
 	@Override
@@ -29,7 +29,7 @@ public class AuthorizationFilter implements Filter {
         } else {
             // User is not logged in, so redirect to index.
             HttpServletResponse res = (HttpServletResponse) response;
-            res.sendRedirect(req.getContextPath() + "/resources/paginas/login.xhtml");
+            res.sendRedirect(req.getContextPath() + "/index.xhtml");
         }
     }
 

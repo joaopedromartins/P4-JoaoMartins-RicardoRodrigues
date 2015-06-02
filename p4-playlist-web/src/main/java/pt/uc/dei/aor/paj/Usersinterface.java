@@ -3,21 +3,25 @@ package pt.uc.dei.aor.paj;
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.Size;
 
 @Named 
 @RequestScoped
 public class Usersinterface implements Serializable {
 	private static final long serialVersionUID = -8310185641498834904L;
 
+	@Size(min = 3, max=20, message = "Please enter a valid username (3-20 characters)")
 	private String username;
+	
 	private String email;
 	private String password;
 	private String cpassword;
-	private String msgerro;
+	private String oldPassword;
 	private HttpSession session;
 
 	@Inject 
@@ -67,18 +71,10 @@ public class Usersinterface implements Serializable {
 	}
 
 	
-	//Getter associados à variável msgerro
-	public String getMsgerro() {
-		return msgerro;
-	}
-	public void setMsgerro(String msgerro) {
-		this.msgerro = msgerro;
-	}
-
 	//funcao para efectuar logout
 	public String userlogout() {
 		clearSession();
-		return "/resources/paginas/login";
+		return "/index?faces-redirect=true";
 	}
 
 	
@@ -87,11 +83,10 @@ public class Usersinterface implements Serializable {
 		UserDTO user;
 		if ((user = signin.register(username, password, cpassword, email)) != null) {
 			startSession(user);
-			setMsgerro(null);
-			return "/resources/secure/jukebox?faces-redirect=true";
+			return "/app/playlist?faces-redirect=true";
 		} else {
-			setMsgerro("Erro na criação de utilizador!");
-			return "signup";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error creating user"));
+			return null;
 		}
 	}
 	
@@ -100,29 +95,22 @@ public class Usersinterface implements Serializable {
 		UserDTO user;
 		if ((user = login.validateUser(username, password)) != null) {
 			startSession(user);
-			setMsgerro(null);
-			return "/resources/secure/jukebox?faces-redirect=true";
+			return "/app/playlist?faces-redirect=true";
 		} else {
-			setMsgerro("Erro: Utilizador ou password inválido(s)!");
-			return "login";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login or password incorrect"));
+			return null;
 		}
 	}
 	
 	
 	public String delete() {
-		if (signin.delete(userSession.getUsername())) {
+		if (signin.delete(userSession.getUsername(), password)) {
 			clearSession();
-			return "/resources/paginas/login";
+			return "/index?faces-redirect=true";
 		}
 		return null;
 	}
 	
-	public String update() {
-		startSession(signin.update(username, password, cpassword, email)); 
-		username = null;
-		email = null;
-		return null;
-	}
 	
 	
 	private void clearSession() {
@@ -135,6 +123,34 @@ public class Usersinterface implements Serializable {
 		userSession.setEmail(user.getEmail());
 		userSession.setUsername(user.getUsername());
 		session.setAttribute("loggedin", true);
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+	
+	public void updateUsername() {
+		UserDTO u = signin.updateUsername(userSession.getUsername(), username, password);
+		if (u != null) {
+			userSession.setUsername(u.getUsername());
+			username = "";
+		}
+	}
+	
+	public void updateEmail() {
+		UserDTO u = signin.updateEmail(userSession.getUsername(), email, password);
+		if (u != null) {
+			userSession.setEmail(u.getEmail());
+			email = "";   
+		}
+	}
+	
+	public void updatePassword() {
+		signin.updatePassword(userSession.getUsername(), oldPassword, password);
 	}
 }
 

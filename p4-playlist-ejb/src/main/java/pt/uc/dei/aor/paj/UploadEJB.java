@@ -55,13 +55,13 @@ public class UploadEJB {
 	        
 	        AudioFileFormat baseFileFormat = new MpegAudioFileReader().getAudioFileFormat(outFile);
 			Map<String, Object> properties = baseFileFormat.properties();
-			System.out.println(properties.get("duration"));
+
 			int duration = (int) ((long)properties.get("duration")/1000000);
 			
 	        Music m = new Music(title, author, album, genre, filename, duration, loginEJB.findUserByUsername(username), year);
 	        em.persist(m);
 	        
-			return new MusicDTO(title, author, album, genre, duration, filename, year, m.getId()); 
+			return new MusicDTO(title, author, album, genre, convertMinutes(duration), filename, year, m.getId()); 
 		}
 		catch (Exception e) {
 			return null;
@@ -103,5 +103,11 @@ public class UploadEJB {
 		
 		List<Music> list = qM.getResultList();
 		return !list.isEmpty();
+	}
+	
+	private String convertMinutes(int sec) {
+		String m = String.valueOf(sec%60);
+		if (m.length() == 1) m = "0"+m;
+		return sec/60+"m"+m+"s";
 	}
 }
