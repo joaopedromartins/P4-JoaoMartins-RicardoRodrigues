@@ -1,24 +1,21 @@
 package pt.uc.dei.aor.paj;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 
 @Named 
 @SessionScoped
 public class Playlistinterface implements Serializable {
 	private static final long serialVersionUID = 2832340869627136905L;
-	
+
 	private String msgerro;
 	private String username;
 	private String playlistname;
+	private String playlistnewname;
 	private String operacao;
 	private List<String> listaplaylistnames;
 	private List<PlaylistMusicDTO> listaplaylistmusics;
@@ -32,7 +29,7 @@ public class Playlistinterface implements Serializable {
 	
 	@Inject 
 	private PlaylistEntryEJB playlistEntry;
-
+	
 	public Playlistinterface() {
 		operacao="criar";
 		msgerro="";
@@ -47,10 +44,12 @@ public class Playlistinterface implements Serializable {
 		this.operacao = operacao;
 	}
 
-	//Getter associados à variável username
-	public String getUsername() {
-		this.username=loggeduser.getUsername();
-		return username;
+	//Getter associados à variável playlistnewname
+	public String getPlaylistnewname() {
+		return playlistnewname;
+	}
+	public void setPlaylistnewname(String playlistnewname) {
+		this.playlistnewname = playlistnewname;
 	}
 
 	//Getter associados à variável playlistname
@@ -61,6 +60,13 @@ public class Playlistinterface implements Serializable {
 		this.playlistname = playlistname;
 	}
 
+
+	//Getter associados à variável username
+	public String getUsername() {
+		this.username=loggeduser.getUsername();
+		return username;
+	}
+
 	//Getter associados à lista Listaplaylistnames
 	public List<String> getListaplaylistnames() {
 		this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername());
@@ -68,30 +74,14 @@ public class Playlistinterface implements Serializable {
 	}
 	
 	//Getter associados à lista Listaplaylistmusics
-		public List<PlaylistMusicDTO> getListaplaylistmusics() {
-			
-		this.listaplaylistmusics = playlist.findMusicsByUsernameAndPlaylistName( loggeduser.getUsername(), playlistname);
-		//
-		//System.out.println("Title\tAlbum\t");
-		//for (PlaylistMusicDTO i: listaplaylistmusics) {
-		//	System.out.println(i.getTitle()+"\t"+i.getAuthor()+"\t"+i.getAlbum()+"\t"+i.getGenre()+"\t"+i.getDuration());
-		//}
+	public List<PlaylistMusicDTO> getListaplaylistmusics() {
+		this.listaplaylistmusics = playlistEntry.findMusicsByUsernameAndPlaylistName( loggeduser.getUsername(), playlistname);
 		return listaplaylistmusics;
-			
-		//teste
-		//ArrayList<PlaylistMusicDTO> testlist = new ArrayList<PlaylistMusicDTO>();
-		//for (int i=1; i<10; i++) {
-		//	testlist.add( new PlaylistMusicDTO("title"+i, "author"+i, "album"+i,
-		//	"genre"+i, (int)(10.0*Math.random()), (2015-i), i, i) );
-		//}
-		//return testlist;
-			
-			
-		}
+	}
 
 	//Getter associados ao DTO selectedmusic
 	public PlaylistMusicDTO getSelectedmusic() {
-		return selectedmusic;
+		return this.selectedmusic;
 	}
 
 
@@ -125,6 +115,7 @@ public class Playlistinterface implements Serializable {
 		//System.out.println("Adicionar playlist:" + this.playlistname + "\t do user: "+this.username);
 		if (playlist.addPlaylist( loggeduser.getUsername(), playlistname) ) {
 			msgerro="Adicionada a playlist: "+playlistname;
+			playlistname=null;
 		} else {
 			msgerro="ERRO ao adicionar a playlist: "+playlistname;
 		}
@@ -157,12 +148,28 @@ public class Playlistinterface implements Serializable {
 	public void selectplaylist(ActionEvent ae) {
 		//atribui o nome da playlist correspondente ao botao da linha seleccionada
 		playlistname = (String)ae.getComponent().getAttributes().get("selectedline");
+		//apaga musica seleccionada
+		selectedmusic=null;
 	}
 	
-	//metodo para seleccionar uma playlist
+	//metodo para seleccionar uma musica da playlist
 	public void selectmusic(ActionEvent ae) {
+		System.out.println("seleccionar uma musica da playlist:");
 		//atribui o nome da playlist correspondente ao botao da linha seleccionada
-		selectedmusic = (PlaylistMusicDTO)ae.getComponent().getAttributes().get("selectedmusicline");
+		int selectedmusicid = (int)(ae.getComponent().getAttributes().get("selectedmusicline"));
+		System.out.println("id="+selectedmusicid);
+		for (PlaylistMusicDTO i:listaplaylistmusics) {
+			if (selectedmusicid==i.getId()) {
+				this.selectedmusic=i;
+				System.out.println("selectedmusic:\n"+selectedmusic);
+			}
+		}
+	}
+	
+	
+	//metodo para apagar uma musica da playlist
+	public void renameplaylist() {
+		
 	}
 	
 	//metodo para apagar uma musica da playlist

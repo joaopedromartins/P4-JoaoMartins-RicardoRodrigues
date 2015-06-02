@@ -31,10 +31,11 @@
 				<div class="ui-grid-row ">
 					<div class="ui-grid-col-1" />
 					<div class="ui-grid-col-10">
-						<p:panel id="playlist" header="Editar playlist."
+						<p:panel id="playlist" header="Criar / Editar uma playlist"
 							footer="#{playlistinterface.msgerro}" >
 						<br />
 						<img src="../imagens/jukebox.png" />
+						
 						<h:form  id="formplaylist">
 							<h:panelGroup id="playlistop"
 								style="display:block; text-align:centre">
@@ -42,32 +43,42 @@
 									<h:outputText value="#{userSession.username}, prencha os campos em baixo para criar uma playlist."
 											styleClass="txtconteudo"
 											rendered="#{playlistinterface.typecriar()}" />
+									<h:outputText value="#{userSession.username}, seleccione uma playlist para a poder editar."
+											styleClass="txtconteudo"
+											rendered="#{playlistinterface.typeeditar()}" />		
+									
 											
-									<h:panelGrid columns="4" cellpadding="10">
-										<h:outputText value="Nome playlist:"  
-											rendered="#{playlistinterface.typecriar()}" />
+									<h:panelGrid columns="4" cellpadding="10" rendered="#{playlistinterface.typecriar()}" >
+										
+										<h:outputText value="Nome playlist:" />
 										<h:inputText id="playlistname" title="Nome playlist"
 											value="#{playlistinterface.playlistname}" required="true"
-											requiredMessage="Preencha o nome da playlist" maxlength="32" 
-											rendered="#{playlistinterface.typecriar()}" />
-										<h:message for="playlistname" errorClass="errorMessage" 
-											rendered="#{playlistinterface.typecriar()}" />
+											requiredMessage="Preencha o nome da playlist" maxlength="32" />
+										<h:message for="playlistname" errorClass="errorMessage" />
 										<h:commandButton type="submit" value="criar"
-											styleClass="btn" action="#{playlistinterface.criaplaylist}" 
-											rendered="#{playlistinterface.typecriar()}" />
+											styleClass="btn" action="#{playlistinterface.criaplaylist}" />
 									</h:panelGrid>
 											
-									<h:panelGrid columns="4" cellpadding="10" rendered="#{playlistinterface.typeeditar()}" >		
+									<h:panelGrid columns="4" cellpadding="10" rendered="#{playlistinterface.typeeditar() and !empty playlistinterface.playlistname}" >		
 										<h:outputText value="Nome playlist:" />
 										<h:outputText value="#{playlistinterface.playlistname}" />
-										<h:message for="delplaylistname" errorClass="errorMessage" />
 										<h:commandButton type="submit" value="Apagar playlist"
 											styleClass="btn" action="#{playlistinterface.apagaplaylist}" />	
-										<h:outputText value="Não existem playlists. Em cima seleccionar criar playlist." 
-											rendered="#{empty playlistinterface.listaplaylistnames}"/>	
+										<h:message for="delplaylistname" errorClass="errorMessage" />
+										
+										<h:outputText value="Novo nome playlist:" />
+										<h:inputText id="renameplaylist" title="Nome playlist"
+											value="#{playlistinterface.playlistnewname}" required="false"
+											requiredMessage="Preencha o nome da playlist" maxlength="32" />
+										<h:commandButton type="submit" value="Actualizar Nome playlist"
+											styleClass="btn" action="#{playlistinterface.renameplaylist}" 
+											disabled="#{empty playlistinterface.playlistname}" />
+										<h:message for="renameplaylist" errorClass="errorMessage" />	
 									</h:panelGrid>
 									
-									<h:panelGrid columns="4" cellpadding="10" rendered="#{playlistinterface.typeeditar()}" >	
+									
+									
+									<h:panelGrid columns="4" cellpadding="10" rendered="#{playlistinterface.typeeditar()}" >
 										<h:panelGroup id="listaplaylist">
 											<h:outputText value="1. Selecione a"/>
 											<br />
@@ -96,37 +107,42 @@
 												<h:panelGrid columns="1" styleClass="painel-interior">
 													<h:dataTable value="#{playlistinterface.listaplaylistmusics}" var="musicentry">
 														<h:column>
-															<h:commandLink actionListener="#{playlistinterface.selectmusic}" value="#{musicentry.title}," >
-																<f:attribute name="selectedmusicline" value="#{musicentry}" />
-															</h:commandLink>
+															<h:commandButton styleClass="btn-historico"
+																actionListener="#{playlistinterface.selectmusic}" value="#{musicentry.title}" >
+																<f:attribute name="selectedmusicline" value="#{musicentry.id}" />
+															</h:commandButton>
 														</h:column>
 														<h:column>
-															<h:outputText value="#{musicentry.author}"/>
+															<h:commandButton value="#{musicentry.author}" disabled="true" />
 														</h:column>
 													</h:dataTable>	
 												</h:panelGrid>	
 											</p:panel>		
 										</h:panelGroup>	
 										
-										<h:panelGroup id="musicaselecionada" rendered="#{!empty playlistinterface.playlistname}">
+										<h:panelGroup id="musicaselecionada" rendered="#{!empty playlistinterface.selectedmusic.title}">
 											<h:outputText value="3. Adicionar/Remover a Musica"/>
-												<br />
-												<h:outputText value="da Playlist"/>
-												<br />
-											<h:panelGrid columns="2" styleClass="painel-interior">
-												<h:outputText value="Titulo: "/>
-												<h:outputText value="#{musicentry.title}"/>
-												<h:outputText value="Autor: "/>
-												<h:outputText value="#{musicentry.author}"/>
-												<h:outputText value="Album: "/>
-												<h:outputText value="#{musicentry.album}"/>
-												<h:outputText value="Genero: "/>
-												<h:outputText value="#{musicentry.genre}"/>
-												<h:outputText value="Duração: "/>
-												<h:outputText value="#{musicentry.duration}"/>
-												<h:outputText value="Ano de lançamento: "/>
-												<h:outputText value="#{musicentry.year}"/>
-											</h:panelGrid>
+											<br />
+											<h:outputText value="da Playlist"/>
+											<br /><br />
+											<h:outputText value="Titulo: "/>
+											<h:outputText value="#{playlistinterface.selectedmusic.title}"/>
+											<br />
+											<h:outputText value="Autor: "/>
+											<h:outputText value="#{playlistinterface.selectedmusic.author}"/>
+											<br />
+											<h:outputText value="Album: "/>
+											<h:outputText value="#{playlistinterface.selectedmusic.album}"/>
+											<br />
+											<h:outputText value="Genero: "/>
+											<h:outputText value="#{playlistinterface.selectedmusic.genre}"/>
+											<br />
+											<h:outputText value="Duração: "/>
+											<h:outputText value="#{playlistinterface.selectedmusic.duration}"/>
+											<br />
+											<h:outputText value="Ano de lançamento: "/>
+											<h:outputText value="#{playlistinterface.selectedmusic.year}"/>
+											<br />
 											<h:panelGrid columns="2" styleClass="painel-interior">
 												<h:commandButton type="submit" value="Remover"
 												styleClass="btn" action="#{playlistinterface.delmusicfromplaylist}" />	
@@ -137,6 +153,9 @@
 													styleClass="btn" action="#{playlistinterface.movedownmusicfromplaylist}" />	
 												</h:panelGrid>
 											</h:panelGrid>
+										</h:panelGroup>
+										
+										<h:panelGroup id="listamusicas" rendered="#{!empty playlistinterface.playlistname}">
 										</h:panelGroup>
 										
 									</h:panelGrid>

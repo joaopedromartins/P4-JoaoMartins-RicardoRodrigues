@@ -116,26 +116,26 @@ public class PlaylistEJB {
 	}
 	
 	public List<PlaylistMusicDTO> findMusicsByUsernameAndPlaylistName(String username, String playlistname) {
-		System.out.println("findMusicsByUsernameAndPlaylistName");
-		System.out.println("username: "+username);
-		System.out.println("playlistname"+playlistname);
+		//System.out.println("findMusicsByUsernameAndPlaylistName");
+		//System.out.println("username: "+username);
+		//System.out.println("playlistname"+playlistname);
 		if (username.length() <= 2) {
-			System.out.println("username < 2 : "+username);
+			//System.out.println("username < 2 : "+username);
 			return null;
 		}
     	
     	if (playlistname.length() <= 2) {
-    		System.out.println("playlistname < 2 : "+playlistname);
+    		//System.out.println("playlistname < 2 : "+playlistname);
     		return null;
     	}
     	
     	//testar se existe o utilizador com esse nome
     	User loggedUser = loginEJB.findUserByUsername(username);
-    	System.out.println("user id : "+loggedUser.getId());
-    	System.out.println("user name : "+loggedUser.getName());
-    	System.out.println("user email : "+loggedUser.getEmail());
+    	//System.out.println("user id : "+loggedUser.getId());
+    	//System.out.println("user name : "+loggedUser.getName());
+    	//System.out.println("user email : "+loggedUser.getEmail());
     	if ( loggedUser == null) {
-    		System.out.println("loggeduser = null ");
+    		//System.out.println("loggeduser = null ");
     		return null;
     	}
     	
@@ -145,26 +145,12 @@ public class PlaylistEJB {
 		q.setParameter("title", playlistname);
 		List<Playlist> l = q.getResultList();
     	if (l.isEmpty()) {
-    		System.out.println("Playlist is empty! ");
+    		//System.out.println("Playlist is empty! ");
     		return null;
     	} else {
-    		System.out.println("Before TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    		///////...................................
-			//TypedQuery<PlaylistEntry> lm = em.createQuery("select ple "
-			//		+ "from PlaylistEntry ple "
-			//		+ "inner join ple.playlist pl "
-			//		+ "where pl.user = :user"
-			//		+ "	and pl.title like :title"
-			//		+ "	order by ple.position", PlaylistEntry.class);
-			//lm.setParameter("user", loggedUser);
-			//lm.setParameter("title", playlistname);
-			//List<PlaylistEntry> result = lm.getResultList();
-			//
-			//for (PlaylistEntry i: result) {
-			//	System.out.println("id="+i);
-			//}
-    		System.out.println("User: "+loggedUser);
-    		System.out.println("playlistname: "+playlistname);
+    		//System.out.println("Before TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    		//System.out.println("User: "+loggedUser);
+    		//System.out.println("playlistname: "+playlistname);
     		TypedQuery<PlaylistEntry> lm = em.createQuery("select ple "
 					+ "from PlaylistEntry ple "
 					+ "inner join ple.playlist pl " 
@@ -175,26 +161,15 @@ public class PlaylistEJB {
 			List<PlaylistEntry> result = lm.getResultList();
 			
 			
-			//ALTERAR OU APAGAR
-			//public PlaylistMusicDTO(PlaylistEntry ple) {
-			//	this.title = "aa";
-			//	this.author = "aa";
-			//	this.album = "aa";
-			//	this.genre = "aa";
-			//	this.duration = 0;
-			//	this.year = 1920;
-			//	this.id = 100;
-			//	this.order = 120;
-			//}
 			
 			List<PlaylistMusicDTO> retorno = new ArrayList<PlaylistMusicDTO>();
 			for (PlaylistEntry i: result) {
-				System.out.println("id="+i);
+				//System.out.println("id="+i);
 				retorno.add(new PlaylistMusicDTO(i.getMusicTitle(), i.getMusicAuthor() , 
 					i.getMusicAlbum(), i.getMusicGenre(), i.getMusicDuration(), i.getMusicYear(), i.getMusicId(), i.getPosition() ) );
 			}
     		
-			System.out.println("AFTER TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			//System.out.println("AFTER TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     		return retorno;
     	}
 	}
