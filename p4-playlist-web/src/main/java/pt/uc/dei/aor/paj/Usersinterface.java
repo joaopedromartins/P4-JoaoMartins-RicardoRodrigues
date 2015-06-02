@@ -135,14 +135,18 @@ public class Usersinterface implements Serializable {
 	
 	public void updateUsername() {
 		UserDTO u = signin.updateUsername(userSession.getUsername(), username, password);
-		userSession.setUsername(u.getUsername());
-		username = "";
+		if (u != null) {
+			userSession.setUsername(u.getUsername());
+			username = "";
+		}
 	}
 	
 	public void updateEmail() {
 		UserDTO u = signin.updateEmail(userSession.getUsername(), email, password);
-		userSession.setEmail(u.getEmail());
-		email = "";
+		if (u != null) {
+			userSession.setEmail(u.getEmail());
+			email = "";   
+		}
 	}
 	
 	public void updatePassword() {

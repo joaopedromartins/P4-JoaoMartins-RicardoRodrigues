@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputStylesheet library="css" name="musicList.css" />
+</h:head>
+
+
+<h:body>
+	<ui:composition>
+		<div id="userMusicFilter">
+		<h:form>
+			<h:selectOneMenu value="#{musicFilters.filter}">
+				<f:selectItems value="#{musicFilters.filters}" />
+			</h:selectOneMenu>
+			<p:inputText value="#{musicFilters.field}" />
+			<h:commandButton action="#{musicFilters.addFilter()}" value="Filter" />
+			<span id="filterList">
+				<ui:repeat var="filter" value="#{musicFilters.activeFilters}" varStatus="status">
+					<span>#{filter} <h:commandLink value="remove" action="#{musicFilters.removeFilter(status.index)}" /></span>
+				</ui:repeat>
+			</span>
+			
+			<div id="userMusicList">
+				<ui:repeat value="#{musicFilters.listMusics}" var="music">
+					<div class="userMusicRow">
+						<span>#{music.title}</span>
+						<span>#{music.author}</span>
+						<span>#{music.album}</span>
+						<span>#{music.year}</span>				
+						<span>#{music.genre}</span>				
+						<span>#{music.duration}</span>
+					</div>
+				</ui:repeat>
+			</div>
+		</h:form>
+		</div>			
+		
+
+	</ui:composition>
+</h:body>
+
+</html>

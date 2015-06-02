@@ -1,6 +1,5 @@
 package pt.uc.dei.aor.paj;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -75,4 +74,6 @@ public class MusicList implements Serializable {
 	}
 	
 	public String getPath() { return path; }
+
+	
 }

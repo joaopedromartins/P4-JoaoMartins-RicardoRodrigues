@@ -12,7 +12,6 @@ $(function() {
 		$("li.selected").removeClass("selected");
 		playlistBtn.parent().addClass("selected");
 		$(".accountDetailsForm").hide();
-		$("#accountDetails").css("width", "400px");
 		
 		return false;
 	});
@@ -48,21 +47,18 @@ $(function() {
 	
 	$("#usernameEditor").click(function(e) {
 		$(".accountDetailsForm").hide();
-		$("#accountDetails").css("width", "550px");
 		$("#usernameDetailsForm").show();
 		return false;
 	});
 	
 	$("#emailEditor").click(function(e) {
 		$(".accountDetailsForm").hide();
-		$("#accountDetails").css("width", "550px");
 		$("#emailDetailsForm").show();
 		return false;
 	});
 	
 	$("#passwordEditor").click(function(e) {
 		$(".accountDetailsForm").hide();
-		$("#accountDetails").css("width", "755px");
 		$("#passwordDetailsForm").show();
 		return false;
 	});

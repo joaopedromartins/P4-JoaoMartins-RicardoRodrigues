@@ -1,6 +1,8 @@
 package pt.uc.dei.aor.paj;
 
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -59,7 +61,10 @@ public class SigninEJB {
 	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
 			   .setParameter("username", oldUsername).setParameter("password", cryptPass);
 	   
-	   User u = q.getResultList().get(0);
+	   List<User> users = q.getResultList();
+	   if (users.isEmpty()) return null;
+	   
+	   User u = users.get(0);
 	   cryptPass = crypt.encrypt(password, username);
 	   u.setName(username);
 	   u.setPassword(cryptPass);
@@ -75,7 +80,10 @@ public class SigninEJB {
 	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
 			   .setParameter("username", oldUsername).setParameter("password", cryptPass);
 	   
-	   User u = q.getResultList().get(0);
+	   List<User> users = q.getResultList();
+	   if (users.isEmpty()) return null;
+	   
+	   User u = users.get(0);
 	   u.setEmail(email);
 	   em.merge(u);
 	   
@@ -91,7 +99,10 @@ public class SigninEJB {
 	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
 			   .setParameter("username", username).setParameter("password", cryptPass);
 	   
-	   User u = q.getResultList().get(0);
+	   List<User> users = q.getResultList();
+	   if (users.isEmpty()) return;
+	   
+	   User u = users.get(0);
 	   cryptPass = crypt.encrypt(password, username);
 	   u.setPassword(cryptPass);
 	   em.merge(u);
