@@ -84,6 +84,9 @@
 										id="hidden#{status.index}"
 										value="#{music.filename}" />
 								</span>
+								<span class="userMusicCell userMusicCellSmall"> <h:commandLink
+										value="remove" action="#{uploader.remove(music.id)}" /> 
+								</span>
 							</div>
 						</ui:repeat>
 					</h:panelGroup>

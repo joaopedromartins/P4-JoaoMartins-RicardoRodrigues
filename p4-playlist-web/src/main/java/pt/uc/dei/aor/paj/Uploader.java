@@ -110,12 +110,13 @@ public class Uploader {
 	
 	public void remove(int id) {
 		if (ejb.removeMusic(id)) {
-			for (MusicDTO m : musicList.getMusics()) {
+			for (MusicDTO m : musicFilter.getListMusics()) {
 				if (m.getId() == id) {
 					musicList.getMusics().remove(m);
 					break;
 				}
 			}
+			musicFilter.updateList();
 		}
 	}
 	
