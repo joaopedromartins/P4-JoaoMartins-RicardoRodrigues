@@ -68,4 +68,9 @@ $(function() {
 		$("#closeAccountForm").show();
 		return false;
 	});
+	
+	$("#newMusicBtn").click(function(e) {
+		$("#musicUploaderFormContainer").toggle();
+		return false;
+	});
 });

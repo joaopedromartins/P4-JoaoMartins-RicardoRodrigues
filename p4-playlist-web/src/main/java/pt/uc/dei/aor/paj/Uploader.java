@@ -22,6 +22,9 @@ public class Uploader {
 	@Inject 
 	private MusicList musicList;
 	
+	@Inject
+	private MusicFilters musicFilter;
+	
 	private Part file;
 	
 	private String title;
@@ -70,6 +73,7 @@ public class Uploader {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		String path = session.getServletContext().getContextPath();
 		ejb.upload(file, title, author, album, genre, userSession.getUsername(), year, path);
+		musicFilter.updateList();
 	}
 
 	public String getAlbum() {
