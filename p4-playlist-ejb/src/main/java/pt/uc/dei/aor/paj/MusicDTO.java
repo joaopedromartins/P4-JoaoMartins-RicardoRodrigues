@@ -62,7 +62,7 @@ public class MusicDTO {
 	}
 
 	public String getFilename() {
-		return "/music/"+filename;
+		return filename;
 	}
 
 	public void setFilename(String filename) {

@@ -30,14 +30,14 @@ public class UploadEJB {
 	@Inject
 	private LoginEJB loginEJB;
 	
-	public MusicDTO upload(Part part, String title, String author, String album, String genre, String username, int year) {
-		String filename = title+"_"+author+"_"+album+".mp3";
+	public MusicDTO upload(Part part, String title, String author, String album, String genre, String username, int year, String path) {
+		String filename = "music/"+title+"_"+author+"_"+album+".mp3";
 		try {
 			String ext = part.getSubmittedFileName().split("\\.")[1];
 			if (!ext.equals("mp3")) return null;
 			
 			InputStream in = part.getInputStream();
-			File outFile = new File("music/"+filename);
+			File outFile = new File(filename);
 			OutputStream out = new FileOutputStream(outFile);
 			
 			byte[] buffer = new byte[4096];          
@@ -57,6 +57,7 @@ public class UploadEJB {
 			Map<String, Object> properties = baseFileFormat.properties();
 
 			int duration = (int) ((long)properties.get("duration")/1000000);
+			filename = path+"/"+filename;
 			
 	        Music m = new Music(title, author, album, genre, filename, duration, loginEJB.findUserByUsername(username), year);
 	        em.persist(m);

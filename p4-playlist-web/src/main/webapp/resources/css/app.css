@@ -94,7 +94,7 @@ nav li a {
 }
 
 #userMusicList {
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 .userMusicCell {
@@ -129,5 +129,9 @@ nav li a {
 
 #filterList {
 	margin-left: 50px;
+}
+
+.musicListFilter {
+	margin-top: 30px;
 }
 

@@ -8,8 +8,10 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import java.io.Serializable;
 
@@ -23,7 +25,8 @@ public class MusicFilters implements Serializable {
 	private String filter = "title";
 	private String field;
 	private List<MusicDTO> listMusics;
-	
+
+
 	@Inject
 	private MusicEJB ejb;
 	
@@ -32,8 +35,11 @@ public class MusicFilters implements Serializable {
 	
 	public MusicFilters() {
 		activeFilters = Arrays.asList(new String[]{null, null, null, null, null});
+		
 	}
 	
+	
+
 	@PostConstruct
 	public void init() {
 		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
@@ -115,6 +121,8 @@ public class MusicFilters implements Serializable {
 	public void setListMusics(List<MusicDTO> listMusics) {
 		this.listMusics = listMusics;
 	}
+
+	
 	
 	
 }

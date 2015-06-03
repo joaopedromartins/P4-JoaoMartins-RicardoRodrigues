@@ -15,7 +15,7 @@
 	<ui:composition>
 		<div id="userMusicFilter" class="accountSection">
 		<h2>Uploaded Music</h2>
-		<h:form>
+		<h:form class="musicListFilter">
 			<span class="accountUpdateFields">
 			<h:selectOneMenu value="#{musicFilters.filter}">
 				<f:selectItems value="#{musicFilters.filters}" />
@@ -45,29 +45,35 @@
 				<h:panelGroup rendered="#{empty musicFilters.listMusics}">
 					No results
 				</h:panelGroup>
-				<h:panelGroup rendered="#{not empty musicFilters.listMusics}">
-					<div class="userMusicHeader">
-						<span class="userMusicCellLarge userMusicCell">Title</span>
-						<span class="userMusicCellLarge userMusicCell">Artist</span>
-						<span class="userMusicCellLarge userMusicCell">Album</span>
-						<span class="userMusicCell userMusicCellSmall">Year</span>				
-						<span class="userMusicCell userMusicCellSmall">Genre</span>				
-						<span class="userMusicCell userMusicCellSmall">Duration</span>
-					</div>
-				</h:panelGroup>
-				
-				<ui:repeat value="#{musicFilters.listMusics}" var="music">
-					<div class="userMusicRow">
-						<span class="userMusicCellLarge userMusicCell">#{music.title}</span>
-						<span class="userMusicCellLarge userMusicCell">#{music.author}</span>
-						<span class="userMusicCellLarge userMusicCell">#{music.album}</span>
-						<span class="userMusicCell userMusicCellSmall">#{music.year}</span>				
-						<span class="userMusicCell userMusicCellSmall">#{music.genre}</span>				
-						<span class="userMusicCell userMusicCellSmall">#{music.duration}</span>
-						<span class="userMusicCell userMusicCellSmall">play</span>
-					</div>
-				</ui:repeat>
-			</div>
+					<h:panelGroup rendered="#{not empty musicFilters.listMusics}">
+						<div class="userMusicHeader">
+							<span class="userMusicCellLarge userMusicCell">Title</span> <span
+								class="userMusicCellLarge userMusicCell">Artist</span> <span
+								class="userMusicCellLarge userMusicCell">Album</span> <span
+								class="userMusicCell userMusicCellSmall">Year</span> <span
+								class="userMusicCell userMusicCellSmall">Genre</span> <span
+								class="userMusicCell userMusicCellSmall">Duration</span>
+						</div>
+
+						<ui:repeat value="#{musicFilters.listMusics}" var="music"
+							varStatus="status">
+							<div class="userMusicRow">
+								<span class="userMusicCellLarge userMusicCell">#{music.title}</span>
+								<span class="userMusicCellLarge userMusicCell">#{music.author}</span>
+								<span class="userMusicCellLarge userMusicCell">#{music.album}</span>
+								<span class="userMusicCell userMusicCellSmall">#{music.year}</span>
+								<span class="userMusicCell userMusicCellSmall">#{music.genre}</span>
+								<span class="userMusicCell userMusicCellSmall">#{music.duration}</span>
+								<span class="userMusicCell userMusicCellSmall"> <h:link
+										value="play" class="playBtn" id="btn#{status.index}" /> <h:inputHidden
+										id="hidden#{status.index}"
+										value="#{music.filename}" />
+								</span>
+							</div>
+						</ui:repeat>
+					</h:panelGroup>
+
+				</div>
 		</h:form>
 		</div>			
 		

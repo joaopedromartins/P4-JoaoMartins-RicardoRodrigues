@@ -1,9 +1,12 @@
 package pt.uc.dei.aor.paj;
 
 import java.time.LocalDate;
+
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 
@@ -64,7 +67,9 @@ public class Uploader {
 	
 	
 	public void upload() {
-		ejb.upload(file, title, author, album, genre, userSession.getUsername(), year);
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		String path = session.getServletContext().getContextPath();
+		ejb.upload(file, title, author, album, genre, userSession.getUsername(), year, path);
 	}
 
 	public String getAlbum() {
