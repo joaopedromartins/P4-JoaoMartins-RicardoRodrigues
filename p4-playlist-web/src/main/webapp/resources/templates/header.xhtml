@@ -19,7 +19,7 @@
 					<li><a href="" id="accountNav">Account</a></li>
 					<li><h:commandLink value="Logout"
 							action="#{usersinterface.userlogout()}" /></li>
-					<li class="username">#{userSession.username}</li>
+					<li class="username"><h:panelGroup id="accountUsername">#{userSession.username}</h:panelGroup></li>
 				</ul>
 			</h:form>
 		</nav>

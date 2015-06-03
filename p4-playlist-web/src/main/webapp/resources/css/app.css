@@ -8,7 +8,7 @@ html, body {
 }
 
 #playerScreen {
-	background: rgb(152, 115, 115);
+	background: rgba(152, 115, 115, 0.8);
 	width: 30%;
 	height: 100%;
 	position: fixed;
@@ -31,7 +31,7 @@ html, body {
 }
 
 nav {
-	  background-color: rgb(152, 115, 115);
+	  background-color: rgba(152, 115, 115, 0.8);
   height: 47px;
   width: 97%;
   margin-top: -15px;
