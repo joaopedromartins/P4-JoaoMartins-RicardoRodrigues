@@ -73,11 +73,12 @@ nav li a {
 	text-align: center;
 }
 
-#accountDetails {
+.accountSection {
 	border: 1px solid black;
 	background: whitesmoke;
 	display: inline-block;
 	padding: 5px 20px;
+	margin-bottom: 40px;
 }
 
 .accountDetailsMain {
@@ -91,3 +92,42 @@ nav li a {
 .accountUpdateFields {
 	margin: 0 0 15px 15px;
 }
+
+#userMusicList {
+	margin-top: 30px;
+}
+
+.userMusicCell {
+	display: inline-block;
+}
+
+.userMusicCellLarge {
+	width: 220px;
+}
+
+.userMusicCellSmall {
+	width: 90px;	
+}
+
+.userMusicHeader {
+	  padding: 10px 10px 3px 10px;
+  		font-weight: bold;
+  	border-bottom: 1px solid grey;
+}
+
+.userMusicRow {
+	  padding: 10px;
+}
+
+.filterUnit {
+	padding: 7px;
+	background: rgba(140, 237, 140, 0.5);
+	margin-right: 20px;
+	border-radius: 4px;
+	border: 1px solid rgb(86, 210, 86);
+}
+
+#filterList {
+	margin-left: 50px;
+}
+

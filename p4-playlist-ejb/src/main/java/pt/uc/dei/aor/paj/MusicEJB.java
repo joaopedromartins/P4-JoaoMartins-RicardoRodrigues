@@ -73,17 +73,28 @@ public class MusicEJB {
 		int index = 0;
 		while (index < activeFilters.size()) {
 			if (activeFilters.get(index) != null && activeFilters.get(index).length() > 0) {
-				query += " and lower(m."+filters.get(index)+") like :"+filters.get(index);
+				if (filters.get(index).equals("year")) {
+					query += " and m."+filters.get(index)+" = :"+filters.get(index);
+				}
+				else {
+					query += " and lower(m."+filters.get(index)+") like :"+filters.get(index);
+				}
 			}
 			index++;
 		}
+		query += " order by m.author, m.album, m.title";
 		
 		TypedQuery<Music> q = em.createQuery(query, Music.class);
 		
 		index = 0;
 		while (index < activeFilters.size()) {
 			if (activeFilters.get(index) != null && activeFilters.get(index).length() > 0) {
-				q.setParameter(filters.get(index), "%"+activeFilters.get(index).toLowerCase()+"%");
+				if (filters.get(index).equals("year")) {
+					q.setParameter(filters.get(index), Integer.parseInt(activeFilters.get(index)));
+				}
+				else {
+					q.setParameter(filters.get(index), "%"+activeFilters.get(index).toLowerCase()+"%");					
+				}
 			}
 			index++;
 		}

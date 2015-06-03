@@ -13,19 +13,30 @@
 
 <h:body>
 	<ui:composition>
-		<div id="userMusicFilter">
+		<div id="userMusicFilter" class="accountSection">
+		<h2>Uploaded Music</h2>
 		<h:form>
-			<p:selectOneMenu value="#{musicFilters.filter}">
+			<span class="accountUpdateFields">
+			<h:selectOneMenu value="#{musicFilters.filter}">
 				<f:selectItems value="#{musicFilters.filters}" />
-			</p:selectOneMenu>
+			</h:selectOneMenu>
+			</span>
+			<span class="accountUpdateFields">
 			<p:inputText value="#{musicFilters.field}" />
+			</span>
+			<span class="accountUpdateFields">
 			<h:commandButton action="#{musicFilters.addFilter()}" value="Filter" />
+			</span>
+			
 			<span id="filterList">
 				<ui:repeat var="filter" value="#{musicFilters.activeFilters}" varStatus="status">
-					<span>#{filter}</span>
-					<span>
-						<h:commandLink style="color:red;text-decoration:none;"
+					<span class="filterUnit">
+					<span class="filterText">#{filter}</span>
+					<span class="filterRemoval">
+						<sup><h:commandLink style="color:red;text-decoration:none;"
 					value="x" action="#{musicFilters.removeFilter(status.index)}" />
+					</sup>
+					</span>
 					</span>
 				</ui:repeat>
 			</span>
@@ -36,23 +47,24 @@
 				</h:panelGroup>
 				<h:panelGroup rendered="#{not empty musicFilters.listMusics}">
 					<div class="userMusicHeader">
-						<span>Title</span>
-						<span>Artist</span>
-						<span>Album</span>
-						<span>Year</span>				
-						<span>Genre</span>				
-						<span>Duration</span>
+						<span class="userMusicCellLarge userMusicCell">Title</span>
+						<span class="userMusicCellLarge userMusicCell">Artist</span>
+						<span class="userMusicCellLarge userMusicCell">Album</span>
+						<span class="userMusicCell userMusicCellSmall">Year</span>				
+						<span class="userMusicCell userMusicCellSmall">Genre</span>				
+						<span class="userMusicCell userMusicCellSmall">Duration</span>
 					</div>
 				</h:panelGroup>
 				
 				<ui:repeat value="#{musicFilters.listMusics}" var="music">
 					<div class="userMusicRow">
-						<span>#{music.title}</span>
-						<span>#{music.author}</span>
-						<span>#{music.album}</span>
-						<span>#{music.year}</span>				
-						<span>#{music.genre}</span>				
-						<span>#{music.duration}</span>
+						<span class="userMusicCellLarge userMusicCell">#{music.title}</span>
+						<span class="userMusicCellLarge userMusicCell">#{music.author}</span>
+						<span class="userMusicCellLarge userMusicCell">#{music.album}</span>
+						<span class="userMusicCell userMusicCellSmall">#{music.year}</span>				
+						<span class="userMusicCell userMusicCellSmall">#{music.genre}</span>				
+						<span class="userMusicCell userMusicCellSmall">#{music.duration}</span>
+						<span class="userMusicCell userMusicCellSmall">play</span>
 					</div>
 				</ui:repeat>
 			</div>
