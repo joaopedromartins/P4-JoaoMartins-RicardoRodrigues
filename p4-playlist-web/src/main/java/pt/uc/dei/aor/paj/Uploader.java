@@ -31,7 +31,7 @@ public class Uploader {
 	private String author;
 	private String album;
 	private String genre;
-	private int year = LocalDate.now().getYear();
+	private String year;
 	
 	
 	public String getTitle() {
@@ -84,11 +84,11 @@ public class Uploader {
 		this.album = album;
 	}
 
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 

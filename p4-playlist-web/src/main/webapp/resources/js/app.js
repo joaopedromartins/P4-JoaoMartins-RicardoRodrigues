@@ -73,4 +73,9 @@ $(function() {
 		$("#musicUploaderFormContainer").toggle();
 		return false;
 	});
+	
+	$("#closeAccountBtn").click(function() {
+		var response = confirm("Are you sure?");
+		if (!response) return false;
+	});
 });

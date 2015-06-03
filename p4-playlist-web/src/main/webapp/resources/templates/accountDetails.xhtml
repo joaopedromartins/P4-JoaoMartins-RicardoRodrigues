@@ -33,7 +33,8 @@
 							<p:password value="#{usersinterface.password}" placeholder="password" styleClass="accountUpdateFields" />
 							</span>
 							<span class="accountUpdateFields">
-							<h:commandButton action="#{usersinterface.updateUsername()}" styleClass="accountUpdateFields" value="submit" update="growl" />					
+							<h:commandButton action="#{usersinterface.updateUsername()}" styleClass="accountUpdateFields" value="submit" update="growl" />												
+							
 							</span>
 						
 					</div>
@@ -54,7 +55,8 @@
 								<p:password value="#{usersinterface.password}" placeholder="password" styleClass="accountUpdateFields" />
 							</span>
 							<span class="accountUpdateFields">
-								<h:commandButton action="#{usersinterface.updateEmail()}" styleClass="accountUpdateFields" value="submit" update="growl" />
+							<h:commandButton action="#{usersinterface.updateEmail()}" styleClass="accountUpdateFields" value="submit" update="growl" />
+							
 							</span>
 						</h:form>
 					</div>
@@ -79,17 +81,18 @@
 							</span>
 							<span class="accountUpdateFields">
 							<h:commandButton action="#{usersinterface.updatePassword()}" styleClass="accountUpdateFields" value="submit" update="growl" />
+							
 							</span>
 						</h:form>
 					</div>
 				</div>
 				
 				<div>
-				<h:form>
+				<h:form prependId="false">
 					<div class="accountDetailsMain"><a href="" id="closeAccountEditor">close account</a></div>
 					<div class="accountDetailsForm" id="closeAccountForm">
 					<span class="accountUpdateFields"><p:password placeholder="password" value="#{usersinterface.password}" /></span>
-					<span class="accountUpdateFields"><h:commandButton value="Close account" action="#{usersinterface.delete()}" /></span>
+					<span class="accountUpdateFields"><h:commandButton id="closeAccountBtn" value="Close account" action="#{usersinterface.delete()}" /></span>
 					</div>
 				</h:form>
 				</div>

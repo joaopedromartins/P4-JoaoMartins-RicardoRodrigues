@@ -50,8 +50,36 @@ public class SigninEJB {
 
 	public boolean delete(String username, String password) {
 		String cryptPass = crypt.encrypt(password, username);
-		em.createQuery("delete from User u where u.name like :username and u.password like :password").
-		setParameter("username", username).setParameter("password", cryptPass).executeUpdate();
+		
+		TypedQuery<User> qU = em.createQuery("from User u where u.name like :username and u.password like :password", User.class);
+		qU.setParameter("username", username);
+		qU.setParameter("password", cryptPass);
+		List<User> users = qU.getResultList();
+		
+		User u;
+		if (!users.isEmpty()) u = users.get(0);
+		else return false;
+		
+		// music removal
+		TypedQuery<Music> qM = em.createQuery("from Music m where m.user = :user", Music.class);
+		qM.setParameter("user", u);
+		List<Music> listMusic = qM.getResultList();
+		
+		for (Music m : listMusic) {
+			m.setUser(null);
+			em.persist(m);
+		}
+		
+		// playlist removal
+		TypedQuery<Playlist> qP = em.createQuery("from Playlist p where p.user = :user", Playlist.class);
+		qP.setParameter("user", u);
+		List<Playlist> playlists = qP.getResultList();
+		
+		for (Playlist p : playlists) {
+			// delete TODO
+		}
+		
+		em.remove(u);
     	
     	return true;
     }

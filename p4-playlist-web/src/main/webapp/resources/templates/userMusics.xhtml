@@ -25,9 +25,16 @@
 				<div class="uploadFormInput"><p:inputText value="#{uploader.album}" placeholder="album" /></div>
 				<div class="uploadFormInput"><p:inputText value="#{uploader.genre}" placeholder="genre" /></div>
 				<div class="uploadFormInput"><p:inputText value="#{uploader.year}" placeholder="year" /></div>
-				<div class="uploadFormInput"><h:inputFile id="file" value="#{uploader.file}" /></div>
-				<div class="uploadFormInput"><h:commandButton value="Upload" action="#{uploader.upload}" /></div>
-			</h:form>
+				<div class="uploadFormInput"><h:inputFile id="fileInput" value="#{uploader.file}" />
+					</div>
+
+					<div class="uploadFormInput">
+						
+							<h:commandButton value="Upload" action="#{uploader.upload}" />
+								
+						
+					</div>
+				</h:form>
 		</div>
 		
 		<h:form class="musicListFilter">
@@ -37,10 +44,12 @@
 			</h:selectOneMenu>
 			</span>
 			<span class="accountUpdateFields">
-			<p:inputText value="#{musicFilters.field}" />
+			<p:inputText value="#{musicFilters.field}" placeholder="filter keyword" />
 			</span>
 			<span class="accountUpdateFields">
+			
 			<h:commandButton action="#{musicFilters.addFilter()}" value="Filter" />
+			
 			</span>
 			
 			<span id="filterList">
@@ -48,9 +57,12 @@
 					<span class="filterUnit">
 					<span class="filterText">#{filter}</span>
 					<span class="filterRemoval">
-						<sup><h:commandLink style="color:red;text-decoration:none;"
+						<sup>
+							<f:ajax render="@form">
+							<h:commandLink style="color:red;text-decoration:none;"
 					value="x" action="#{musicFilters.removeFilter(status.index)}" />
-					</sup>
+							</f:ajax>
+						</sup>
 					</span>
 					</span>
 				</ui:repeat>
@@ -84,8 +96,10 @@
 										id="hidden#{status.index}"
 										value="#{music.filename}" />
 								</span>
-								<span class="userMusicCell userMusicCellSmall"> <h:commandLink
+								<span class="userMusicCell userMusicCellSmall"> 
+								<f:ajax render="@form"><h:commandLink
 										value="remove" action="#{uploader.remove(music.id)}" /> 
+										</f:ajax>
 								</span>
 							</div>
 						</ui:repeat>

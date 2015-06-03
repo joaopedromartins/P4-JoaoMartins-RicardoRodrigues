@@ -48,7 +48,7 @@ public class MusicFilters implements Serializable {
 	
 	public void addFilter() {
 		if (field == null || field.equals("") || field.contains(":")) return;
-
+		System.out.println("here");
 		for (int i = 0; i < activeFilters.size(); i++) {
 			if (filters.get(i).equals(filter)) {
 				activeFilters.set(i, field);

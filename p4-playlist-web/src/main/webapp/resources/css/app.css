@@ -8,13 +8,15 @@ html, body {
 }
 
 #playerScreen {
-	height: 1200px;
-	background: red;
+	background: rgb(152, 115, 115);
 	width: 30%;
-	position: absolute;
+	height: 100%;
+	position: fixed;
 	left: 97%;
 	top: 0;
 	transition: left 1s;
+	color: white;
+	  border-left: solid 3px black;
 }
 
 
@@ -29,7 +31,7 @@ html, body {
 }
 
 nav {
-	  background-color: black;
+	  background-color: rgb(152, 115, 115);
   height: 47px;
   width: 97%;
   margin-top: -15px;
@@ -42,19 +44,22 @@ nav li {
 }
 
 nav li.selected {
-	background: red;
-	color: white;
+	background: whitesmoke;
 	font-weight: bold;
 }
 
 nav li.username {
-	color: white;
+	color: whitesmoke;
 	margin-left: 47%;
 }
 
 nav li a {
 	text-decoration: none;
-	color: blue;
+	color: whitesmoke;
+}
+
+nav li.selected a {
+	color: rgb(152, 115, 115);
 }
 
 .playlistScreen {
