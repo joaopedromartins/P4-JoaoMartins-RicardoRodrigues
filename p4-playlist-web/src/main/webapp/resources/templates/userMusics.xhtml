@@ -91,17 +91,24 @@
 								<span class="userMusicCell userMusicCellSmall">#{music.year}</span>
 								<span class="userMusicCell userMusicCellSmall">#{music.genre}</span>
 								<span class="userMusicCell userMusicCellSmall">#{music.duration}</span>
-								<span class="userMusicCell userMusicCellSmall"> <h:link
+								<span class="userMusicCell userMusicCellLink"> <h:link
 										value="play" class="playBtn" id="btn#{status.index}" /> <h:inputHidden
 										id="hidden#{status.index}"
 										value="#{music.filename}" />
 								</span>
-								<span class="userMusicCell userMusicCellSmall"> 
+								<span class="userMusicCell userMusicCellLink"> 
+								<a href="#" id="editMusicBtn#{status.index}" class="editMusicBtn">edit</a>
+								</span>
+								<span class="userMusicCell userMusicCellLink"> 
 								<f:ajax render="@form"><h:commandLink
 										value="remove" action="#{uploader.remove(music.id)}" /> 
 										</f:ajax>
 								</span>
 							</div>
+							<div class="userMusicRow userMusicRowEditor hidden" id="musicEditorRow#{status.index}">
+								kladfjsk
+							</div>
+							
 						</ui:repeat>
 					</h:panelGroup>
 

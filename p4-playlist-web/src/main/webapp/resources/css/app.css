@@ -114,6 +114,10 @@ nav li.selected a {
 	width: 90px;	
 }
 
+.userMusicCellLink {
+	width: 60px;	
+}
+
 .userMusicHeader {
 	  padding: 10px 10px 3px 10px;
   		font-weight: bold;
@@ -150,4 +154,8 @@ nav li.selected a {
 
 .uploadFormInput {
 	margin: 5px 20px;
+}
+
+.hidden {
+	display: none;
 }
