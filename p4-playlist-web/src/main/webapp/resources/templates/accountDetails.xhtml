@@ -13,13 +13,14 @@
 
 <h:body>
 	<ui:composition>
-					<h2 id="accountTitle">#{userSession.username}</h2>
-		<h:panelGroup id="accountDetails">
+					
+		<h:panelGroup id="accountDetails" styleClass="accountSection ui-grid-col-11">
+			<h2>Account Details</h2>
 				<h:form>
 			
 					<div class="accountDetailsMain">
 					<span class="accountLabel">Username: </span>
-					<span class="accountValue">#{userSession.username}</span>
+					<h:panelGroup class="accountValue" id="usernameValue">#{userSession.username}</h:panelGroup>
 					<span class="accountEdit"><a href="" id="usernameEditor">edit</a></span>
 					</div>
 					<div class="accountDetailsForm" id="usernameDetailsForm">
@@ -32,20 +33,22 @@
 							<p:password value="#{usersinterface.password}" placeholder="password" styleClass="accountUpdateFields" />
 							</span>
 							<span class="accountUpdateFields">
-							<h:commandButton action="#{usersinterface.updateUsername()}" styleClass="accountUpdateFields" value="submit" update="growl" />					
+							<f:ajax render="usernameValue accountUsername" execute="@form">
+							<h:commandButton action="#{usersinterface.updateUsername()}" styleClass="accountUpdateFields" value="submit" update="growl" />												
+							</f:ajax>
 							</span>
 						
 					</div>
 				</h:form>
 				
 				<div>
+						<h:form>
 					<div class="accountDetailsMain">
 					<span class="accountLabel">Email: </span>
-					<span class="accountValue">#{userSession.email}</span>
+					<h:panelGroup class="accountValue" id="accountEmail">#{userSession.email}</h:panelGroup>
 					<span class="accountEdit"><a href="" id="emailEditor">edit</a></span>
 					</div>
 					<div class="accountDetailsForm" id="emailDetailsForm">
-						<h:form>
 							<span class="accountUpdateFields">
 								<p:inputText value="#{usersinterface.email}" placeholder="email" styleClass="accountUpdateFields" validator="emailValidator" />
 							</span>
@@ -53,20 +56,22 @@
 								<p:password value="#{usersinterface.password}" placeholder="password" styleClass="accountUpdateFields" />
 							</span>
 							<span class="accountUpdateFields">
-								<h:commandButton action="#{usersinterface.updateEmail()}" styleClass="accountUpdateFields" value="submit" update="growl" />
+							<f:ajax render="accountEmail" execute="@form">
+							<h:commandButton action="#{usersinterface.updateEmail()}" styleClass="accountUpdateFields" value="submit" update="growl" />
+							</f:ajax>
 							</span>
-						</h:form>
 					</div>
+						</h:form>
 				</div>
 				
 				<div>
+						<h:form>
 					<div class="accountDetailsMain">
 					<span class="accountLabel">Password: </span>
 					<span class="accountValue">****</span>
 					<span class="accountEdit"><a href="" id="passwordEditor">edit</a></span>
 					</div>
 					<div class="accountDetailsForm" id="passwordDetailsForm">
-						<h:form>
 							<span class="accountUpdateFields">
 							<p:password value="#{usersinterface.password}" placeholder="new password" />
 							</span>
@@ -77,18 +82,20 @@
 							<p:password value="#{usersinterface.oldPassword}" styleClass="accountUpdateFields" placeholder="old password" />
 							</span>
 							<span class="accountUpdateFields">
+							<f:ajax execute="@form">
 							<h:commandButton action="#{usersinterface.updatePassword()}" styleClass="accountUpdateFields" value="submit" update="growl" />
+							</f:ajax>
 							</span>
-						</h:form>
 					</div>
+						</h:form>
 				</div>
 				
 				<div>
-				<h:form>
+				<h:form prependId="false">
 					<div class="accountDetailsMain"><a href="" id="closeAccountEditor">close account</a></div>
 					<div class="accountDetailsForm" id="closeAccountForm">
 					<span class="accountUpdateFields"><p:password placeholder="password" value="#{usersinterface.password}" /></span>
-					<span class="accountUpdateFields"><h:commandButton value="Close account" action="#{usersinterface.delete()}" /></span>
+					<span class="accountUpdateFields"><h:commandButton id="closeAccountBtn" value="Close account" action="#{usersinterface.delete()}" /></span>
 					</div>
 				</h:form>
 				</div>

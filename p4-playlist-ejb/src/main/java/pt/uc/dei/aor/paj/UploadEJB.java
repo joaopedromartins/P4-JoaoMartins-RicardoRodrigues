@@ -30,14 +30,14 @@ public class UploadEJB {
 	@Inject
 	private LoginEJB loginEJB;
 	
-	public MusicDTO upload(Part part, String title, String author, String album, String genre, String username, int year) {
-		String filename = title+"_"+author+"_"+album+".mp3";
+	public MusicDTO upload(Part part, String title, String author, String album, String genre, String username, String year, String path) {
+		String filename = "music/"+title+"_"+author+"_"+album+".mp3";
 		try {
 			String ext = part.getSubmittedFileName().split("\\.")[1];
 			if (!ext.equals("mp3")) return null;
 			
 			InputStream in = part.getInputStream();
-			File outFile = new File("music/"+filename);
+			File outFile = new File(filename);
 			OutputStream out = new FileOutputStream(outFile);
 			
 			byte[] buffer = new byte[4096];          
@@ -57,11 +57,12 @@ public class UploadEJB {
 			Map<String, Object> properties = baseFileFormat.properties();
 
 			int duration = (int) ((long)properties.get("duration")/1000000);
+			filename = path+"/"+filename;
 			
-	        Music m = new Music(title, author, album, genre, filename, duration, loginEJB.findUserByUsername(username), year);
+	        Music m = new Music(title, author, album, genre, filename, duration, loginEJB.findUserByUsername(username), Integer.parseInt(year));
 	        em.persist(m);
 	        
-			return new MusicDTO(title, author, album, genre, convertMinutes(duration), filename, year, m.getId()); 
+			return new MusicDTO(title, author, album, genre, convertMinutes(duration), filename, Integer.parseInt(year), m.getId()); 
 		}
 		catch (Exception e) {
 			return null;
@@ -70,7 +71,7 @@ public class UploadEJB {
 	}
 
 	public boolean editMusic(int id, String title, String author, String album,
-			String genre, int year) {
+			String genre, String year) {
 		TypedQuery<Music> q = em.createQuery("from Music m where m.id = :id", Music.class);
 		q.setParameter("id", id);
 		Music m = q.getResultList().get(0);
@@ -79,7 +80,7 @@ public class UploadEJB {
 		m.setAuthor(author);
 		m.setAlbum(album);
 		m.setGenre(genre);
-		m.setYear(year);
+		m.setYear(Integer.parseInt(year));
 		
 		em.persist(m);
 		return true;

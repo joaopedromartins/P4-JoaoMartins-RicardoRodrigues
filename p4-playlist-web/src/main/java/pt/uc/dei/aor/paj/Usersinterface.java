@@ -117,6 +117,7 @@ public class Usersinterface implements Serializable {
 		userSession.setEmail(null);
 		userSession.setUsername(null);
 		session.setAttribute("loggedin", false);
+		session.invalidate();
 	}
 	
 	private void startSession(UserDTO user) {

@@ -1,9 +1,12 @@
 package pt.uc.dei.aor.paj;
 
 import java.time.LocalDate;
+
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 
@@ -19,13 +22,16 @@ public class Uploader {
 	@Inject 
 	private MusicList musicList;
 	
+	@Inject
+	private MusicFilters musicFilter;
+	
 	private Part file;
 	
 	private String title;
 	private String author;
 	private String album;
 	private String genre;
-	private int year = LocalDate.now().getYear();
+	private String year;
 	
 	
 	public String getTitle() {
@@ -64,7 +70,10 @@ public class Uploader {
 	
 	
 	public void upload() {
-		ejb.upload(file, title, author, album, genre, userSession.getUsername(), year);
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		String path = session.getServletContext().getContextPath();
+		ejb.upload(file, title, author, album, genre, userSession.getUsername(), year, path);
+		musicFilter.updateList();
 	}
 
 	public String getAlbum() {
@@ -75,11 +84,11 @@ public class Uploader {
 		this.album = album;
 	}
 
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
@@ -101,12 +110,13 @@ public class Uploader {
 	
 	public void remove(int id) {
 		if (ejb.removeMusic(id)) {
-			for (MusicDTO m : musicList.getMusics()) {
+			for (MusicDTO m : musicFilter.getListMusics()) {
 				if (m.getId() == id) {
 					musicList.getMusics().remove(m);
 					break;
 				}
 			}
+			musicFilter.updateList();
 		}
 	}
 	

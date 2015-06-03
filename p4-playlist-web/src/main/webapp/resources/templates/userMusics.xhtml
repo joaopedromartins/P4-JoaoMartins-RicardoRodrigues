@@ -13,52 +13,120 @@
 
 <h:body>
 	<ui:composition>
-		<div id="userMusicFilter">
-		<h:form>
-			<p:selectOneMenu value="#{musicFilters.filter}">
-				<f:selectItems value="#{musicFilters.filters}" />
-			</p:selectOneMenu>
-			<p:inputText value="#{musicFilters.field}" />
-			<h:commandButton action="#{musicFilters.addFilter()}" value="Filter" />
-			<span id="filterList">
-				<ui:repeat var="filter" value="#{musicFilters.activeFilters}" varStatus="status">
-					<span>#{filter}</span>
-					<span>
-						<h:commandLink style="color:red;text-decoration:none;"
-					value="x" action="#{musicFilters.removeFilter(status.index)}" />
+		<div id="userMusicFilter" class="accountSection ui-grid-col-11">
+			<h2>Uploaded Music</h2>
+			<a href="" id="newMusicBtn">new music</a>
+
+			<div id="musicUploaderFormContainer">
+				<h3>Add new music</h3>
+				<h:form id="musicUploaderForm" enctype="multipart/form-data">
+					<div class="uploadFormInput">
+						<p:inputText value="#{uploader.title}" placeholder="title" />
+					</div>
+					<div class="uploadFormInput">
+						<p:inputText value="#{uploader.author}" placeholder="artist" />
+					</div>
+					<div class="uploadFormInput">
+						<p:inputText value="#{uploader.album}" placeholder="album" />
+					</div>
+					<div class="uploadFormInput">
+						<p:inputText value="#{uploader.genre}" placeholder="genre" />
+					</div>
+					<div class="uploadFormInput">
+						<p:inputText value="#{uploader.year}" placeholder="year" />
+					</div>
+					<div class="uploadFormInput">
+						<h:inputFile id="fileInput" value="#{uploader.file}" />
+					</div>
+
+					<div class="uploadFormInput">
+						<f:ajax execute="@form" render="userMusicList">
+						<h:commandButton value="Upload" action="#{uploader.upload}" />
+						</f:ajax>
+
+					</div>
+				</h:form>
+			</div>
+			
+			<h:form>
+			<span class="accountUpdateFields"> 
+				<h:selectOneMenu id="filterField"
+					value="#{musicFilters.filter}">
+					<f:selectItems value="#{musicFilters.filters}" />
+				</h:selectOneMenu>
+				</span> 
+			<span class="accountUpdateFields">
+				<p:inputText value="#{musicFilters.field}" id="filterKeyword"
+					placeholder="filter keyword" />
+			</span> 
+			<span class="accountUpdateFields">
+			<f:ajax render="@form userMusicList" execute="filterKeyword filterField">
+			 <h:commandButton
+					action="#{musicFilters.addFilter()}" value="Filter" />
+					</f:ajax>
+
+			</span> 
+			<span id="filterList"> 
+				<ui:repeat var="filter"
+					value="#{musicFilters.activeFilters}" varStatus="status">
+					<span class="filterUnit"> <span class="filterText">#{filter}</span>
+						<span class="filterRemoval"> <sup> <f:ajax
+									render="@form userMusicList">
+									<h:commandLink style="color:red;text-decoration:none;"
+										value="x" action="#{musicFilters.removeFilter(status.index)}" />
+								</f:ajax>
+						</sup>
+					</span>
 					</span>
 				</ui:repeat>
 			</span>
+			</h:form>
 			
-			<div id="userMusicList">
-				<h:panelGroup rendered="#{empty musicFilters.listMusics}">
+			<h:panelGroup id="userMusicList">
+				<h:form>
+					<h:panelGroup rendered="#{empty musicFilters.listMusics}">
 					No results
 				</h:panelGroup>
-				<h:panelGroup rendered="#{not empty musicFilters.listMusics}">
-					<div class="userMusicHeader">
-						<span>Title</span>
-						<span>Artist</span>
-						<span>Album</span>
-						<span>Year</span>				
-						<span>Genre</span>				
-						<span>Duration</span>
-					</div>
-				</h:panelGroup>
-				
-				<ui:repeat value="#{musicFilters.listMusics}" var="music">
-					<div class="userMusicRow">
-						<span>#{music.title}</span>
-						<span>#{music.author}</span>
-						<span>#{music.album}</span>
-						<span>#{music.year}</span>				
-						<span>#{music.genre}</span>				
-						<span>#{music.duration}</span>
-					</div>
-				</ui:repeat>
+					<h:panelGroup rendered="#{not empty musicFilters.listMusics}">
+						<div class="userMusicHeader">
+							<span class="userMusicCellLarge userMusicCell">Title</span> <span
+								class="userMusicCellLarge userMusicCell">Artist</span> <span
+								class="userMusicCellLarge userMusicCell">Album</span> <span
+								class="userMusicCell userMusicCellSmall">Year</span> <span
+								class="userMusicCell userMusicCellSmall">Genre</span> <span
+								class="userMusicCell userMusicCellSmall">Duration</span>
+						</div>
+
+						<ui:repeat value="#{musicFilters.listMusics}" var="music"
+							varStatus="status">
+							<div class="userMusicRow">
+								<span class="userMusicCellLarge userMusicCell">#{music.title}</span>
+								<span class="userMusicCellLarge userMusicCell">#{music.author}</span>
+								<span class="userMusicCellLarge userMusicCell">#{music.album}</span>
+								<span class="userMusicCell userMusicCellSmall">#{music.year}</span>
+								<span class="userMusicCell userMusicCellSmall">#{music.genre}</span>
+								<span class="userMusicCell userMusicCellSmall">#{music.duration}</span>
+								<span class="userMusicCell userMusicCellLink"> <h:link
+										value="play" class="playBtn" id="btn#{status.index}" /> <h:inputHidden
+										id="hidden#{status.index}" value="#{music.filename}" />
+								</span> <span class="userMusicCell userMusicCellLink"> <h:outputLink
+									 id="editMusicBtn#{status.index}" styleClass="editMusicBtn">edit</h:outputLink>
+								</span> <span class="userMusicCell userMusicCellLink"> <f:ajax
+										render="@form">
+										<h:commandLink value="remove"
+											action="#{uploader.remove(music.id)}" />
+									</f:ajax>
+								</span>
+							</div>
+							<div class="userMusicRow userMusicRowEditor hidden"
+								id="musicEditorRow#{status.index}">kladfjsk</div>
+
+						</ui:repeat>
+					</h:panelGroup>
+				</h:form>
+		</h:panelGroup>
 			</div>
-		</h:form>
-		</div>			
-		
+
 
 	</ui:composition>
 </h:body>

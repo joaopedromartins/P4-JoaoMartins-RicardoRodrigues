@@ -8,8 +8,10 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import java.io.Serializable;
 
@@ -23,7 +25,8 @@ public class MusicFilters implements Serializable {
 	private String filter = "title";
 	private String field;
 	private List<MusicDTO> listMusics;
-	
+
+
 	@Inject
 	private MusicEJB ejb;
 	
@@ -32,17 +35,19 @@ public class MusicFilters implements Serializable {
 	
 	public MusicFilters() {
 		activeFilters = Arrays.asList(new String[]{null, null, null, null, null});
+		
 	}
 	
+	
+
 	@PostConstruct
 	public void init() {
-		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
+		updateList();
 	}
 	
 	
 	public void addFilter() {
 		if (field == null || field.equals("") || field.contains(":")) return;
-
 		for (int i = 0; i < activeFilters.size(); i++) {
 			if (filters.get(i).equals(filter)) {
 				activeFilters.set(i, field);
@@ -50,7 +55,7 @@ public class MusicFilters implements Serializable {
 			}
 		}
 		
-		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
+		updateList();
 		field = "";
 	}
 	
@@ -68,7 +73,7 @@ public class MusicFilters implements Serializable {
 			}
 		}
 		
-		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
+		updateList();
 		field = "";
 	}
 
@@ -115,6 +120,14 @@ public class MusicFilters implements Serializable {
 	public void setListMusics(List<MusicDTO> listMusics) {
 		this.listMusics = listMusics;
 	}
+
+
+
+	public void updateList() {
+		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
+	}
+
+	
 	
 	
 }

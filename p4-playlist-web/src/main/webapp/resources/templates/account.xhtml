@@ -15,27 +15,10 @@
 	<ui:composition>
 		<div id="accountScreen" class="playlistScreen">
 			
-			
 			<ui:include src="accountDetails.xhtml" />
-			
+			<br />
 			<ui:include src="userMusics.xhtml" />
 			
-			<h:form id="form" enctype="multipart/form-data">
-				<h:outputLabel value="title" />
-				<h:inputText value="#{uploader.title}" />
-				<h:outputLabel value="Author" />
-				<h:inputText value="#{uploader.author}" />
-				<h:outputLabel value="Album" />
-				<h:inputText value="#{uploader.album}" />
-				<h:outputLabel value="Genre" />
-				<h:inputText value="#{uploader.genre}" />
-				<h:outputLabel value="Year" />
-				<h:inputText value="#{uploader.year}" />
-
-				<h:inputFile id="file" value="#{uploader.file}" />
-				<h:commandButton value="Upload" action="#{uploader.upload}" />
-			</h:form>
-
 
 			
 

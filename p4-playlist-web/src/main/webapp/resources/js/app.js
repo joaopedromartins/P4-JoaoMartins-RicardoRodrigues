@@ -68,4 +68,31 @@ $(function() {
 		$("#closeAccountForm").show();
 		return false;
 	});
+	
+	$("#newMusicBtn").click(function(e) {
+		$("#musicUploaderFormContainer").toggle();
+		return false;
+	});
+	
+	$("#closeAccountBtn").click(function() {
+		var response = confirm("Are you sure?");
+		if (!response) return false;
+	});
+	
+	$(".editMusicBtn").click(function() {
+		var id = $(this).attr("id");
+		var n = id.substring(12, id.length);
+		var  row = $("#musicEditorRow"+n);
+		
+		if (!row.hasClass("hidden"))  {
+			row.addClass("hidden");
+			return false;
+		}
+		else {
+			$(".userMusicRowEditor").addClass("hidden");
+			row.removeClass("hidden");
+		}
+		
+		return false;
+	});
 });
