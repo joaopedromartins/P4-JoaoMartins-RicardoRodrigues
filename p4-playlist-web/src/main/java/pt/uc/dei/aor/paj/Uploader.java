@@ -93,31 +93,17 @@ public class Uploader {
 	}
 
 	
-	public void edit(int id) {
+	public void update(int id) {
 		if (ejb.editMusic(id, title, author, album, genre, year)) {
-			for (MusicDTO m : musicList.getMusics()) {
-				if (m.getId() == id) {
-					m.setAlbum(album);
-					m.setAuthor(author);
-					m.setTitle(title);
-					m.setYear(id);
-					m.setGenre(genre);
-					break;
-				}
-			}
+			musicFilter.updateList();
 		}
 	}
 	
 	public void remove(int id) {
 		if (ejb.removeMusic(id)) {
-			for (MusicDTO m : musicFilter.getListMusics()) {
-				if (m.getId() == id) {
-					musicList.getMusics().remove(m);
-					break;
-				}
-			}
 			musicFilter.updateList();
 		}
+		musicFilter.setEditorChoice(-1);
 	}
 	
 	public boolean isEditable(int id) {

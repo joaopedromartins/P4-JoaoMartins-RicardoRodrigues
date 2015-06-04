@@ -25,6 +25,7 @@ public class MusicFilters implements Serializable {
 	private String filter = "title";
 	private String field;
 	private List<MusicDTO> listMusics;
+	private int editorChoice = -1;
 
 
 	@Inject
@@ -127,7 +128,22 @@ public class MusicFilters implements Serializable {
 		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
 	}
 
+
+
+	public int getEditorChoice() {
+		return editorChoice;
+	}
+
+
+
+	public void setEditorChoice(int editorChoice) {
+		this.editorChoice = editorChoice;
+	}
+
 	
-	
+	public void changeEditor(int i) {
+		if (editorChoice == i) editorChoice = -1;
+		else editorChoice = i;
+	}
 	
 }
