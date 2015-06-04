@@ -198,14 +198,14 @@ public class Playlistinterface implements Serializable {
 	
 	//metodo para seleccionar uma musica da playlist
 	public void selectmusic(ActionEvent ae) {
-		System.out.println("seleccionar uma musica da playlist:");
+		//System.out.println("seleccionar uma musica da playlist:");
 		//atribui o nome da playlist correspondente ao botao da linha seleccionada
 		int selectedmusicid = (int)(ae.getComponent().getAttributes().get("selectedmusicline"));
-		System.out.println("id="+selectedmusicid);
+		//System.out.println("id="+selectedmusicid);
 		for (PlaylistMusicDTO i:listaplaylistmusics) {
 			if (selectedmusicid==i.getId()) {
 				this.selectedmusic=i;
-				System.out.println("selectedmusic:\n"+selectedmusic);
+				//System.out.println("selectedmusic:\n"+selectedmusic);
 			}
 		}
 	}
@@ -224,15 +224,21 @@ public class Playlistinterface implements Serializable {
 		if (existe) {
 			msgerro="Erro: Já existe uma playlist com esse nome: "+playlistnewname;
 		} else if(playlist.renPlaylist( loggeduser.getUsername(), playlistname, playlistnewname)) {
-			
+			msgerro="";
 		}
 		
 		
 	}
 	
 	//metodo para apagar uma musica da playlist
-	public void delmusicfromplaylist(ActionEvent ae) {
-
+	public void delmusicfromplaylist() {
+		System.out.println("Apagar uma musica da playlist:"+selectedmusic);
+		if ( playlistEntry.delMusicfromPlaylistName( loggeduser.getUsername(), playlistname, selectedmusic.getId()) ) {
+			msgerro="";
+			selectedmusic=null;
+		} else {
+			msgerro="Erro ao apagar uma musica da playlist.";
+		}
 	}
 	
 	//metodo para mover para cima uma musica na playlist

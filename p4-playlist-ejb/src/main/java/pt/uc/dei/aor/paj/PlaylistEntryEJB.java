@@ -87,4 +87,74 @@ public class PlaylistEntryEJB {
     		return retorno;
     	}
 	}
+	
+	public boolean delMusicfromPlaylistName(String username, String playlistname, int musicid) {
+		
+		System.out.println("Before TypedQuery delMusicfromPlaylistName !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		//testar se o campo utilizador esta preenchido
+		if (username.length() <= 2) {
+			return false;
+		}
+    	
+		//testar se o campo nome da playlist esta preenchido
+    	if (playlistname.length() <= 2) {
+    		return false;
+    	}
+    	
+    	//testar se o id da musica e inteiro positivo
+    	if (musicid<1) {
+    		return false;
+    	}
+    	
+    	//testar se existe a utilizador com esse nome
+    	User loggedUser = loginEJB.findUserByUsername(username);
+    	if ( loggedUser == null) {
+    		return false;
+    	}
+    	
+    	//testar se existe playlist com esse nome
+		TypedQuery<Playlist> q = em.createQuery("from Playlist l where l.user = :user and l.title like :title", Playlist.class);
+		q.setParameter("user", loggedUser);
+		q.setParameter("title", playlistname);
+		List<Playlist> l = q.getResultList();
+    	if (l.isEmpty()) {
+    		return false;
+    	}
+    	
+    	
+    	System.out.println("Music id: "+musicid);
+    	//testar se existe uma musica com esse id
+		TypedQuery<Music> qm = em.createQuery("from Music m where m.id = :musicid ", Music.class);
+		qm.setParameter("musicid", musicid);
+		List<Music> musica = qm.getResultList();
+    	if (musica.isEmpty()) {
+    		System.out.println("Musica invalida: ID="+musicid);
+    		return false;
+    	}
+    	
+    	//seleccionar id da playlistentry
+    	TypedQuery<Integer> lm = em.createQuery("select ple.id "
+				+ "from PlaylistEntry ple "
+				+ "inner join ple.playlist pl " 
+				+ "where pl.user = :user"
+				+ "	and pl.title like :title"
+				+ " and ple.music.id = :musicid", Integer.class);
+		lm.setParameter("user", loggedUser);
+		lm.setParameter("title", playlistname);
+		lm.setParameter("musicid", musicid);
+		List<Integer> result = lm.getResultList();
+		
+		//apagar playlistentry com o id seleccionado
+    	em.createQuery("delete from PlaylistEntry ple where ple.id = :pleid ").
+    	setParameter("pleid", result).executeUpdate();
+    	
+		System.out.println("teste remove entry----------------------------------------");
+		for (int i: result) {
+			System.out.println(i);
+		}
+		
+		//.......................................
+		
+		return true;
+	}
 }
