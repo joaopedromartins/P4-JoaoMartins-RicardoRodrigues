@@ -44,4 +44,10 @@ public class Playlist implements Serializable {
 	public String toString() {
 		return title+" -> "+date.toString();
 	}
+
+	public String getTitle() {
+		return title;
+	}
+	
+	
 }

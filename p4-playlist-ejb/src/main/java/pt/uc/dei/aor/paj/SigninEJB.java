@@ -24,8 +24,14 @@ public class SigninEJB {
 	@Inject
 	private LoginEJB loginEJB;
 	
+	@Inject 
+	private PlaylistEJB playlistEJB;
+	
 	@Inject
 	private EncryptEJB crypt;
+	
+	@Inject 
+	private MusicEJB musicEJB;
 	
     public SigninEJB() {
         // TODO Auto-generated constructor stub
@@ -66,8 +72,7 @@ public class SigninEJB {
 		List<Music> listMusic = qM.getResultList();
 		
 		for (Music m : listMusic) {
-			m.setUser(null);
-			em.persist(m);
+			musicEJB.remove(m);
 		}
 		
 		// playlist removal
@@ -76,7 +81,7 @@ public class SigninEJB {
 		List<Playlist> playlists = qP.getResultList();
 		
 		for (Playlist p : playlists) {
-			// delete TODO
+			playlistEJB.delPlaylist(u.getName(), p.getTitle());
 		}
 		
 		em.remove(u);

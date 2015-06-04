@@ -126,6 +126,7 @@ public class MusicFilters implements Serializable {
 
 	public void updateList() {
 		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
+		editorChoice = -1;
 	}
 
 

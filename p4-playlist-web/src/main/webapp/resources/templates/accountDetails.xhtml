@@ -33,7 +33,7 @@
 							<p:password value="#{usersinterface.password}" placeholder="password" styleClass="accountUpdateFields" />
 							</span>
 							<span class="accountUpdateFields">
-							<f:ajax render="usernameValue accountUsername" execute="@form">
+							<f:ajax render="usernameValue :accountUsername" execute="@form">
 							<h:commandButton action="#{usersinterface.updateUsername()}" styleClass="accountUpdateFields" value="submit" update="growl" />												
 							</f:ajax>
 							</span>

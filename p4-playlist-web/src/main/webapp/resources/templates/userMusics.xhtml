@@ -40,7 +40,7 @@
 					</div>
 
 					<div class="uploadFormInput">
-						<f:ajax execute="@form" render="userMusicList">
+						<f:ajax execute="@form" render=":userMusicList :userMusicListContainer">
 							<h:commandButton value="Upload" action="#{uploader.upload}" />
 						</f:ajax>
 
@@ -69,7 +69,7 @@
 						value="#{musicFilters.activeFilters}" varStatus="status">
 						<span class="filterUnit"> <span class="filterText">#{filter}</span>
 							<span class="filterRemoval"> <sup> <f:ajax
-										render="@form userMusicList">
+										render="@form :userMusicList :userMusicListContainer">
 										<h:commandLink style="color:red;text-decoration:none;"
 											value="x" action="#{musicFilters.removeFilter(status.index)}" />
 									</f:ajax>
@@ -80,8 +80,8 @@
 				</span>
 			</h:form>
 
-			<h:panelGroup id="userMusicList">
-				<h:form>
+			<h:panelGroup id="userMusicListContainer">
+				<h:form id="userMusicList">
 					<h:panelGroup rendered="#{empty musicFilters.listMusics}">
 					No results
 				</h:panelGroup>
@@ -105,7 +105,7 @@
 								<span class="userMusicCell userMusicCellSmall">#{music.genre}</span>
 								<span class="userMusicCell userMusicCellSmall">#{music.duration}</span>
 								<span class="userMusicCell userMusicCellLink"> <h:outputLink
-										styleClass="playBtn" id="btn#{status.index}">play</h:outputLink>
+										styleClass="playBtn" id="btn#{status.index}" value="#">play</h:outputLink>
 									<h:inputHidden id="hidden#{status.index}"
 										value="#{music.filename}" />
 								</span> <span class="userMusicCell userMusicCellLink"> <f:ajax

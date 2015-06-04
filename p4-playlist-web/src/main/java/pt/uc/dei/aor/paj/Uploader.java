@@ -103,7 +103,6 @@ public class Uploader {
 		if (ejb.removeMusic(id)) {
 			musicFilter.updateList();
 		}
-		musicFilter.setEditorChoice(-1);
 	}
 	
 	public boolean isEditable(int id) {

@@ -110,6 +110,19 @@ public class MusicEJB {
     	return result;
 	}
     
+	
+	public void remove(Music m) {
+		TypedQuery<PlaylistEntry> q = em.createQuery("from PlaylistEntry pe where pe.music = :music", PlaylistEntry.class);
+		q.setParameter("music", m);
+		List<PlaylistEntry> list = q.getResultList();
+		
+		for (PlaylistEntry pe : list) {
+			em.remove(pe);
+		}
+		
+		em.remove(m);
+	}
+	
     
 	private String convertMinutes(int sec) {
 		String m = String.valueOf(sec%60);
