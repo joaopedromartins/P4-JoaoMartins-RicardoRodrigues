@@ -104,10 +104,7 @@ public class Playlistinterface implements Serializable {
 				
 				return listaplaylistnames;
 			} else if ( searchType.equals("tamanho") ) {
-				//......................... ERRO não mostra vazias
 				this.listaplaylistnames=playlist.listPlaylistTamanho(loggeduser.getUsername(), searchOrder);
-						
-						
 			} else {
 				//ignora seleccoes de searchType invalidas
 				this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername());
