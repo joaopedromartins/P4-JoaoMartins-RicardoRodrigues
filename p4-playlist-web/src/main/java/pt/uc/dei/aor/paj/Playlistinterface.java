@@ -17,6 +17,8 @@ public class Playlistinterface implements Serializable {
 	private String playlistname;
 	private String playlistnewname;
 	private String operacao;
+	private String searchOrder;
+	private String searchType;
 	private List<String> listaplaylistnames;
 	private List<PlaylistMusicDTO> listaplaylistmusics;
 	private PlaylistMusicDTO selectedmusic;
@@ -33,6 +35,8 @@ public class Playlistinterface implements Serializable {
 	public Playlistinterface() {
 		operacao="criar";
 		msgerro="";
+		setSearchOrder("asc");
+		searchType="title";
 	}
 
 	
@@ -60,6 +64,22 @@ public class Playlistinterface implements Serializable {
 		this.playlistname = playlistname;
 	}
 
+	//Getter associados à variável order
+	public String getSearchOrder() {
+		return searchOrder;
+	}
+	public void setSearchOrder(String searchOrder) {
+		this.searchOrder = searchOrder;
+	}
+
+	//Getter associados à variável searchType
+	public String getSearchType() {
+		return searchType;
+	}
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
 
 	//Getter associados à variável username
 	public String getUsername() {
@@ -69,7 +89,34 @@ public class Playlistinterface implements Serializable {
 
 	//Getter associados à lista Listaplaylistnames
 	public List<String> getListaplaylistnames() {
-		this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername());
+		//this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername());
+		//return listaplaylistnames;
+		
+		if (searchOrder.equals("asc") || searchOrder.equals("desc")) {
+			if ( searchType.equals("title") || searchType.equals("date") ) {
+				this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername(), searchType, searchOrder);
+				//TESTE
+				System.out.println("Lista de nomes");
+				for (String i: listaplaylistnames) {
+					System.out.println(i);
+				}
+				
+				
+				return listaplaylistnames;
+			} else if ( searchType.equals("tamanho") ) {
+				//......................... ERRO não mostra vazias
+				this.listaplaylistnames=playlist.listPlaylistTamanho(loggeduser.getUsername(), searchOrder);
+						
+						
+			} else {
+				//ignora seleccoes de searchType invalidas
+				this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername());
+			}
+		}
+		else {
+			//ignora seleccoes de ordem invalidas
+			this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername());
+		}
 		return listaplaylistnames;
 	}
 	
@@ -167,8 +214,22 @@ public class Playlistinterface implements Serializable {
 	}
 	
 	
-	//metodo para apagar uma musica da playlist
+	//metodo para mudar o nome de uma playlist
 	public void renameplaylist() {
+		//verificar se ja existe a playlist com o novo nome
+		boolean existe = false;
+		for (String i: listaplaylistnames) {
+			if (playlistnewname.equals(i)) {
+				existe=true;
+				break;
+			}
+		}
+		if (existe) {
+			msgerro="Erro: Já existe uma playlist com esse nome: "+playlistnewname;
+		} else {
+			
+		}
+		
 		
 	}
 	

@@ -92,12 +92,84 @@ public class PlaylistEJB {
     		return null;
     	}
     	
-    	TypedQuery<String> q = em.createQuery("select title from Playlist l where l.user = :user", String.class);
+    	TypedQuery<String> q = em.createQuery("select pl.title from Playlist pl where pl.user = :user order by pl.title", String.class);
 		q.setParameter("user", loggedUser);
 		List<String> l = q.getResultList();
 		
     	return l;
-    }	
+    }
+	
+	public List<String> listPlaylist(String username, String sortby, String ascdesc) {
+    	
+    	if (username.length() <= 2) return null;
+    	User loggedUser = loginEJB.findUserByUsername(username);
+    	
+    	//System.out.println("EJB list Logged user: "+loggedUser);
+    	if ( loggedUser == null) {
+    		return null;
+    	}
+    	
+    	if ( !(sortby.equals("title") || sortby.equals("date")) ) {
+    		return null;
+    	}
+    	
+    	if ( !(ascdesc.equals("asc") || ascdesc.equals("desc")) ) {
+    		return null;
+    	}
+    	String myquery= "select pl.title from Playlist pl where pl.user = :user order by pl."+sortby+" "+ascdesc;
+    	
+    	TypedQuery<String> q = em.createQuery(myquery, String.class);
+		q.setParameter("user", loggedUser);
+		List<String> l = q.getResultList();
+		
+		//System.out.println("----------------------------------------------");
+		//System.out.println("EJB Lista de playists com a query:\n"+myquery);
+		//for (String i:l) {
+		//	System.out.println(i);
+		//}
+		//System.out.println("----------------------------------------------");
+    	return l;
+    }
+	
+	
+public List<String> listPlaylistTamanho(String username, String ascdesc) {
+    	
+    	if (username.length() <= 2) return null;
+    	User loggedUser = loginEJB.findUserByUsername(username);
+    	
+    	//System.out.println("EJB list Logged user: "+loggedUser);
+    	if ( loggedUser == null) {
+    		return null;
+    	}
+    	
+    	if ( !(ascdesc.equals("asc") || ascdesc.equals("desc")) ) {
+    		ascdesc=""+"asc";
+    	}
+    	
+    	//ERRO String myquery= "select distinct pl.title, count(pl.title) as tamanho from Playlist pl inner join pl.entries ple group by pl.title where pl.user = :user order by tamanho "+ascdesc;
+    	//WORKS String myquery= "select pl.title, count(*) as tamanho from Playlist pl inner join pl.entries ple where pl.user = :user group by pl.title order by tamanho "+ascdesc;
+    	String myquery= "select distinct pl.title, count(*) as tamanho from Playlist pl inner join pl.entries ple where pl.user = :user order by tamanho "+ascdesc;
+    	
+    	TypedQuery<Object[]> q = em.createQuery(myquery, Object[].class);
+		q.setParameter("user", loggedUser);
+		List<Object[]> l = q.getResultList();
+		
+		List<String> s = new ArrayList<String>();
+		
+		System.out.println("----------------------------------------------");
+		System.out.println("EJB Lista de playists com a query:\n"+myquery);
+		for (Object[] i:l) {
+			System.out.println("Obj0: "+(String)i[0] + "    Obj1: "+i[1]);
+			s.add( ""+(String)i[0] );
+		}
+		System.out.println("----------------------------------------------");
+		for (String i:s) {
+			System.out.println(i);
+		}
+		System.out.println("----------------------------------------------");
+    	return s;
+    }
+	
 	
 	public Playlist findPlaylistByUsernameAndPlaylistName(String username, String playlistname) {
 		if (username.length() <= 2) return null;

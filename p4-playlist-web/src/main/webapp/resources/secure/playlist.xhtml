@@ -95,7 +95,19 @@
 														</h:column>
 													</h:dataTable>	
 												</h:panelGrid>	
-											</p:panel>		
+											</p:panel>
+											
+											<h:selectOneMenu value="#{playlistinterface.searchType}">
+												<f:selectItem itemLabel="Nome/Designação" itemValue="title" />
+												<f:selectItem itemLabel="Data de criação" itemValue="date" />
+												<f:selectItem itemLabel="Tamanho" itemValue="tamanho" />
+											</h:selectOneMenu>
+											
+											<h:selectOneMenu value="#{playlistinterface.searchOrder}">
+												<f:selectItem itemLabel="&uarr;" itemValue="asc" />
+												<f:selectItem itemLabel="Descendente" itemValue="desc" />
+											</h:selectOneMenu>
+																								
 										</h:panelGroup>	
 										
 										<h:panelGroup id="listamusicasplaylist" rendered="#{!empty playlistinterface.playlistname}">
