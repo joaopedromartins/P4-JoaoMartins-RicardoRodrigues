@@ -82,6 +82,36 @@ public class PlaylistEJB {
     }
 	
 	
+	public boolean renPlaylist(String username, String playlistname, String playlistnewname) {
+		if (username.length() <= 2) return false;
+    	if (playlistname.length() <= 2) return false;
+    	if (playlistnewname.length() <= 2) return false;
+    	
+    	//testar se existe o utilizador com esse nome
+    	User loggedUser = loginEJB.findUserByUsername(username);
+    	if ( loggedUser == null) return false;
+    	
+    	//testar se exite playlist com esse nome
+		TypedQuery<Playlist> q = em.createQuery("from Playlist l where l.user = :user and l.title like :title", Playlist.class);
+		q.setParameter("user", loggedUser);
+		q.setParameter("title", playlistname);
+		List<Playlist> l = q.getResultList();
+    	if (l.isEmpty()) return false;
+    	
+    	//testar se exite playlist com esse novo nome
+		q.setParameter("title", playlistnewname);
+		l = q.getResultList();
+    	if (! l.isEmpty()) return false;
+		
+    	//mudar o nome da playlist
+    	em.createQuery("update Playlist l set l.title = :newtitle where l.user = :user and l.title like :title").
+		setParameter("user", loggedUser).
+		setParameter("newtitle", playlistnewname).
+    	setParameter("title", playlistname).executeUpdate();
+    	
+		return true;
+	}
+	
 	public List<String> listPlaylist(String username) {
     	
     	if (username.length() <= 2) return null;

@@ -223,7 +223,7 @@ public class Playlistinterface implements Serializable {
 		}
 		if (existe) {
 			msgerro="Erro: Já existe uma playlist com esse nome: "+playlistnewname;
-		} else {
+		} else if(playlist.renPlaylist( loggeduser.getUsername(), playlistname, playlistnewname)) {
 			
 		}
 		
