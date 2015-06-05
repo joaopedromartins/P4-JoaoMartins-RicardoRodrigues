@@ -68,11 +68,11 @@
 									<h:inputHidden id="hiddenAll#{status.index}"
 										value="#{music.filename}" />
 								</span> <span class="userMusicCell userMusicCellLink"> <f:ajax
-										render="@form">
-										<h:commandLink id="editMusicBtnAll#{status.index}"
-											styleClass="editMusicBtn"
-											action="#{appMusicFilters.changeEditor(status.index)}"
-											value="add" />
+										render="@form :formplaylist:musicaselecionada">
+										<h:commandLink id="addMusicBtnAll#{status.index}"
+											styleClass="addMusicBtn"
+											action="#{playlistinterface.showMusicInfo(music)}"
+											value="detalhe" />
 									</f:ajax>
 								</span> 
 							</div>
