@@ -2,6 +2,7 @@ package pt.uc.dei.aor.paj.validator;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
@@ -13,23 +14,16 @@ public class PasswordValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-    	System.out.println(value);
-        String password = component.getAttributes().get("confirm").toString();
-        System.out.println(password);
-
-        for (String k : component.getAttributes().keySet()) {
-        	System.out.println(k+" -> "+component.getAttributes().get(k));
-        }
-        if (value == null || password == null) {
+    	String password = (String) value;
+    	UIInput otherComp = (UIInput) component.getAttributes().get("confirm");
+    	String confirm = (String) otherComp.getSubmittedValue();
+    			
+    	if (password == null || confirm == null) {
             return;
         }
         
-        if (!password.equals(value)) {
-        	FacesMessage message = new FacesMessage();
-            message.setDetail("Please enter a valid email");
-            message.setSummary("Email not valid");
-            message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ValidatorException(message);
+        if (!password.equals(confirm)) {
+        	throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords don't match", null));
         }
     }
 

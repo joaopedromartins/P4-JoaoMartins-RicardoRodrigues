@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"title", "author"}))
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"title", "author", "album"}))
 public class Music implements Serializable {
 
 	private static final long serialVersionUID = -5753633708037205353L;
@@ -37,8 +37,7 @@ public class Music implements Serializable {
 	@Column(nullable=false)
 	private int duration;
 	
-	@NotNull
-	@Column(nullable=false)
+	@Column
 	private int year;
 
 	@ManyToOne

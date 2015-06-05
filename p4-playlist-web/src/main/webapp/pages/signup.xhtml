@@ -32,13 +32,13 @@
 					<div class="formRow">
 						<p:password value="#{usersinterface.password}"
 							placeholder="password" required="true" maxlength="40"
-							requiredMessage="fill in a password">
-							
+							requiredMessage="fill in a password" validator="passwordValidator">
+							<f:attribute name="confirm" value="#{confirm}" />
 						</p:password>
 					</div>
 					<div class="formRow">
 						<p:password value="#{usersinterface.cpassword}"
-							placeholder="confirm password" required="true" maxlength="40"
+							placeholder="confirm password" required="true" maxlength="40" binding="#{confirm}"
 							requiredMessage="fill in password confirmation" />
 					</div>
 					<div class="formRow">

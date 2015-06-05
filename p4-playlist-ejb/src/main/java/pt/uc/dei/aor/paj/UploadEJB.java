@@ -32,10 +32,8 @@ public class UploadEJB {
 	
 	public MusicDTO upload(Part part, String title, String author, String album, String genre, String username, String year, String path) {
 		String filename = "music/"+title+"_"+author+"_"+album+".mp3";
+
 		try {
-			String ext = part.getSubmittedFileName().split("\\.")[1];
-			if (!ext.equals("mp3")) return null;
-			
 			InputStream in = part.getInputStream();
 			File outFile = new File(filename);
 			OutputStream out = new FileOutputStream(outFile);
@@ -60,6 +58,8 @@ public class UploadEJB {
 			filename = path+"/"+filename;
 			
 	        Music m = new Music(title, author, album, genre, filename, duration, loginEJB.findUserByUsername(username), Integer.parseInt(year));
+	        System.out.println(m);
+	        
 	        em.persist(m);
 	        
 			return new MusicDTO(title, author, album, genre, convertMinutes(duration), filename, Integer.parseInt(year), m.getId()); 

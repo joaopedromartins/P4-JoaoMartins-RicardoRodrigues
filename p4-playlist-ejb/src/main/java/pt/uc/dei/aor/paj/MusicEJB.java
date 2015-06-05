@@ -131,5 +131,30 @@ public class MusicEJB {
 	}
 
 
-	 
+	public List<MusicDTO> findMusicByTitleArtistAlbum(String title, String author, String album) {
+		TypedQuery<Music> q;
+		
+		if (album != null) {
+			q = em.createQuery("from Music m where lower(m.title) like :title and lower(m.author)"
+					+ " like :artist and lower(album) like :album", Music.class);
+			q.setParameter("title", "%"+title.toLowerCase()+"%");
+			q.setParameter("album", "%"+album.toLowerCase()+"%");
+			q.setParameter("artist", "%"+author.toLowerCase()+"%");
+		}
+		else {
+			q = em.createQuery("from Music m where lower(m.title) like :title and lower(m.author)"
+					+ " like :artist", Music.class);
+			q.setParameter("title", "%"+title.toLowerCase()+"%");
+			q.setParameter("artist", "%"+author.toLowerCase()+"%");
+		}
+    	
+    	List<Music> list = q.getResultList();
+    	
+    	List<MusicDTO> result = new ArrayList<>();
+    	for (Music m : list) {
+    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), convertMinutes(m.getDuration()), m.getFilename(), m.getYear(), m.getId()));
+    	}
+    	
+    	return result;
+    }
 }

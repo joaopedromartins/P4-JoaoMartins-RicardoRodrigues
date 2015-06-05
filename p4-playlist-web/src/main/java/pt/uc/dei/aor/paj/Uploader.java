@@ -70,6 +70,7 @@ public class Uploader {
 	
 	
 	public void upload() {
+		System.out.println("upload web");
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		String path = session.getServletContext().getContextPath();
 		ejb.upload(file, title, author, album, genre, userSession.getUsername(), year, path);
