@@ -34,7 +34,7 @@ public class PlaylistEntry implements Serializable {
 		this.position = position;
 	}
 
-
+	
 	public int getPosition() {
 		return position;
 	}

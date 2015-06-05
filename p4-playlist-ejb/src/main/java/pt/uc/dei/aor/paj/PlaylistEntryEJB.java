@@ -285,12 +285,12 @@ public class PlaylistEntryEJB {
 		q.setParameter("user", loginEJB.findUserByUsername(username));
 		q.setParameter("title", playlistname);
 		List<Playlist> l = q.getResultList();
-		Playlist selectedPlaylist=l.get(0);
+		Playlist selectedplaylist=l.get(0);
 		
-		log.info(""+selectedPlaylist);
+		log.info(""+selectedplaylist);
 		log.info("addMusicToPlaylist 2");
 		
-		//Obter playlist
+		//Obter musica
 		TypedQuery<Music> qm = em.createQuery("from Music m where m.id = :musicid ", Music.class);
 		qm.setParameter("musicid", musicid);
 		List<Music> msc = qm.getResultList();
@@ -299,21 +299,39 @@ public class PlaylistEntryEJB {
 		log.info("Selected Music = "+selectedMusic);
 		log.info("addMusicToPlaylist 3");
 		
-		//obter maximo valor Position da PlaylistEntry associado à playlist
-		TypedQuery<Integer> qple = em.createQuery("max(ple.position) from PlaylistEntry ple where ple.Playlist = :selectedPlaylist ", Integer.class);
-		qple.setParameter("selectedPlaylist", selectedPlaylist);
-		List<Integer> max = qple.getResultList();
-		int newPosition=1;
-		if ( (int)max.get(0) >0 ) {
-			newPosition=(int)max.get(0)+1;
-			log.info("Dentro do IF new position = "+newPosition);
-		}
+		//createQuery("select max(u.id) from User u", Integer.class).getSingleResult();
 		
+		//obter maximo valor Position da PlaylistEntry associado à playlist
+//		TypedQuery<Integer> qple = em.createQuery("select max(ple.position) from PlaylistEntry ple where ple.playlist = :selectedPlaylist ", Integer.class);
+//		qple.setParameter("selectedPlaylist", selectedplaylist);
+//		int max = qple.getSingleResult();
+//		int newPosition=1;
+//		if (max>0) {
+//			newPosition=max+1;
+//			log.info("Dentro do IF new position = "+newPosition);
+//		}
+		
+		int newPosition=-1;
+		
+		TypedQuery<Integer> lmax = em.createQuery("select ple.position "
+				+ "from PlaylistEntry ple " 
+				+ "where  ple.playlist.id = :plid "
+				+ " order by ple.position desc ", Integer.class);
+		lmax.setParameter("plid",selectedplaylist.getId());
+		List<Integer> max = lmax.getResultList();
+		if (max.isEmpty()){
+			newPosition=1;
+			log.info("Dentro do else new position = "+newPosition);
+		} else if (max.get(0)>0) {
+			newPosition=max.get(0)+1;
+			log.info("Dentro do IF new position = "+newPosition);
+		}  
+			
 		log.info("New position = "+newPosition);
-		log.info("addMusicToPlaylist 3");
+		log.info("addMusicToPlaylist 5");
 		
 		//adiciona playlist
-    	PlaylistEntry newPlaylistEntry = new PlaylistEntry(selectedPlaylist, selectedMusic, newPosition);
+    	PlaylistEntry newPlaylistEntry = new PlaylistEntry(selectedplaylist, selectedMusic, newPosition);
     	em.persist( newPlaylistEntry );
     	
     	log.info("FIM addMusicToPlaylist !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!2");
