@@ -232,7 +232,7 @@ public class Playlistinterface implements Serializable {
 	
 	//metodo para apagar uma musica da playlist
 	public void delmusicfromplaylist() {
-		System.out.println("Apagar uma musica da playlist:"+selectedmusic);
+		//System.out.println("Apagar uma musica da playlist:"+selectedmusic);
 		if ( playlistEntry.delMusicfromPlaylistName( loggeduser.getUsername(), playlistname, selectedmusic.getId()) ) {
 			msgerro="";
 			selectedmusic=null;
@@ -242,8 +242,14 @@ public class Playlistinterface implements Serializable {
 	}
 	
 	//metodo para mover para cima uma musica na playlist
-	public void moveupmusicfromplaylist(ActionEvent ae) {
-
+	public void moveupmusicfromplaylist() {
+		System.out.println("Mover para cima uma musica da playlist:"+selectedmusic);
+		if ( playlistEntry.moveUpMusicfromPlaylistName( loggeduser.getUsername(), playlistname, selectedmusic.getId()) ) {
+			msgerro="";
+			selectedmusic=null;
+		} else {
+			msgerro="Erro ao apagar uma musica da playlist.";
+		}
 	}
 	
 	//metodo para mover para cima uma musica na playlist

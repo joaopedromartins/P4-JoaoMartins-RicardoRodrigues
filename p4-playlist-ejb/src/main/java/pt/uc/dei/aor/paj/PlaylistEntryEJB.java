@@ -8,7 +8,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import pt.uc.dei.aor.paj.Playlist;
@@ -28,109 +27,86 @@ public class PlaylistEntryEJB {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-	public List<PlaylistMusicDTO> findMusicsByUsernameAndPlaylistName(String username, String playlistname) {
-		//System.out.println("findMusicsByUsernameAndPlaylistName");
-		//System.out.println("username: "+username);
-		//System.out.println("playlistname"+playlistname);
+	private boolean verifyUsername(String username) {
 		if (username.length() <= 2) {
-			//System.out.println("username < 2 : "+username);
-			return null;
+			return false;
 		}
-    	
-    	if (playlistname.length() <= 2) {
-    		//System.out.println("playlistname < 2 : "+playlistname);
-    		return null;
-    	}
-    	
     	//testar se existe o utilizador com esse nome
     	User loggedUser = loginEJB.findUserByUsername(username);
-    	//System.out.println("user id : "+loggedUser.getId());
-    	//System.out.println("user name : "+loggedUser.getName());
-    	//System.out.println("user email : "+loggedUser.getEmail());
     	if ( loggedUser == null) {
-    		//System.out.println("loggeduser = null ");
-    		return null;
+    		return false;
     	}
-    	
-    	//testar se exite playlist com esse nome
+    	return true;
+	}
+	
+	private boolean verifyPlaylistName(String username, String playlistname) {
+		if (playlistname.length() <= 2) {
+			//System.out.println("playlistname < 2 : "+playlistname);
+			return false;
+		}
+		//testar se exite playlist com esse nome
 		TypedQuery<Playlist> q = em.createQuery("from Playlist l where l.user = :user and l.title like :title", Playlist.class);
-		q.setParameter("user", loggedUser);
+		q.setParameter("user", loginEJB.findUserByUsername(username));
 		q.setParameter("title", playlistname);
 		List<Playlist> l = q.getResultList();
-    	if (l.isEmpty()) {
-    		//System.out.println("Playlist is empty! ");
-    		return null;
-    	} else {
-    		//System.out.println("Before TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    		//System.out.println("User: "+loggedUser);
-    		//System.out.println("playlistname: "+playlistname);
+		if (l.isEmpty()) {
+			return false;
+		}
+    	return true;
+	}
+	
+	private boolean verifyMusicID(int musicid) {
+		//testar se o id da musica e inteiro positivo
+		if (musicid<1) {
+			return false;
+		}
+		System.out.println("Music id: "+musicid);
+		//testar se existe uma musica com esse id
+		TypedQuery<Music> qm = em.createQuery("from Music m where m.id = :musicid ", Music.class);
+		qm.setParameter("musicid", musicid);
+		List<Music> musica = qm.getResultList();
+		if (musica.isEmpty()) {
+			System.out.println("Musica invalida: ID="+musicid);
+			return false;
+		}
+    	return true;
+	}
+	
+	public List<PlaylistMusicDTO> findMusicsByUsernameAndPlaylistName(String username, String playlistname) {
+		if (! verifyUsername(username)) {
+			return null;
+		}
+		if (! verifyPlaylistName(username, playlistname)) {
+			return null;
+		} else {
     		TypedQuery<PlaylistEntry> lm = em.createQuery("select ple "
 					+ "from PlaylistEntry ple "
 					+ "inner join ple.playlist pl " 
 					+ "where pl.user = :user"
 					+ "	and pl.title like :title", PlaylistEntry.class);
-			lm.setParameter("user", loggedUser);
+			lm.setParameter("user", loginEJB.findUserByUsername(username));
 			lm.setParameter("title", playlistname);
 			List<PlaylistEntry> result = lm.getResultList();
-			
-			
-			
 			List<PlaylistMusicDTO> retorno = new ArrayList<PlaylistMusicDTO>();
 			for (PlaylistEntry i: result) {
 				//System.out.println("id="+i);
 				retorno.add(new PlaylistMusicDTO(i.getMusicTitle(), i.getMusicAuthor() , 
 					i.getMusicAlbum(), i.getMusicGenre(), i.getMusicDuration(), i.getMusicYear(), i.getMusicId(), i.getPosition() ) );
 			}
-    		
-			//System.out.println("AFTER TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     		return retorno;
     	}
 	}
 	
 	public boolean delMusicfromPlaylistName(String username, String playlistname, int musicid) {
-		
-		System.out.println("Before TypedQuery delMusicfromPlaylistName !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		//testar se o campo utilizador esta preenchido
-		if (username.length() <= 2) {
+		if (! verifyUsername(username)) {
 			return false;
 		}
-    	
-		//testar se o campo nome da playlist esta preenchido
-    	if (playlistname.length() <= 2) {
-    		return false;
-    	}
-    	
-    	//testar se o id da musica e inteiro positivo
-    	if (musicid<1) {
-    		return false;
-    	}
-    	
-    	//testar se existe a utilizador com esse nome
-    	User loggedUser = loginEJB.findUserByUsername(username);
-    	if ( loggedUser == null) {
-    		return false;
-    	}
-    	
-    	//testar se existe playlist com esse nome
-		TypedQuery<Playlist> q = em.createQuery("from Playlist l where l.user = :user and l.title like :title", Playlist.class);
-		q.setParameter("user", loggedUser);
-		q.setParameter("title", playlistname);
-		List<Playlist> l = q.getResultList();
-    	if (l.isEmpty()) {
-    		return false;
-    	}
-    	
-    	
-    	System.out.println("Music id: "+musicid);
-    	//testar se existe uma musica com esse id
-		TypedQuery<Music> qm = em.createQuery("from Music m where m.id = :musicid ", Music.class);
-		qm.setParameter("musicid", musicid);
-		List<Music> musica = qm.getResultList();
-    	if (musica.isEmpty()) {
-    		System.out.println("Musica invalida: ID="+musicid);
-    		return false;
-    	}
+		if (! verifyPlaylistName(username, playlistname)) {
+			return false;
+		}
+		if (! verifyMusicID(musicid)) {
+			return false;
+		}
     	
     	//seleccionar id da playlistentry
     	TypedQuery<Integer> lm = em.createQuery("select ple.id "
@@ -139,7 +115,7 @@ public class PlaylistEntryEJB {
 				+ "where pl.user = :user"
 				+ "	and pl.title like :title"
 				+ " and ple.music.id = :musicid", Integer.class);
-		lm.setParameter("user", loggedUser);
+		lm.setParameter("user", loginEJB.findUserByUsername(username));
 		lm.setParameter("title", playlistname);
 		lm.setParameter("musicid", musicid);
 		List<Integer> result = lm.getResultList();
@@ -148,12 +124,72 @@ public class PlaylistEntryEJB {
     	em.createQuery("delete from PlaylistEntry ple where ple.id = :pleid ").
     	setParameter("pleid", result).executeUpdate();
     	
-		System.out.println("teste remove entry----------------------------------------");
-		for (int i: result) {
-			System.out.println(i);
+		return true;
+	}
+	
+	
+	public boolean moveUpMusicfromPlaylistName(String username, String playlistname, int musicid) {
+		System.out.println("moveUpMusicfromPlaylistName !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+		if (! verifyUsername(username)) {
+			return false;
+		}
+		if (! verifyPlaylistName(username, playlistname)) {
+			return false;
+		}
+		if (! verifyMusicID(musicid)) {
+			return false;
+		}
+    	
+		System.out.println("moveUpMusicfromPlaylistName 1");
+		
+		
+    	//seleccionar id e posicao da musica da playlist seleccionada
+    	TypedQuery<Object[]> lm = em.createQuery("select ple.id, ple.position, ple.playlist.id "
+				+ "from PlaylistEntry ple "
+				+ "inner join ple.playlist pl " 
+				+ "where pl.user = :user "
+				+ "	and pl.title like :title "
+				+ " and ple.music.id = :musicid ", Object[].class);
+		lm.setParameter("user", loginEJB.findUserByUsername(username));
+		lm.setParameter("title", playlistname);
+		lm.setParameter("musicid", musicid);
+		List<Object[]> selectedPLE = lm.getResultList();
+		
+		System.out.println("moveUpMusicfromPlaylistName 2");
+		
+		//seleccionar position maxima
+		
+		//seleccionar id da playlistentry acima
+    	TypedQuery<Object[]> lup = em.createQuery("select ple.id, ple.position, ple.playlist.id "
+				+ "from PlaylistEntry ple " 
+				+ "where  ple.playlist.id = :plid "
+				+ " and ple.position < :pleposition"
+				+ " order by ple.position desc ", Object[].class);
+    	lup.setParameter("plid",selectedPLE.get(0)[2]);
+    	lup.setParameter("pleposition", selectedPLE.get(0)[1]);
+		List<Object[]> upPLE = lup.getResultList();
+		
+		System.out.println("moveUpMusicfromPlaylistName 3");
+		
+		if (upPLE.isEmpty()) {
+			System.out.println("upPLE empty ----------------------------------------------------");
+			return false;
+		} else {
+			System.out.println("upPLE ----------------------------------------------------------");
+			for (Object[] i: upPLE) {
+				System.out.println("id= "+i[0]+"\tposition"+i[1]+"\tplaylist_id"+i[2]);
+			}
 		}
 		
-		//.......................................
+		em.createQuery("update PlaylistEntry ple set ple.position = :upposition where ple.id = :selectid and ple.position = :position").
+		setParameter("selectid", selectedPLE.get(0)[0]).
+		setParameter("position", selectedPLE.get(0)[1]).
+		setParameter("upposition", upPLE.get(0)[1]).executeUpdate();
+		
+		em.createQuery("update PlaylistEntry ple set ple.position = :position where ple.id = :upid and ple.position = :upposition").
+		setParameter("position", selectedPLE.get(0)[1]).
+		setParameter("upid", upPLE.get(0)[0]).
+		setParameter("upposition", upPLE.get(0)[1]).executeUpdate();
 		
 		return true;
 	}
