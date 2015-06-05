@@ -111,6 +111,61 @@ public class MusicEJB {
 	}
     
 	
+	public List<MusicDTO> getAppFilteredMusicList(List<String> activeFilters, List<String> filters) {
+		String query = "from Music m";
+		
+		int index = 0;
+		boolean first = true;
+		while (index < activeFilters.size()) {
+			if (activeFilters.get(index) != null && activeFilters.get(index).length() > 0) {
+				if (filters.get(index).equals("year")) {
+					if (first) {
+						query += " where m."+filters.get(index)+" = :"+filters.get(index);
+						first = false;
+					}
+					else {
+						query += " and m."+filters.get(index)+" = :"+filters.get(index);						
+					}
+				}
+				else {
+					if (first) {
+						query += " where lower(m."+filters.get(index)+") like :"+filters.get(index);
+						first = false;
+					}
+					else {
+						query += " and lower(m."+filters.get(index)+") like :"+filters.get(index);						
+					}
+				}
+			}
+			index++;
+		}
+		query += " order by m.author, m.album, m.title";
+		
+		TypedQuery<Music> q = em.createQuery(query, Music.class);
+		
+		index = 0;
+		while (index < activeFilters.size()) {
+			if (activeFilters.get(index) != null && activeFilters.get(index).length() > 0) {
+				if (filters.get(index).equals("year")) {
+					q.setParameter(filters.get(index), Integer.parseInt(activeFilters.get(index)));
+				}
+				else {
+					q.setParameter(filters.get(index), "%"+activeFilters.get(index).toLowerCase()+"%");					
+				}
+			}
+			index++;
+		}
+		
+		List<Music> list = q.getResultList();
+    	
+    	List<MusicDTO> result = new ArrayList<>();
+    	for (Music m : list) {
+    		result.add(new MusicDTO(m.getTitle(), m.getAuthor(), m.getAlbum(), m.getGenre(), convertMinutes(m.getDuration()), m.getFilename(), m.getYear(), m.getId()));
+    	}
+    	
+    	return result;
+	}
+	
 	public void remove(Music m) {
 		TypedQuery<PlaylistEntry> q = em.createQuery("from PlaylistEntry pe where pe.music = :music", PlaylistEntry.class);
 		q.setParameter("music", m);

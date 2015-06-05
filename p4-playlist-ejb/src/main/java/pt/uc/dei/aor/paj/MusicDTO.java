@@ -71,7 +71,9 @@ public class MusicDTO {
 	
 	@Override
 	public String toString() {
-		return title+" (author:"+author+", album:"+album+")";
+		String s = author+" - "+title;
+		
+		return s;
 	}
 
 	public int getYear() {

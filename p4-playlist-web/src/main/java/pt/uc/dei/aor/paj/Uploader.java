@@ -24,6 +24,8 @@ public class Uploader {
 	
 	@Inject
 	private MusicFilters musicFilter;
+	@Inject AppMusicFilters appFilter;
+	
 	
 	private Part file;
 	
@@ -75,6 +77,7 @@ public class Uploader {
 		String path = session.getServletContext().getContextPath();
 		ejb.upload(file, title, author, album, genre, userSession.getUsername(), year, path);
 		musicFilter.updateList();
+		appFilter.updateList();
 	}
 
 	public String getAlbum() {
@@ -97,12 +100,14 @@ public class Uploader {
 	public void update(int id) {
 		if (ejb.editMusic(id, title, author, album, genre, year)) {
 			musicFilter.updateList();
+			appFilter.updateList();
 		}
 	}
 	
 	public void remove(int id) {
 		if (ejb.removeMusic(id)) {
 			musicFilter.updateList();
+			appFilter.updateList();
 		}
 	}
 	

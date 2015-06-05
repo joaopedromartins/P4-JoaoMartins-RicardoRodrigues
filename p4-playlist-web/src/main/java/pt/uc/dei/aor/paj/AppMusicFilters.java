@@ -17,7 +17,7 @@ import java.io.Serializable;
 
 @Named
 @SessionScoped
-public class MusicFilters implements Serializable {
+public class AppMusicFilters implements Serializable {
 	private static final long serialVersionUID = -7293711775757988503L;
 
 	private List<String> activeFilters;
@@ -34,8 +34,7 @@ public class MusicFilters implements Serializable {
 	@Inject
 	private UserSession user;
 	
-	
-	public MusicFilters() {
+	public AppMusicFilters() {
 		activeFilters = Arrays.asList(new String[]{null, null, null, null, null});
 		
 	}
@@ -126,7 +125,7 @@ public class MusicFilters implements Serializable {
 
 
 	public void updateList() {
-		listMusics = ejb.getFilteredMusicList(activeFilters, filters, user.getUsername());
+		listMusics = ejb.getAppFilteredMusicList(activeFilters, filters);
 		editorChoice = -1;
 	}
 
