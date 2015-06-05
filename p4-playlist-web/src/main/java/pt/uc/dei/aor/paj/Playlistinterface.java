@@ -246,13 +246,19 @@ public class Playlistinterface implements Serializable {
 			msgerro="";
 			selectedmusic=null;
 		} else {
-			msgerro="Erro ao apagar uma musica da playlist.";
+			msgerro="Erro ao alterar a sequência de musicas da playlist.";
 		}
 	}
 	
-	//metodo para mover para cima uma musica na playlist
+	//metodo para mover para baixo uma musica na playlist
 	public void movedownmusicfromplaylist(ActionEvent ae) {
-
+		System.out.println("Mover para baixo uma musica da playlist:"+selectedmusic);
+		if ( playlistEntry.moveDownMusicfromPlaylistName( loggeduser.getUsername(), playlistname, selectedmusic.getId()) ) {
+			msgerro="";
+			selectedmusic=null;
+		} else {
+			msgerro="Erro ao alterar a sequência de musicas da playlist.";
+		}
 	}
 	
 	

@@ -180,22 +180,88 @@ public class PlaylistEntryEJB {
 			log.info("upPLE empty ----------------------------------------------------");
 			return false;
 		} else {
+			//log.info("upPLE ----------------------------------------------------------");
+			//for (Object[] i: upPLE) {
+			//	log.info("id= "+i[0]+"\tposition"+i[1]+"\tplaylist_id"+i[2]);
+			//}
+			
+			em.createQuery("update PlaylistEntry ple set ple.position = :upposition where ple.id = :selectid and ple.position = :position").
+			setParameter("selectid", selectedPLE.get(0)[0]).
+			setParameter("position", selectedPLE.get(0)[1]).
+			setParameter("upposition", upPLE.get(0)[1]).executeUpdate();
+			
+			em.createQuery("update PlaylistEntry ple set ple.position = :position where ple.id = :upid and ple.position = :upposition").
+			setParameter("position", selectedPLE.get(0)[1]).
+			setParameter("upid", upPLE.get(0)[0]).
+			setParameter("upposition", upPLE.get(0)[1]).executeUpdate();
+			
+			return true;
+		}
+	}
+	
+	public boolean moveDownMusicfromPlaylistName(String username, String playlistname, int musicid) {
+		log.info("moveDownMusicfromPlaylistName !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+		if (! verifyUsername(username)) {
+			return false;
+		}
+		if (! verifyPlaylistName(username, playlistname)) {
+			return false;
+		}
+		if (! verifyMusicID(musicid)) {
+			return false;
+		}
+    	
+		log.info("moveUpMusicfromPlaylistName 1");
+		
+		
+    	//seleccionar id e posicao da musica da playlist seleccionada
+    	TypedQuery<Object[]> lm = em.createQuery("select ple.id, ple.position, ple.playlist.id "
+				+ "from PlaylistEntry ple "
+				+ "inner join ple.playlist pl " 
+				+ "where pl.user = :user "
+				+ "	and pl.title like :title "
+				+ " and ple.music.id = :musicid ", Object[].class);
+		lm.setParameter("user", loginEJB.findUserByUsername(username));
+		lm.setParameter("title", playlistname);
+		lm.setParameter("musicid", musicid);
+		List<Object[]> selectedPLE = lm.getResultList();
+		
+		log.info("moveUpMusicfromPlaylistName 2");
+		
+		//seleccionar position maxima
+		
+		//seleccionar id da playlistentry abaixo
+    	TypedQuery<Object[]> ldown = em.createQuery("select ple.id, ple.position, ple.playlist.id "
+				+ "from PlaylistEntry ple " 
+				+ "where  ple.playlist.id = :plid "
+				+ " and ple.position > :pleposition"
+				+ " order by ple.position desc ", Object[].class);
+    	ldown.setParameter("plid",selectedPLE.get(0)[2]);
+    	ldown.setParameter("pleposition", selectedPLE.get(0)[1]);
+		List<Object[]> downPLE = ldown.getResultList();
+		
+		log.info("moveUpMusicfromPlaylistName 3");
+		
+		if (downPLE.isEmpty()) {
+			log.info("upPLE empty ----------------------------------------------------");
+			return false;
+		} else {
 			log.info("upPLE ----------------------------------------------------------");
-			for (Object[] i: upPLE) {
+			for (Object[] i: downPLE) {
 				log.info("id= "+i[0]+"\tposition"+i[1]+"\tplaylist_id"+i[2]);
 			}
+			
+			em.createQuery("update PlaylistEntry ple set ple.position = :downposition where ple.id = :selectid and ple.position = :position").
+			setParameter("selectid", selectedPLE.get(0)[0]).
+			setParameter("position", selectedPLE.get(0)[1]).
+			setParameter("downposition", downPLE.get(0)[1]).executeUpdate();
+			
+			em.createQuery("update PlaylistEntry ple set ple.position = :position where ple.id = :downid and ple.position = :downposition").
+			setParameter("position", selectedPLE.get(0)[1]).
+			setParameter("downid", downPLE.get(0)[0]).
+			setParameter("downposition", downPLE.get(0)[1]).executeUpdate();
+			
+			return true;
 		}
-		
-		em.createQuery("update PlaylistEntry ple set ple.position = :upposition where ple.id = :selectid and ple.position = :position").
-		setParameter("selectid", selectedPLE.get(0)[0]).
-		setParameter("position", selectedPLE.get(0)[1]).
-		setParameter("upposition", upPLE.get(0)[1]).executeUpdate();
-		
-		em.createQuery("update PlaylistEntry ple set ple.position = :position where ple.id = :upid and ple.position = :upposition").
-		setParameter("position", selectedPLE.get(0)[1]).
-		setParameter("upid", upPLE.get(0)[0]).
-		setParameter("upposition", upPLE.get(0)[1]).executeUpdate();
-		
-		return true;
 	}
 }
