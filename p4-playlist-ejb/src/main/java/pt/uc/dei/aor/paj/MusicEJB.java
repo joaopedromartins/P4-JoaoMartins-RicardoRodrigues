@@ -212,4 +212,13 @@ public class MusicEJB {
     	
     	return result;
     }
+
+
+	public Music findMusicListById(int id) {
+		TypedQuery<Music> q = em.createQuery("from Music m where m.id = :id", Music.class);
+    	q.setParameter("id", id);
+    	List<Music> list = q.getResultList();
+    	    	
+    	return list.get(0);
+	}
 }

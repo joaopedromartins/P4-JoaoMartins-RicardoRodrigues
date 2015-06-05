@@ -27,7 +27,7 @@ public class TitleValidator implements Validator {
     	UIInput albumComp = (UIInput) component.getAttributes().get("album");
     	String album = (String) albumComp.getSubmittedValue();
     	
-    	if (title == null || artist == null) {
+    	if (title == null || artist == null || title.equals("") || artist.equals("")) {
             return;
         }
         

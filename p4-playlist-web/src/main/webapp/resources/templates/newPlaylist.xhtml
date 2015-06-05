@@ -139,7 +139,7 @@
 											</p:panel>		
 										</h:panelGroup>	
 										
-										<h:panelGroup id="musicaselecionada" rendered="#{!empty playlistinterface.selectedmusic.title}">
+										<h:panelGroup id="musicaselecionada" rendered="#{true}">
 											<h:outputText value="3. Adicionar/Remover a Musica"/>
 											<br />
 											<h:outputText value="da Playlist"/>
@@ -162,7 +162,12 @@
 											<h:outputText value="Ano de lançamento: "/>
 											<h:outputText value="#{playlistinterface.selectedmusic.year}"/>
 											<br />
-											<h:panelGrid columns="2" styleClass="painel-interior">
+											<h:panelGrid rendered="#{playlistinterface.newMusic}">
+												<h:commandButton value="Adicionar" styleClass="btn"
+												action="#{playlistinterface.addMusicToPlaylist}" />
+											</h:panelGrid>
+											<h:panelGrid columns="2" styleClass="painel-interior"
+											rendered="#{!playlistinterface.newMusic}">
 												<h:commandButton type="submit" value="Remover"
 												styleClass="btn" action="#{playlistinterface.delmusicfromplaylist}" />	
 												<h:panelGrid columns="1" styleClass="painel-interior">

@@ -22,6 +22,7 @@ public class Playlistinterface implements Serializable {
 	private List<String> listaplaylistnames;
 	private List<PlaylistMusicDTO> listaplaylistmusics;
 	private PlaylistMusicDTO selectedmusic;
+	private boolean newMusic = false;
 	
 	@Inject
 	private UserSession loggeduser;
@@ -264,7 +265,23 @@ public class Playlistinterface implements Serializable {
 	
 	public void showMusicInfo(MusicDTO music) {
 		selectedmusic = music.toPlaylistMusicDTO();
-		System.out.println(selectedmusic);
+		newMusic = true;
+	}
+
+
+	public boolean isNewMusic() {
+		return newMusic;
+	}
+
+
+	public void setNewMusic(boolean newMusic) {
+		this.newMusic = newMusic;
+	}
+	
+	
+	public void addMusicToPlaylist() {
+		if (playlistname == null || selectedmusic == null) return;
+		//playlist.addMusicToPlaylist(loggeduser.getUsername(), playlistname, selectedmusic.getId());
 	}
 	
 }
