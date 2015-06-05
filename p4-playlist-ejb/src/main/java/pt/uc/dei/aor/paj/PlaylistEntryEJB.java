@@ -59,6 +59,7 @@ public class PlaylistEntryEJB {
     	return true;
 	}
 	
+		
 	private boolean verifyMusicID(int musicid) {
 		//testar se o id da musica e inteiro positivo
 		if (musicid<1) {
@@ -263,5 +264,47 @@ public class PlaylistEntryEJB {
 			
 			return true;
 		}
+	}
+	
+	public boolean addMusicToPlaylist(String username, String playlistname, int musicid) {
+		log.info("addMusicToPlaylist !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+		if (! verifyUsername(username)) {
+			return false;
+		}
+		if (! verifyPlaylistName(username, playlistname)) {
+			return false;
+		}
+		if ( verifyMusicID(musicid)) {
+			return false;
+		}
+    	
+		log.info("addMusicToPlaylist 1");
+		
+		//Obter playlist
+		TypedQuery<Playlist> q = em.createQuery("from Playlist l where l.user = :user and l.title like :title", Playlist.class);
+		q.setParameter("user", loginEJB.findUserByUsername(username));
+		q.setParameter("title", playlistname);
+		List<Playlist> l = q.getResultList();
+		Playlist selectedPlaylist=l.get(0);
+		
+		//Obter playlist
+		TypedQuery<Music> qm = em.createQuery("from Music m where m.id = :musicid ", Music.class);
+		qm.setParameter("musicid", musicid);
+		List<Music> msc = qm.getResultList();
+		Music selectedMusic=msc.get(0);
+		
+		//obter maximo valor Position da PlaylistEntry associado à playlist
+		TypedQuery<Integer> qple = em.createQuery("max(ple.position) from PlaylistEntry ple where ple.Playlist = :selectedPlaylist ", Integer.class);
+		qple.setParameter("selectedPlaylist", selectedPlaylist);
+		List<Integer> max = qple.getResultList();
+		int newPosition=1;
+		if ( (int)max.get(0) >0 ) {
+			newPosition=(int)max.get(0)+1;
+		}
+		
+		//adiciona playlist
+    	PlaylistEntry newPlaylistEntry = new PlaylistEntry(selectedPlaylist, selectedMusic, newPosition);
+    	em.persist( newPlaylistEntry );
+    	return true;
 	}
 }
