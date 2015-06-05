@@ -10,12 +10,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.uc.dei.aor.paj.Playlist;
 import pt.uc.dei.aor.paj.User;
 
 @Stateless
 @LocalBean
 public class PlaylistEntryEJB {
+	private static final Logger log = LoggerFactory.getLogger(PlaylistEntryEJB.class);
 
 	@PersistenceContext(name = "Utilizador")
 	private EntityManager em;
@@ -41,7 +45,7 @@ public class PlaylistEntryEJB {
 	
 	private boolean verifyPlaylistName(String username, String playlistname) {
 		if (playlistname.length() <= 2) {
-			//System.out.println("playlistname < 2 : "+playlistname);
+			//log.info("playlistname < 2 : "+playlistname);
 			return false;
 		}
 		//testar se exite playlist com esse nome
@@ -60,13 +64,13 @@ public class PlaylistEntryEJB {
 		if (musicid<1) {
 			return false;
 		}
-		System.out.println("Music id: "+musicid);
+		log.info("Music id: "+musicid);
 		//testar se existe uma musica com esse id
 		TypedQuery<Music> qm = em.createQuery("from Music m where m.id = :musicid ", Music.class);
 		qm.setParameter("musicid", musicid);
 		List<Music> musica = qm.getResultList();
 		if (musica.isEmpty()) {
-			System.out.println("Musica invalida: ID="+musicid);
+			log.info("Musica invalida: ID="+musicid);
 			return false;
 		}
     	return true;
@@ -83,13 +87,14 @@ public class PlaylistEntryEJB {
 					+ "from PlaylistEntry ple "
 					+ "inner join ple.playlist pl " 
 					+ "where pl.user = :user"
-					+ "	and pl.title like :title", PlaylistEntry.class);
+					+ "	and pl.title like :title "
+					+ " order by ple.position", PlaylistEntry.class);
 			lm.setParameter("user", loginEJB.findUserByUsername(username));
 			lm.setParameter("title", playlistname);
 			List<PlaylistEntry> result = lm.getResultList();
 			List<PlaylistMusicDTO> retorno = new ArrayList<PlaylistMusicDTO>();
 			for (PlaylistEntry i: result) {
-				//System.out.println("id="+i);
+				//log.info("id="+i);
 				retorno.add(new PlaylistMusicDTO(i.getMusicTitle(), i.getMusicAuthor() , 
 					i.getMusicAlbum(), i.getMusicGenre(), i.getMusicDuration(), i.getMusicYear(), i.getMusicId(), i.getPosition() ) );
 			}
@@ -129,7 +134,7 @@ public class PlaylistEntryEJB {
 	
 	
 	public boolean moveUpMusicfromPlaylistName(String username, String playlistname, int musicid) {
-		System.out.println("moveUpMusicfromPlaylistName !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+		log.info("moveUpMusicfromPlaylistName !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
 		if (! verifyUsername(username)) {
 			return false;
 		}
@@ -140,7 +145,7 @@ public class PlaylistEntryEJB {
 			return false;
 		}
     	
-		System.out.println("moveUpMusicfromPlaylistName 1");
+		log.info("moveUpMusicfromPlaylistName 1");
 		
 		
     	//seleccionar id e posicao da musica da playlist seleccionada
@@ -155,7 +160,7 @@ public class PlaylistEntryEJB {
 		lm.setParameter("musicid", musicid);
 		List<Object[]> selectedPLE = lm.getResultList();
 		
-		System.out.println("moveUpMusicfromPlaylistName 2");
+		log.info("moveUpMusicfromPlaylistName 2");
 		
 		//seleccionar position maxima
 		
@@ -169,15 +174,15 @@ public class PlaylistEntryEJB {
     	lup.setParameter("pleposition", selectedPLE.get(0)[1]);
 		List<Object[]> upPLE = lup.getResultList();
 		
-		System.out.println("moveUpMusicfromPlaylistName 3");
+		log.info("moveUpMusicfromPlaylistName 3");
 		
 		if (upPLE.isEmpty()) {
-			System.out.println("upPLE empty ----------------------------------------------------");
+			log.info("upPLE empty ----------------------------------------------------");
 			return false;
 		} else {
-			System.out.println("upPLE ----------------------------------------------------------");
+			log.info("upPLE ----------------------------------------------------------");
 			for (Object[] i: upPLE) {
-				System.out.println("id= "+i[0]+"\tposition"+i[1]+"\tplaylist_id"+i[2]);
+				log.info("id= "+i[0]+"\tposition"+i[1]+"\tplaylist_id"+i[2]);
 			}
 		}
 		
