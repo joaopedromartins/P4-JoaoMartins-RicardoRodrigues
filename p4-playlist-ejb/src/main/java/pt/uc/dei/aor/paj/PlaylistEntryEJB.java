@@ -274,7 +274,7 @@ public class PlaylistEntryEJB {
 		if (! verifyPlaylistName(username, playlistname)) {
 			return false;
 		}
-		if ( verifyMusicID(musicid)) {
+		if (! verifyMusicID(musicid)) {
 			return false;
 		}
     	
@@ -287,11 +287,17 @@ public class PlaylistEntryEJB {
 		List<Playlist> l = q.getResultList();
 		Playlist selectedPlaylist=l.get(0);
 		
+		log.info(""+selectedPlaylist);
+		log.info("addMusicToPlaylist 2");
+		
 		//Obter playlist
 		TypedQuery<Music> qm = em.createQuery("from Music m where m.id = :musicid ", Music.class);
 		qm.setParameter("musicid", musicid);
 		List<Music> msc = qm.getResultList();
 		Music selectedMusic=msc.get(0);
+		
+		log.info("Selected Music = "+selectedMusic);
+		log.info("addMusicToPlaylist 3");
 		
 		//obter maximo valor Position da PlaylistEntry associado à playlist
 		TypedQuery<Integer> qple = em.createQuery("max(ple.position) from PlaylistEntry ple where ple.Playlist = :selectedPlaylist ", Integer.class);
@@ -300,11 +306,17 @@ public class PlaylistEntryEJB {
 		int newPosition=1;
 		if ( (int)max.get(0) >0 ) {
 			newPosition=(int)max.get(0)+1;
+			log.info("Dentro do IF new position = "+newPosition);
 		}
+		
+		log.info("New position = "+newPosition);
+		log.info("addMusicToPlaylist 3");
 		
 		//adiciona playlist
     	PlaylistEntry newPlaylistEntry = new PlaylistEntry(selectedPlaylist, selectedMusic, newPosition);
     	em.persist( newPlaylistEntry );
+    	
+    	log.info("FIM addMusicToPlaylist !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!2");
     	return true;
 	}
 }
