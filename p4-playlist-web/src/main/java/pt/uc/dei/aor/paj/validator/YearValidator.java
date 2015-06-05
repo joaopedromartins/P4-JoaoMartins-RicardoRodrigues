@@ -20,7 +20,7 @@ public class YearValidator implements Validator {
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
     	String year = (String) value;
     	
-        if (year == null) {
+        if (year == null || year == "") {
             return;
         }
         int yearInt;

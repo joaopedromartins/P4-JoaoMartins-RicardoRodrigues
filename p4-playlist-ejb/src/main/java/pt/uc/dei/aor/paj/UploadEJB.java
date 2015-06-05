@@ -20,6 +20,9 @@ import javax.persistence.TypedQuery;
 import javax.servlet.http.Part;
 import javax.sound.sampled.AudioFileFormat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javazoom.spi.mpeg.sampled.file.MpegAudioFileReader;
 
 @Stateless
@@ -29,6 +32,10 @@ public class UploadEJB {
 	
 	@Inject
 	private LoginEJB loginEJB;
+	@Inject 
+	private MusicEJB musicEJB;
+	
+	private static final Logger logger = LoggerFactory.getLogger(UploadEJB.class);
 	
 	public MusicDTO upload(Part part, String title, String author, String album, String genre, String username, String year, String path) {
 		String filename = "music/"+title+"_"+author+"_"+album+".mp3";
@@ -58,7 +65,6 @@ public class UploadEJB {
 			filename = path+"/"+filename;
 			
 	        Music m = new Music(title, author, album, genre, filename, duration, loginEJB.findUserByUsername(username), Integer.parseInt(year));
-	        System.out.println(m);
 	        
 	        em.persist(m);
 	        
@@ -80,9 +86,16 @@ public class UploadEJB {
 		m.setAuthor(author);
 		m.setAlbum(album);
 		m.setGenre(genre);
-		m.setYear(Integer.parseInt(year));
+		try {
+			m.setYear(Integer.parseInt(year));
+		}
+		catch(Exception e) {
+			logger.debug("year parsing error");
+			return false;
+		}
 		
 		em.persist(m);
+		logger.info("Music updated -> "+m);
 		return true;
 	}
 
@@ -90,6 +103,8 @@ public class UploadEJB {
 		Query q = em.createQuery("delete from Music m where m.id = :id");
 		q.setParameter("id", id).executeUpdate();
 		
+		Music m = musicEJB.findMusicListById(id);
+		logger.info("Music deleted -> "+m);
 		return true;
 		
 	}
