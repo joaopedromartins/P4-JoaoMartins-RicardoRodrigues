@@ -83,4 +83,17 @@ public class MusicDTO {
 	public void setYear(int year) {
 		this.year = year;
 	}
+	
+	public PlaylistMusicDTO toPlaylistMusicDTO() {
+		String[] fields = duration.split("m");
+		String s = fields[1].substring(0, fields[1].length()-1);
+		String m = fields[0];
+		
+		int time = Integer.valueOf(m)*60+Integer.valueOf(s);
+		
+		PlaylistMusicDTO pmdto = new PlaylistMusicDTO(title, author, album, genre, time, 
+				year, id, 0);
+		
+		return pmdto;
+	}
 }

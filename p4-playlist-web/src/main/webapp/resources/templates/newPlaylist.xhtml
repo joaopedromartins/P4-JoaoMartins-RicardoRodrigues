@@ -39,7 +39,7 @@
 						<p:panel id="playlist" header="Criar / Editar uma playlist"
 							footer="#{playlistinterface.msgerro}" >
 						<br />
-						<img src="../imagens/jukebox.png" />
+						<img src="../resources/imagens/jukebox.png" />
 						
 						<h:form  id="formplaylist">
 							<h:panelGroup id="playlistop"
@@ -58,10 +58,13 @@
 										<h:outputText value="Nome playlist:" />
 										<h:inputText id="playlistname" title="Nome playlist"
 											value="#{playlistinterface.playlistname}" required="true"
-											requiredMessage="Preencha o nome da playlist" maxlength="32" />
+											requiredMessage="Preencha o nome da playlist" maxlength="32" 
+											/>
 										<h:message for="playlistname" errorClass="errorMessage" />
+										
 										<h:commandButton type="submit" value="criar"
 											styleClass="btn" action="#{playlistinterface.criaplaylist}" />
+										
 									</h:panelGrid>
 											
 									<h:panelGrid columns="4" cellpadding="10" rendered="#{playlistinterface.typeeditar() and !empty playlistinterface.playlistname}" >		
@@ -69,7 +72,6 @@
 										<h:outputText value="#{playlistinterface.playlistname}" />
 										<h:commandButton type="submit" value="Apagar playlist"
 											styleClass="btn" action="#{playlistinterface.apagaplaylist}" />	
-										<h:message for="delplaylistname" errorClass="errorMessage" />
 										
 										<h:outputText value="Novo nome playlist:" />
 										<h:inputText id="renameplaylist" title="Nome playlist"

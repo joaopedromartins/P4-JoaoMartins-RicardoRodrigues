@@ -155,7 +155,7 @@ public class Playlistinterface implements Serializable {
 	}
 
 	//metodo para criar uma playlist
-	public String criaplaylist() {
+	public void criaplaylist() {
 		//System.out.println("Adicionar playlist:" + this.playlistname + "\t do user: "+this.username);
 		if (playlist.addPlaylist( loggeduser.getUsername(), playlistname) ) {
 			msgerro="Adicionada a playlist: "+playlistname;
@@ -163,8 +163,6 @@ public class Playlistinterface implements Serializable {
 		} else {
 			msgerro="ERRO ao adicionar a playlist: "+playlistname;
 		}
-		
-		return "/resources/secure/playlist?faces-redirect=true";
 	}
 	
 	//metodo para editar uma playlist
@@ -176,7 +174,7 @@ public class Playlistinterface implements Serializable {
 	}
 	
 	//metodo para apagar uma playlist
-	public String apagaplaylist() {
+	public void apagaplaylist() {
 		System.out.println("Apagar playlist:" + this.playlistname + "\t do user: "+this.username);
 		if (playlist.delPlaylist( loggeduser.getUsername(), playlistname) ) {
 			msgerro="Apagada a playlist: "+playlistname;
@@ -184,7 +182,7 @@ public class Playlistinterface implements Serializable {
 		} else {
 			msgerro="ERRO ao apagar a playlist: "+playlistname;
 		}
-		return "/resources/secure/playlist?faces-redirect=true";
+		
 	}
 
 	
@@ -249,6 +247,12 @@ public class Playlistinterface implements Serializable {
 	//metodo para mover para cima uma musica na playlist
 	public void movedownmusicfromplaylist(ActionEvent ae) {
 
+	}
+	
+	
+	public void showMusicInfo(MusicDTO music) {
+		selectedmusic = music.toPlaylistMusicDTO();
+		System.out.println(selectedmusic);
 	}
 	
 }

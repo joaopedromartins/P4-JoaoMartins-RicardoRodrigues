@@ -46,8 +46,6 @@ public class AppMusicFilters implements Serializable {
 	
 	
 	public void addFilter() {
-		System.out.println("here");
-		System.out.println(field);
 		if (field == null || field.equals("") || field.contains(":")) return;
 		for (int i = 0; i < activeFilters.size(); i++) {
 			if (filters.get(i).equals(filter)) {
@@ -55,7 +53,6 @@ public class AppMusicFilters implements Serializable {
 				break;
 			}
 		}
-		System.out.println(activeFilters);
 		updateList();
 		field = "";
 	}
