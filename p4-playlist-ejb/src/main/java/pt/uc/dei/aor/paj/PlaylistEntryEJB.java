@@ -228,14 +228,14 @@ public class PlaylistEntryEJB {
 		
 		log.info("moveUpMusicfromPlaylistName 2");
 		
-		//seleccionar position maxima
+		//seleccionar position minima
 		
 		//seleccionar id da playlistentry abaixo
     	TypedQuery<Object[]> ldown = em.createQuery("select ple.id, ple.position, ple.playlist.id "
 				+ "from PlaylistEntry ple " 
 				+ "where  ple.playlist.id = :plid "
 				+ " and ple.position > :pleposition"
-				+ " order by ple.position desc ", Object[].class);
+				+ " order by ple.position asc ", Object[].class);
     	ldown.setParameter("plid",selectedPLE.get(0)[2]);
     	ldown.setParameter("pleposition", selectedPLE.get(0)[1]);
 		List<Object[]> downPLE = ldown.getResultList();
