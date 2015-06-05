@@ -159,3 +159,7 @@ nav li.selected a {
 .hidden {
 	display: none;
 }
+
+#filterListAll {
+	margin: 10px 0;
+}

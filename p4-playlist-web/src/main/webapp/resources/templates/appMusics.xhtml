@@ -27,17 +27,17 @@
 						placeholder="filter keyword" />
 				</span>
 				<span class="accountUpdateFields"> <f:ajax
-						render="@form userMusicList" execute="filterKeyword filterField">
+						render="@form userMusicListAll" execute="filterKeywordAll filterFieldAll">
 						<h:commandButton action="#{appMusicFilters.addFilter()}"
 							value="Filter" />
 					</f:ajax>
 
 				</span>
-				<span id="filterListAll"> <ui:repeat var="filter"
+				<div id="filterListAll"> <ui:repeat var="filter"
 						value="#{appMusicFilters.activeFilters}" varStatus="status">
 						<span class="filterUnit"> <span class="filterText">#{filter}</span>
 							<span class="filterRemoval"> <sup> <f:ajax
-										render="@form :userMusicList :userMusicListContainer">
+										render="@form :userMusicListAll :userMusicListContainerAll">
 										<h:commandLink style="color:red;text-decoration:none;"
 											value="x" action="#{appMusicFilters.removeFilter(status.index)}" />
 									</f:ajax>
@@ -45,7 +45,7 @@
 						</span>
 						</span>
 					</ui:repeat>
-				</span>
+				</div>
 			</h:form>
 
 			<h:panelGroup id="userMusicListContainerAll">
