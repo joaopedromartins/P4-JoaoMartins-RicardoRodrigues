@@ -102,6 +102,10 @@ public class UploadEJB {
 
 	public boolean removeMusic(int id) {
 		Music m = musicEJB.findMusicListById(id);
+		Query q = em.createQuery("delete from PlaylistEntry pe where pe.music = :music");
+		q.setParameter("music", m);
+		q.executeUpdate();
+		
 		em.remove(m);
 		
 		logger.info("Music deleted -> "+m);
