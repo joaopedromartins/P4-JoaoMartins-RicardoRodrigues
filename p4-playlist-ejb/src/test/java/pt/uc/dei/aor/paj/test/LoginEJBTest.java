@@ -1,8 +1,11 @@
 package pt.uc.dei.aor.paj.test;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
-
-
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -13,20 +16,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
 
 import pt.uc.dei.aor.paj.LoginEJB;
 import pt.uc.dei.aor.paj.User;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.anyString;
-import static org.hamcrest.Matchers.nullValue;
 
 
 @RunWith(MockitoJUnitRunner.class)
