@@ -207,6 +207,7 @@ public class Playlistinterface implements Serializable {
 				//System.out.println("selectedmusic:\n"+selectedmusic);
 			}
 		}
+		newMusic = false;
 	}
 	
 	
@@ -280,8 +281,14 @@ public class Playlistinterface implements Serializable {
 	
 	
 	public void addMusicToPlaylist() {
+		System.out.println("adding");
+		System.out.println(playlistname);
+		System.out.println(selectedmusic);
 		if (playlistname == null || selectedmusic == null) return;
-		//playlist.addMusicToPlaylist(loggeduser.getUsername(), playlistname, selectedmusic.getId());
+		System.out.println(loggeduser.getUsername());
+		System.out.println(playlistname);
+		System.out.println(selectedmusic.getId());
+		playlistEntry.addMusicToPlaylist(loggeduser.getUsername(), playlistname, selectedmusic.getId());
 	}
 	
 }

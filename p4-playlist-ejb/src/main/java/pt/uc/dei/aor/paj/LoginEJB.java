@@ -10,6 +10,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Stateless
 @LocalBean
 public class LoginEJB {
@@ -19,12 +22,14 @@ public class LoginEJB {
 	@Inject
 	private EncryptEJB crypt;
 
+	
     public LoginEJB() {
         // TODO Auto-generated constructor stub
     }
 
     
 	public User findUserByUsername(String username) {
+		
 		TypedQuery<User> q = em.createQuery("from User u where u.name like :username", User.class);
     	q.setParameter("username", username);
     	
