@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
@@ -128,7 +129,7 @@ public class PlaylistEntryEJB {
 		
 		//apagar playlistentry com o id seleccionado
     	em.createQuery("delete from PlaylistEntry ple where ple.id = :pleid ").
-    	setParameter("pleid", result).executeUpdate();
+    	setParameter("pleid", result.get(0)).executeUpdate();
     	
 		return true;
 	}
@@ -286,30 +287,12 @@ public class PlaylistEntryEJB {
 		q.setParameter("title", playlistname);
 		List<Playlist> l = q.getResultList();
 		Playlist selectedplaylist=l.get(0);
-		
-		log.info(""+selectedplaylist);
-		log.info("addMusicToPlaylist 2");
-		
-		//Obter musica
+
 		TypedQuery<Music> qm = em.createQuery("from Music m where m.id = :musicid ", Music.class);
 		qm.setParameter("musicid", musicid);
 		List<Music> msc = qm.getResultList();
 		Music selectedMusic=msc.get(0);
-		
-		log.info("Selected Music = "+selectedMusic);
-		log.info("addMusicToPlaylist 3");
-		
-		//createQuery("select max(u.id) from User u", Integer.class).getSingleResult();
-		
-		//obter maximo valor Position da PlaylistEntry associado à playlist
-//		TypedQuery<Integer> qple = em.createQuery("select max(ple.position) from PlaylistEntry ple where ple.playlist = :selectedPlaylist ", Integer.class);
-//		qple.setParameter("selectedPlaylist", selectedplaylist);
-//		int max = qple.getSingleResult();
-//		int newPosition=1;
-//		if (max>0) {
-//			newPosition=max+1;
-//			log.info("Dentro do IF new position = "+newPosition);
-//		}
+
 		
 		int newPosition=-1;
 		
@@ -321,20 +304,16 @@ public class PlaylistEntryEJB {
 		List<Integer> max = lmax.getResultList();
 		if (max.isEmpty()){
 			newPosition=1;
-			log.info("Dentro do else new position = "+newPosition);
 		} else if (max.get(0)>0) {
 			newPosition=max.get(0)+1;
-			log.info("Dentro do IF new position = "+newPosition);
 		}  
 			
-		log.info("New position = "+newPosition);
-		log.info("addMusicToPlaylist 5");
 		
 		//adiciona playlist
     	PlaylistEntry newPlaylistEntry = new PlaylistEntry(selectedplaylist, selectedMusic, newPosition);
+
     	em.persist( newPlaylistEntry );
     	
-    	log.info("FIM addMusicToPlaylist !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!2");
     	return true;
 	}
 }

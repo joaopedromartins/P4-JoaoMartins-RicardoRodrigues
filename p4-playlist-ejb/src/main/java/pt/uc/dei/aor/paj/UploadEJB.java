@@ -68,6 +68,7 @@ public class UploadEJB {
 	        
 	        em.persist(m);
 	        
+	        logger.info("Music created -> "+m);
 			return new MusicDTO(title, author, album, genre, convertMinutes(duration), filename, Integer.parseInt(year), m.getId()); 
 		}
 		catch (Exception e) {

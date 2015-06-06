@@ -3,6 +3,7 @@ package pt.uc.dei.aor.paj.test;
 import java.util.ArrayList;
 
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
 
 import pt.uc.dei.aor.paj.LoginEJB;
 import pt.uc.dei.aor.paj.User;
@@ -47,8 +49,8 @@ public class LoginEJBTest {
 		@Test
 		public void findUserByUsername_should_return_null_with_inexistent_user() {
 			final String QUERY = "from User u where u.name like :username";
-
-	        // mock invocations
+			
+			// mock invocations
 	        when(mockedQuery.getResultList()).thenReturn(new ArrayList<User>());
 
 	        when(em.createQuery(QUERY, User.class)).thenReturn(mockedQuery);
