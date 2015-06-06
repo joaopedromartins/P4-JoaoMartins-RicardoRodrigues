@@ -27,6 +27,12 @@ public class PlaylistEntryEJB {
 	
 	@Inject
 	private LoginEJB loginEJB;
+	
+	@Inject
+	private PlaylistEJB playlistEJB;
+	@Inject 
+	private MusicEJB musicEJB;
+	
 		
 	public PlaylistEntryEJB() {
 		// TODO Auto-generated constructor stub
@@ -46,7 +52,6 @@ public class PlaylistEntryEJB {
 	
 	private boolean verifyPlaylistName(String username, String playlistname) {
 		if (playlistname.length() <= 2) {
-			//log.info("playlistname < 2 : "+playlistname);
 			return false;
 		}
 		//testar se exite playlist com esse nome
@@ -66,13 +71,12 @@ public class PlaylistEntryEJB {
 		if (musicid<1) {
 			return false;
 		}
-		log.info("Music id: "+musicid);
+		
 		//testar se existe uma musica com esse id
 		TypedQuery<Music> qm = em.createQuery("from Music m where m.id = :musicid ", Music.class);
 		qm.setParameter("musicid", musicid);
 		List<Music> musica = qm.getResultList();
 		if (musica.isEmpty()) {
-			log.info("Musica invalida: ID="+musicid);
 			return false;
 		}
     	return true;
@@ -96,9 +100,8 @@ public class PlaylistEntryEJB {
 			List<PlaylistEntry> result = lm.getResultList();
 			List<PlaylistMusicDTO> retorno = new ArrayList<PlaylistMusicDTO>();
 			for (PlaylistEntry i: result) {
-				//log.info("id="+i);
 				retorno.add(new PlaylistMusicDTO(i.getMusicTitle(), i.getMusicAuthor() , 
-					i.getMusicAlbum(), i.getMusicGenre(), i.getMusicDuration(), i.getMusicYear(), i.getMusicId(), i.getPosition() ) );
+					i.getMusicAlbum(), i.getMusicGenre(), i.getMusicDuration(), i.getMusicYear(), i.getMusicId(), i.getPosition(), i.getFilename() ) );
 			}
     		return retorno;
     	}
@@ -136,7 +139,6 @@ public class PlaylistEntryEJB {
 	
 	
 	public boolean moveUpMusicfromPlaylistName(String username, String playlistname, int musicid) {
-		log.info("moveUpMusicfromPlaylistName !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
 		if (! verifyUsername(username)) {
 			return false;
 		}
@@ -147,10 +149,7 @@ public class PlaylistEntryEJB {
 			return false;
 		}
     	
-		log.info("moveUpMusicfromPlaylistName 1");
-		
-		
-    	//seleccionar id e posicao da musica da playlist seleccionada
+		//seleccionar id e posicao da musica da playlist seleccionada
     	TypedQuery<Object[]> lm = em.createQuery("select ple.id, ple.position, ple.playlist.id "
 				+ "from PlaylistEntry ple "
 				+ "inner join ple.playlist pl " 
@@ -162,9 +161,6 @@ public class PlaylistEntryEJB {
 		lm.setParameter("musicid", musicid);
 		List<Object[]> selectedPLE = lm.getResultList();
 		
-		log.info("moveUpMusicfromPlaylistName 2");
-		
-		//seleccionar position maxima
 		
 		//seleccionar id da playlistentry acima
     	TypedQuery<Object[]> lup = em.createQuery("select ple.id, ple.position, ple.playlist.id "
@@ -176,17 +172,10 @@ public class PlaylistEntryEJB {
     	lup.setParameter("pleposition", selectedPLE.get(0)[1]);
 		List<Object[]> upPLE = lup.getResultList();
 		
-		log.info("moveUpMusicfromPlaylistName 3");
-		
 		if (upPLE.isEmpty()) {
-			log.info("upPLE empty ----------------------------------------------------");
 			return false;
 		} else {
-			//log.info("upPLE ----------------------------------------------------------");
-			//for (Object[] i: upPLE) {
-			//	log.info("id= "+i[0]+"\tposition"+i[1]+"\tplaylist_id"+i[2]);
-			//}
-			
+						
 			em.createQuery("update PlaylistEntry ple set ple.position = :upposition where ple.id = :selectid and ple.position = :position").
 			setParameter("selectid", selectedPLE.get(0)[0]).
 			setParameter("position", selectedPLE.get(0)[1]).
@@ -199,10 +188,10 @@ public class PlaylistEntryEJB {
 			
 			return true;
 		}
+	
 	}
 	
 	public boolean moveDownMusicfromPlaylistName(String username, String playlistname, int musicid) {
-		log.info("moveDownMusicfromPlaylistName !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
 		if (! verifyUsername(username)) {
 			return false;
 		}
@@ -213,7 +202,6 @@ public class PlaylistEntryEJB {
 			return false;
 		}
     	
-		log.info("moveUpMusicfromPlaylistName 1");
 		
 		
     	//seleccionar id e posicao da musica da playlist seleccionada
@@ -228,9 +216,7 @@ public class PlaylistEntryEJB {
 		lm.setParameter("musicid", musicid);
 		List<Object[]> selectedPLE = lm.getResultList();
 		
-		log.info("moveUpMusicfromPlaylistName 2");
 		
-		//seleccionar position minima
 		
 		//seleccionar id da playlistentry abaixo
     	TypedQuery<Object[]> ldown = em.createQuery("select ple.id, ple.position, ple.playlist.id "
@@ -242,16 +228,10 @@ public class PlaylistEntryEJB {
     	ldown.setParameter("pleposition", selectedPLE.get(0)[1]);
 		List<Object[]> downPLE = ldown.getResultList();
 		
-		log.info("moveUpMusicfromPlaylistName 3");
 		
 		if (downPLE.isEmpty()) {
-			log.info("upPLE empty ----------------------------------------------------");
 			return false;
 		} else {
-			log.info("upPLE ----------------------------------------------------------");
-			for (Object[] i: downPLE) {
-				log.info("id= "+i[0]+"\tposition"+i[1]+"\tplaylist_id"+i[2]);
-			}
 			
 			em.createQuery("update PlaylistEntry ple set ple.position = :downposition where ple.id = :selectid and ple.position = :position").
 			setParameter("selectid", selectedPLE.get(0)[0]).
@@ -268,7 +248,6 @@ public class PlaylistEntryEJB {
 	}
 	
 	public boolean addMusicToPlaylist(String username, String playlistname, int musicid) {
-		log.info("addMusicToPlaylist !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
 		if (! verifyUsername(username)) {
 			return false;
 		}
@@ -279,7 +258,6 @@ public class PlaylistEntryEJB {
 			return false;
 		}
     	
-		log.info("addMusicToPlaylist 1");
 		
 		//Obter playlist
 		TypedQuery<Playlist> q = em.createQuery("from Playlist l where l.user = :user and l.title like :title", Playlist.class);

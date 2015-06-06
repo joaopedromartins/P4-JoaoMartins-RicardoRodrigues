@@ -69,6 +69,10 @@ public class PlaylistEntry implements Serializable {
 		return music.getYear(); 
 	}
 	
+	public String getFilename() {
+		return music.getFilename();
+	}
+	
 
 	@Override
 	public String toString() {

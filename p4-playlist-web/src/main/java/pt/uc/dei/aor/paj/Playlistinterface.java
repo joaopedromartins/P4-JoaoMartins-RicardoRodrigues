@@ -24,6 +24,7 @@ public class Playlistinterface implements Serializable {
 	private PlaylistMusicDTO selectedmusic;
 	private boolean newMusic = false;
 	
+	
 	@Inject
 	private UserSession loggeduser;
 
@@ -96,13 +97,7 @@ public class Playlistinterface implements Serializable {
 		if (searchOrder.equals("asc") || searchOrder.equals("desc")) {
 			if ( searchType.equals("title") || searchType.equals("date") ) {
 				this.listaplaylistnames=playlist.listPlaylist(loggeduser.getUsername(), searchType, searchOrder);
-				//TESTE
-				System.out.println("Lista de nomes");
-				for (String i: listaplaylistnames) {
-					System.out.println(i);
-				}
-				
-				
+								
 				return listaplaylistnames;
 			} else if ( searchType.equals("tamanho") ) {
 				this.listaplaylistnames=playlist.listPlaylistTamanho(loggeduser.getUsername(), searchOrder);
@@ -157,7 +152,6 @@ public class Playlistinterface implements Serializable {
 
 	//metodo para criar uma playlist
 	public void criaplaylist() {
-		//System.out.println("Adicionar playlist:" + this.playlistname + "\t do user: "+this.username);
 		if (playlist.addPlaylist( loggeduser.getUsername(), playlistname) ) {
 			msgerro="Adicionada a playlist: "+playlistname;
 			playlistname=null;
@@ -167,16 +161,13 @@ public class Playlistinterface implements Serializable {
 	}
 	
 	//metodo para editar uma playlist
-	public String editaplaylist() {
-		System.out.println("Editar playlist:" + this.playlistname + "\t do user: "+this.username);
-		//playlist.editPlaylist( loggeduser.getUserLogged(), playlistname);
-		
-		return "/resources/secure/playlist?faces-redirect=true";
-	}
+//	public String editaplaylist() {
+//		
+//		return "/resources/secure/playlist?faces-redirect=true";
+//	}
 	
 	//metodo para apagar uma playlist
 	public void apagaplaylist() {
-		System.out.println("Apagar playlist:" + this.playlistname + "\t do user: "+this.username);
 		if (playlist.delPlaylist( loggeduser.getUsername(), playlistname) ) {
 			msgerro="Apagada a playlist: "+playlistname;
 			setPlaylistname(null);
@@ -197,14 +188,11 @@ public class Playlistinterface implements Serializable {
 	
 	//metodo para seleccionar uma musica da playlist
 	public void selectmusic(ActionEvent ae) {
-		//System.out.println("seleccionar uma musica da playlist:");
 		//atribui o nome da playlist correspondente ao botao da linha seleccionada
 		int selectedmusicid = (int)(ae.getComponent().getAttributes().get("selectedmusicline"));
-		//System.out.println("id="+selectedmusicid);
 		for (PlaylistMusicDTO i:listaplaylistmusics) {
 			if (selectedmusicid==i.getId()) {
 				this.selectedmusic=i;
-				//System.out.println("selectedmusic:\n"+selectedmusic);
 			}
 		}
 		newMusic = false;
@@ -232,7 +220,6 @@ public class Playlistinterface implements Serializable {
 	
 	//metodo para apagar uma musica da playlist
 	public void delmusicfromplaylist() {
-		//System.out.println("Apagar uma musica da playlist:"+selectedmusic);
 		if ( playlistEntry.delMusicfromPlaylistName( loggeduser.getUsername(), playlistname, selectedmusic.getId()) ) {
 			msgerro="";
 			selectedmusic=null;
@@ -243,7 +230,6 @@ public class Playlistinterface implements Serializable {
 	
 	//metodo para mover para cima uma musica na playlist
 	public void moveupmusicfromplaylist() {
-		System.out.println("Mover para cima uma musica da playlist:"+selectedmusic);
 		if ( playlistEntry.moveUpMusicfromPlaylistName( loggeduser.getUsername(), playlistname, selectedmusic.getId()) ) {
 			msgerro="";
 			//selectedmusic=null;
@@ -254,7 +240,6 @@ public class Playlistinterface implements Serializable {
 	
 	//metodo para mover para baixo uma musica na playlist
 	public void movedownmusicfromplaylist() {
-		System.out.println("Mover para baixo uma musica da playlist:"+selectedmusic);
 		if ( playlistEntry.moveDownMusicfromPlaylistName( loggeduser.getUsername(), playlistname, selectedmusic.getId()) ) {
 			msgerro="";
 			//selectedmusic=null;
@@ -286,5 +271,7 @@ public class Playlistinterface implements Serializable {
 
 		playlistEntry.addMusicToPlaylist(loggeduser.getUsername(), playlistname, selectedmusic.getId());
 	}
+
+
 	
 }

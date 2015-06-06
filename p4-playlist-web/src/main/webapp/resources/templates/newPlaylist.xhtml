@@ -7,6 +7,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+	
 	<h:outputStylesheet library="css" name="template.css" />
 </h:head>
 
@@ -72,7 +73,7 @@
 										<h:outputText value="#{playlistinterface.playlistname}" />
 										<h:commandButton type="submit" value="Apagar playlist"
 											styleClass="btn" action="#{playlistinterface.apagaplaylist}" />	
-										
+										<br />
 										<h:outputText value="Novo nome playlist:" />
 										<h:inputText id="renameplaylist" title="Nome playlist"
 											value="#{playlistinterface.playlistnewname}" required="false"
@@ -117,14 +118,14 @@
 																								
 										</h:panelGroup>	
 										
-										<h:panelGroup id="listamusicasplaylist" rendered="#{!empty playlistinterface.playlistname}">
+										<h:panelGroup prependId="false" id="listamusicasplaylist" rendered="#{!empty playlistinterface.playlistname}">
 											<h:outputText value="2. Seleccione a Musica"/>
 											<br />
 											<h:outputText value="da Playlist"/>
 											<br />
 											<p:panel class="max_height_col1">
-												<h:panelGrid columns="1" styleClass="painel-interior">
-													<h:dataTable value="#{playlistinterface.listaplaylistmusics}" var="musicentry">
+												<h:panelGrid prependId="false" columns="1" styleClass="painel-interior">
+													<h:dataTable value="#{playlistinterface.listaplaylistmusics}" var="musicentry" varStatus="status">
 														<h:column>
 															<h:commandButton styleClass="btn-historico"
 																actionListener="#{playlistinterface.selectmusic}" value="#{musicentry.title}" >
@@ -134,9 +135,17 @@
 														<h:column>
 															<h:commandButton value="#{musicentry.author}" disabled="true" />
 														</h:column>
+														<h:column>
+															<span> <h:outputLink
+															styleClass="playBtn" id="btnPlaylist#{status.index}" value="">play</h:outputLink>
+															<h:inputHidden id="hiddenPlaylist#{status.index}"
+															value="#{musicentry.filename}" />
+															</span>
+														</h:column>
 													</h:dataTable>	
 												</h:panelGrid>	
 											</p:panel>		
+											
 										</h:panelGroup>	
 										
 										<h:panelGroup id="musicaselecionada" rendered="#{true}">

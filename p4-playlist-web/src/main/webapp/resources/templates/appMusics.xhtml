@@ -29,7 +29,7 @@
 				<span class="accountUpdateFields"> <f:ajax
 						render="@form userMusicListAll" execute="filterKeywordAll filterFieldAll">
 						<h:commandButton action="#{appMusicFilters.addFilter()}"
-							value="Filter" />
+							value="Filtrar" />
 					</f:ajax>
 
 				</span>
@@ -51,11 +51,11 @@
 			<h:panelGroup id="userMusicListContainerAll">
 				<h:form id="userMusicListAll">
 					<h:panelGroup rendered="#{empty appMusicFilters.listMusics}">
-					No results
+					Sem resultados
 				</h:panelGroup>
 					<h:panelGroup rendered="#{not empty appMusicFilters.listMusics}">
 						<div class="userMusicHeader">
-							<span class="userMusicCellLarge userMusicCell">Song</span> 
+							<span class="userMusicCellLarge userMusicCell">Música</span> 
 						</div>
 
 						<ui:repeat value="#{appMusicFilters.listMusics}" var="music"

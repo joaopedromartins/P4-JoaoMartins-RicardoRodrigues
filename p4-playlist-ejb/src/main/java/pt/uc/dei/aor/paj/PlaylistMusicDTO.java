@@ -9,10 +9,11 @@ public class PlaylistMusicDTO {
 	private int year;
 	private int id;
 	private int order;
+	private String filename;
 	
 	public PlaylistMusicDTO(String title, String author, String album,
 			String genre, int duration, int year, int id,
-			int order) {
+			int order, String filename) {
 		super();
 		this.title = title;
 		this.author = author;
@@ -22,6 +23,7 @@ public class PlaylistMusicDTO {
 		this.year = year;
 		this.id = id;
 		this.order = order;
+		this.filename = filename;
 	}
 	
 	public String getTitle() {
@@ -79,6 +81,14 @@ public class PlaylistMusicDTO {
 				+ ", album=" + album + ", genre=" + genre + ", duration="
 				+ duration + ", year=" + year + ", id=" + id + ", order="
 				+ order + "]";
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 	
 	

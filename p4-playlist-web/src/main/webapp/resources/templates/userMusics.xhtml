@@ -14,31 +14,31 @@
 <h:body>
 	<ui:composition>
 		<div id="userMusicFilter" class="accountSection ui-grid-col-11">
-			<h2>Uploaded Music</h2>
-			<a href="" id="newMusicBtn">new music</a>
+			<h2>Uploads</h2>
+			<a href="" id="newMusicBtn">adicionar música</a>
 
 			<div id="musicUploaderFormContainer">
-				<h3>Add new music</h3>
+				<h3>Adicionar nova música</h3>
 				<h:form id="musicUploaderForm" enctype="multipart/form-data">
 					<div class="uploadFormInput">
-						<p:inputText value="#{uploader.title}" placeholder="title" required="true" 
+						<p:inputText value="#{uploader.title}" placeholder="título" required="true" 
 						requiredMessage="Music title is required" validator="titleValidator">
 							<f:attribute name="artist" value="#{artist}" />
 							<f:attribute name="album" value="#{album}" />
 						</p:inputText>
 					</div>
 					<div class="uploadFormInput">
-						<p:inputText value="#{uploader.author}" placeholder="artist" required="true"
+						<p:inputText value="#{uploader.author}" placeholder="artista" required="true"
 						requiredMessage="Music artist is required" binding="#{artist}" />
 					</div>
 					<div class="uploadFormInput">
 						<p:inputText value="#{uploader.album}" placeholder="album" binding="#{album}" />
 					</div>
 					<div class="uploadFormInput">
-						<p:inputText value="#{uploader.genre}" placeholder="genre" />
+						<p:inputText value="#{uploader.genre}" placeholder="género" />
 					</div>
 					<div class="uploadFormInput">
-						<p:inputText value="#{uploader.year}" placeholder="year" validator="yearValidator" />
+						<p:inputText value="#{uploader.year}" placeholder="ano" validator="yearValidator" />
 					</div>
 					<div class="uploadFormInput">
 						<h:inputFile id="fileInput" value="#{uploader.file}" required="true"
@@ -67,7 +67,7 @@
 				<span class="accountUpdateFields"> <f:ajax
 						render="@form userMusicList" execute="filterKeyword filterField">
 						<h:commandButton action="#{musicFilters.addFilter()}"
-							value="Filter" />
+							value="Filtrar" />
 					</f:ajax>
 
 				</span>
@@ -89,16 +89,16 @@
 			<h:panelGroup id="userMusicListContainer">
 				<h:form id="userMusicList">
 					<h:panelGroup rendered="#{empty musicFilters.listMusics}">
-					No results
+					Sem resultados
 				</h:panelGroup>
 					<h:panelGroup rendered="#{not empty musicFilters.listMusics}">
 						<div class="userMusicHeader">
-							<span class="userMusicCellLarge userMusicCell">Title</span> <span
-								class="userMusicCellLarge userMusicCell">Artist</span> <span
+							<span class="userMusicCellLarge userMusicCell">Título</span> <span
+								class="userMusicCellLarge userMusicCell">Artista</span> <span
 								class="userMusicCellLarge userMusicCell">Album</span> <span
-								class="userMusicCell userMusicCellSmall">Year</span> <span
-								class="userMusicCell userMusicCellSmall">Genre</span> <span
-								class="userMusicCell userMusicCellSmall">Duration</span>
+								class="userMusicCell userMusicCellSmall">Ano</span> <span
+								class="userMusicCell userMusicCellSmall">Género</span> <span
+								class="userMusicCell userMusicCellSmall">Duração</span>
 						</div>
 
 						<ui:repeat value="#{musicFilters.listMusics}" var="music"
@@ -123,7 +123,7 @@
 									</f:ajax>
 								</span> <span class="userMusicCell userMusicCellLink"> <f:ajax
 										render="@form :growl">
-										<h:commandLink value="remove"
+										<h:commandLink value="remover"
 											action="#{uploader.remove(music.id)}" />
 									</f:ajax>
 								</span>
@@ -132,21 +132,21 @@
 								rendered="#{status.index==musicFilters.editorChoice}">
 							
 									<span class="uploadFormInput"> <p:inputText
-											value="#{uploader.title}" placeholder="title">
+											value="#{uploader.title}" placeholder="título">
 												
 											</p:inputText>
 									</span>
 									<span class="accountUpdateFields"> <p:inputText
-											value="#{uploader.author}" placeholder="artist" />
+											value="#{uploader.author}" placeholder="artista" />
 									</span>
 									<span class="accountUpdateFields"> <p:inputText
 											value="#{uploader.album}" placeholder="album" />
 									</span>
 									<span class="accountUpdateFields"> <p:inputText
-											value="#{uploader.genre}" placeholder="genre" />
+											value="#{uploader.genre}" placeholder="género" />
 									</span>
 									<span class="accountUpdateFields"> <p:inputText
-											value="#{uploader.year}" placeholder="year" />
+											value="#{uploader.year}" placeholder="ano" />
 									</span>
 									<span class="accountUpdateFields"> 
 									<f:ajax execute="updater" render="userMusicList :growl">

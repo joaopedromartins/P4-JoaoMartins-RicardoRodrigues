@@ -45,10 +45,7 @@ public class PlaylistEJB {
         	em.persist( newPlaylist );
         	return true;
     	} else {
-			//for (Playlist i:l) {
-			//   System.out.println(i);
-			//}
-    		return false;
+			return false;
     	}
     	
     }
@@ -117,7 +114,6 @@ public class PlaylistEJB {
     	if (username.length() <= 2) return null;
     	User loggedUser = loginEJB.findUserByUsername(username);
     	
-    	//System.out.println("EJB list Logged user: "+loggedUser);
     	if ( loggedUser == null) {
     		return null;
     	}
@@ -134,7 +130,6 @@ public class PlaylistEJB {
     	if (username.length() <= 2) return null;
     	User loggedUser = loginEJB.findUserByUsername(username);
     	
-    	//System.out.println("EJB list Logged user: "+loggedUser);
     	if ( loggedUser == null) {
     		return null;
     	}
@@ -152,13 +147,7 @@ public class PlaylistEJB {
 		q.setParameter("user", loggedUser);
 		List<String> l = q.getResultList();
 		
-		//System.out.println("----------------------------------------------");
-		//System.out.println("EJB Lista de playists com a query:\n"+myquery);
-		//for (String i:l) {
-		//	System.out.println(i);
-		//}
-		//System.out.println("----------------------------------------------");
-    	return l;
+		return l;
     }
 	
 	
@@ -167,7 +156,6 @@ public List<String> listPlaylistTamanho(String username, String ascdesc) {
     	if (username.length() <= 2) return null;
     	User loggedUser = loginEJB.findUserByUsername(username);
     	
-    	//System.out.println("EJB list Logged user: "+loggedUser);
     	if ( loggedUser == null) {
     		return null;
     	}
@@ -187,18 +175,10 @@ public List<String> listPlaylistTamanho(String username, String ascdesc) {
 		
 		List<String> s = new ArrayList<String>();
 		
-		System.out.println("----------------------------------------------");
-		System.out.println("EJB Lista de playists com a query:\n"+myquery);
 		for (Object[] i:l) {
-			System.out.println("Obj0: "+(String)i[0] + "    Obj1: "+i[1]);
 			s.add( ""+(String)i[0] );
 		}
-		System.out.println("----------------------------------------------");
-		for (String i:s) {
-			System.out.println(i);
-		}
-		System.out.println("----------------------------------------------");
-    	return s;
+		return s;
     }
 	
 	
@@ -223,26 +203,17 @@ public List<String> listPlaylistTamanho(String username, String ascdesc) {
 	}
 	
 	public List<PlaylistMusicDTO> findMusicsByUsernameAndPlaylistName(String username, String playlistname) {
-		//System.out.println("findMusicsByUsernameAndPlaylistName");
-		//System.out.println("username: "+username);
-		//System.out.println("playlistname"+playlistname);
 		if (username.length() <= 2) {
-			//System.out.println("username < 2 : "+username);
 			return null;
 		}
     	
     	if (playlistname.length() <= 2) {
-    		//System.out.println("playlistname < 2 : "+playlistname);
     		return null;
     	}
     	
     	//testar se existe o utilizador com esse nome
     	User loggedUser = loginEJB.findUserByUsername(username);
-    	//System.out.println("user id : "+loggedUser.getId());
-    	//System.out.println("user name : "+loggedUser.getName());
-    	//System.out.println("user email : "+loggedUser.getEmail());
     	if ( loggedUser == null) {
-    		//System.out.println("loggeduser = null ");
     		return null;
     	}
     	
@@ -252,12 +223,8 @@ public List<String> listPlaylistTamanho(String username, String ascdesc) {
 		q.setParameter("title", playlistname);
 		List<Playlist> l = q.getResultList();
     	if (l.isEmpty()) {
-    		//System.out.println("Playlist is empty! ");
     		return null;
     	} else {
-    		//System.out.println("Before TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    		//System.out.println("User: "+loggedUser);
-    		//System.out.println("playlistname: "+playlistname);
     		TypedQuery<PlaylistEntry> lm = em.createQuery("select ple "
 					+ "from PlaylistEntry ple "
 					+ "inner join ple.playlist pl " 
@@ -271,13 +238,11 @@ public List<String> listPlaylistTamanho(String username, String ascdesc) {
 			
 			List<PlaylistMusicDTO> retorno = new ArrayList<PlaylistMusicDTO>();
 			for (PlaylistEntry i: result) {
-				//System.out.println("id="+i);
 				retorno.add(new PlaylistMusicDTO(i.getMusicTitle(), i.getMusicAuthor() , 
-					i.getMusicAlbum(), i.getMusicGenre(), i.getMusicDuration(), i.getMusicYear(), i.getMusicId(), i.getPosition() ) );
+					i.getMusicAlbum(), i.getMusicGenre(), i.getMusicDuration(), i.getMusicYear(), i.getMusicId(), i.getPosition(), i.getFilename()) );
 			}
     		
-			//System.out.println("AFTER TypedQuery!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    		return retorno;
+			return retorno;
     	}
 	}
 	

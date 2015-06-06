@@ -92,7 +92,7 @@ public class MusicDTO {
 		int time = Integer.valueOf(m)*60+Integer.valueOf(s);
 		
 		PlaylistMusicDTO pmdto = new PlaylistMusicDTO(title, author, album, genre, time, 
-				year, id, 0);
+				year, id, 0, filename);
 		
 		return pmdto;
 	}

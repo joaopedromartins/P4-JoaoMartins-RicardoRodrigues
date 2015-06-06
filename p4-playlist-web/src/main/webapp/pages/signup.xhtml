@@ -20,7 +20,7 @@
 				<p:growl id="growl" life="5000" />
 
 				<h:form prependId="false">
-					<h2 class="formRow">Register for new account</h2>
+					<h2 class="formRow">Criar uma nova conta</h2>
 					<div class="formRow">
 						<p:inputText value="#{usersinterface.username}"
 							placeholder="username" required="true" requiredMessage="fill in an username" 
@@ -46,7 +46,7 @@
 					<div class="formRow">
 						<p:commandButton value="sign up"
 							action="#{usersinterface.usersignup()}" update="growl" />
-						or 
+						ou
 						<h:outputLink value="../index.xhtml">
 								<h:outputText value="login" />
 						</h:outputLink>

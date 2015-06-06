@@ -147,6 +147,9 @@ public class Music implements Serializable {
 		this.user = user;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return author+" : "+title+" : "+album+" : "+year;
+	}
 	
 }
