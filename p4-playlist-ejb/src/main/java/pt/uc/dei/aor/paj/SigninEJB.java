@@ -45,6 +45,7 @@ public class SigninEJB {
     		User u = new User(username, masked, email);
     		em.persist(u);
     		UserDTO dto = new UserDTO(username, email);
+    		logger.info("User created -> "+ username);
     		return dto;
     	}
     	return null;
@@ -85,7 +86,7 @@ public class SigninEJB {
 		}
 		
 		em.remove(u);
-    	
+		logger.info("User removed account -> "+ username);
     	return true;
     }
     
@@ -106,7 +107,7 @@ public class SigninEJB {
 	   em.merge(u);
 	   
 	   UserDTO dto = new UserDTO(username, u.getEmail());
-	   
+	   logger.info("User updated username -> "+ username);
 	   return dto;
    }
    
@@ -123,7 +124,7 @@ public class SigninEJB {
 	   em.merge(u);
 	   
 	   UserDTO dto = new UserDTO(oldUsername, email);
-	   
+	   logger.info("User updated email -> "+ email);
 	   return dto;
    }
 
