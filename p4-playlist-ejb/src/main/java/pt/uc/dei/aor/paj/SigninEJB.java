@@ -113,8 +113,9 @@ public class SigninEJB {
    
    public UserDTO updateEmail(String oldUsername, String email, String password) {
 	   String cryptPass = crypt.encrypt(password, oldUsername);
-	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
-			   .setParameter("username", oldUsername).setParameter("password", cryptPass);
+	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class);
+	   q.setParameter("username", oldUsername);
+	   q.setParameter("password", cryptPass);
 	   
 	   List<User> users = q.getResultList();
 	   if (users.isEmpty()) return null;
@@ -132,8 +133,9 @@ public class SigninEJB {
    public boolean updatePassword(String username, String oldPassword,
 		   String password) {
 	   String cryptPass = crypt.encrypt(oldPassword, username);
-	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
-			   .setParameter("username", username).setParameter("password", cryptPass);
+	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class);
+	   q.setParameter("username", username);
+	   q.setParameter("password", cryptPass);
 	   
 	   List<User> users = q.getResultList();
 	   if (users.isEmpty()) return false;

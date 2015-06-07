@@ -113,5 +113,51 @@ public class SigninEJBTest {
 	}
 	
 	
+	@Test public void updateEmail_should_work_correctly() {
+		String oldUsername = "old";
+		String password = "123";
+		String email = "new@123.pt";
+		String encrypted = "123";
+		
+		String query = "from User u where u.name like :username and u.password like :password";
+		
+		when(crypt.encrypt(password, oldUsername)).thenReturn(encrypted);
+		when(em.createQuery(query, User.class)).thenReturn(mockedQueryUser);
+		
+		ejb.updateEmail(oldUsername, email, password);
+		
+		verify(mockedQueryUser).getResultList();
+		verify(em).createQuery(query, User.class);
+		verify(mockedQueryUser).setParameter("username", oldUsername);
+		verify(mockedQueryUser).setParameter("password", encrypted);
+		verify(crypt).encrypt(password, oldUsername);
+		verify(em).merge(u);
+		
+	}
+	
+	@Test public void updatePassword_should_work_correctly() {
+		String oldUsername = "old";
+		String password = "123";
+		String old = "a";
+		String encrypted = "123";
+		
+		String query = "from User u where u.name like :username and u.password like :password";
+		
+		when(crypt.encrypt(old, oldUsername)).thenReturn(encrypted);
+		when(em.createQuery(query, User.class)).thenReturn(mockedQueryUser);
+		
+		ejb.updatePassword(oldUsername, old, password);
+		
+		verify(mockedQueryUser).getResultList();
+		verify(em).createQuery(query, User.class);
+		verify(mockedQueryUser).setParameter("username", oldUsername);
+		verify(mockedQueryUser).setParameter("password", encrypted);
+		verify(crypt).encrypt(password, oldUsername);
+		verify(em).merge(u);
+		
+	}
+	
+	
+	
 	
 }
