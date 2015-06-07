@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -39,6 +40,9 @@ public class PlaylistEJBTest {
 	@Mock
 	TypedQuery<Playlist> mockedQuery;
 	
+	@Mock
+	TypedQuery<String> mockedQueryString;
+	
 	@InjectMocks
 	PlaylistEJB ejb;
 
@@ -48,6 +52,7 @@ public class PlaylistEJBTest {
 	public void init() {
 		u = new User();
 		when(mockedQuery.getResultList()).thenReturn(new ArrayList<Playlist>());
+		when(mockedQueryString.getResultList()).thenReturn(new ArrayList<String>());
 		when(loginEJB.findUserByUsername(Mockito.anyString())).thenReturn(u);
 	}
 	
@@ -74,5 +79,17 @@ public class PlaylistEJBTest {
 		Assert.assertThat(result, is(true));
 	}
 	
+	@Test
+	public void listPlaylist_should_work_correctly() {
+		String query = "select pl.title from Playlist pl where pl.user = :user order by pl.title";
+		when(em.createQuery(query, String.class)).thenReturn(mockedQueryString);
+		when(mockedQueryString.getResultList()).thenReturn(new ArrayList<String>());
+		
+		ejb.listPlaylist("username");
+		
+		verify(em).createQuery(query, String.class);
+		verify(mockedQueryString).setParameter("user", u);
+	}
 	
+
 }
