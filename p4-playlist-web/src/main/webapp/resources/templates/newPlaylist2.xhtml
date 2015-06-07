@@ -181,9 +181,9 @@
 				<h:outputText value="#{playlistinterface.selectedmusic.year}" />
 				<br />
 				<h:panelGrid rendered="#{playlistinterface.newMusic}">
-						<f:ajax render="@form :playlistMusicForm">
+						<f:ajax render="@form :playlistMusicForm :growl">
 					<h:commandButton value="Adicionar" styleClass="btn"
-						action="#{playlistinterface.addMusicToPlaylist}" />
+						action="#{playlistinterface.addMusicToPlaylist}" update="growl" />
 					</f:ajax>
 				</h:panelGrid>
 						<f:ajax render="@form :playlistMusicForm">

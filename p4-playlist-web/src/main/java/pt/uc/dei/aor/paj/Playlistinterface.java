@@ -271,9 +271,14 @@ public class Playlistinterface implements Serializable {
 	
 	public void addMusicToPlaylist() {
 
-		if (playlistname == null || selectedmusic == null) return;
+		if (playlistname == null || selectedmusic == null) {
+			addMessage("Not possibles to add this music to playlist", FacesMessage.SEVERITY_ERROR);
+			return;
+		}
 
-		playlistEntry.addMusicToPlaylist(loggeduser.getUsername(), playlistname, selectedmusic.getId());
+		if (!playlistEntry.addMusicToPlaylist(loggeduser.getUsername(), playlistname, selectedmusic.getId())) {
+			addMessage("Not possible to add this music to playlist", FacesMessage.SEVERITY_ERROR);
+		}
 	}
 
 

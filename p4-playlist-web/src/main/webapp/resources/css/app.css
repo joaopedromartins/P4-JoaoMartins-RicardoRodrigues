@@ -150,6 +150,7 @@ nav li.selected a {
 
 #musicUploaderFormContainer {
 	display: none;	
+	margin-bottom: 40px;
 }
 
 .uploadFormInput {
