@@ -15,7 +15,7 @@
 <h:body>
 	<ui:composition>
 		<h:panelGroup id="playlistDetails"
-			styleClass="accountSection ui-grid-col-11">
+			styleClass="accountSection">
 			
 			<h:form>
 				<h:outputText styleClass="txtconteudo"
@@ -35,13 +35,14 @@
 				</h:selectOneRadio>
 				
 			</h:form>
-
+			<br />
 			<h:panelGroup id="playlistCreationFormContainer">
 				<h:form id="playlistCreationForm"
 					rendered="#{playlistinterface.operacao eq 'criar'}">
 					<h:outputText
 						value="#{userSession.username}, prencha os campos em baixo para criar uma playlist."
 						styleClass="txtconteudo" />
+					<br />
 					<h:outputText value="Nome playlist:" />
 					<h:inputText id="playlistname" title="Nome playlist"
 						value="#{playlistinterface.playlistname}" required="true"
@@ -56,17 +57,17 @@
 			
 			<h:panelGroup id="playlistEditionFormContainer">
 
-				<h:form id="deleteForm"
+				<h:form id="deleteForm" style="display:inline-block"
 					rendered="#{playlistinterface.typeeditar() and !empty playlistinterface.playlistname}">
-					<h1 style="display: inline-block">#{playlistinterface.playlistname}</h1>
+					<h1>#{playlistinterface.playlistname}</h1>
 					<f:ajax execute="@form" render="@form :growl listaplaylist :listPlaylistForm
 					:playlistCreationForm :editForm playlistEditionFormContainer listamusicasplaylist
 					musicaselecionada listamusicasplaylist userMusicFilterAll userMusicListContainerAll">
-					<h:commandButton type="submit" value="eliminar" styleClass="btn"
+					<h:commandButton type="submit" value="eliminar playlist" styleClass="btn"
 						action="#{playlistinterface.apagaplaylist()}" update="growl" />
 					</f:ajax>
 				</h:form>
-				<h:form id="editForm"
+				<h:form id="editForm" style="margin-left:30px display:inline-block"
 					rendered="#{playlistinterface.typeeditar() and !empty playlistinterface.playlistname}">
 					<p:inputText id="renameplaylist" title="Nome playlist"
 						placeholder="novo nome playlist"
@@ -80,7 +81,7 @@
 				</h:form>
 			</h:panelGroup>
 
-
+			
 			<h:panelGroup id="listaplaylist" >
 				<h:form id="listPlaylistForm" rendered="#{playlistinterface.typeeditar()}">
 				<h:outputText value="1. Selecione a" />
@@ -203,6 +204,7 @@
 						</f:ajax>
 				</h:form>
 			</h:panelGroup>
+			
 		</h:panelGroup>
 
 

@@ -3,7 +3,7 @@ html, body {
 	margin: 0;
 }
 
-#playlistScreen {
+#accountScreen {
 	display: none;
 }
 
@@ -163,4 +163,28 @@ nav li.selected a {
 
 #filterListAll {
 	margin: 10px 0;
+}
+
+#listaplaylist {
+	position:absolute;
+	top:330px;
+	left:100px;
+}
+
+#listamusicasplaylist {
+	position: absolute;
+	top: 330px;
+	left: 400px;
+}
+
+#musicaselecionada {
+	position: absolute;
+	top: 330px;
+	left: 750px;
+}
+
+#userMusicFilterAll {
+	position: absolute;
+	top: 330px;
+	left: 1000px;
 }
