@@ -164,10 +164,7 @@ public List<String> listPlaylistTamanho(String username, String ascdesc) {
     		ascdesc=""+"asc";
     	}
     	
-    	//ERRO String myquery= "select distinct pl.title, count(pl.title) as tamanho from Playlist pl inner join pl.entries ple group by pl.title where pl.user = :user order by tamanho "+ascdesc;
-    	//String myquery= "select pl.title, count(*) as tamanho from Playlist pl inner join pl.entries ple where pl.user = :user group by pl.title order by tamanho "+ascdesc;
     	String myquery= "select pl.title, count(*) as tamanho from Playlist pl left join pl.entries ple where pl.user = :user group by pl.title order by tamanho "+ascdesc;
-    	//ERRO String myquery= "select distinct pl.title, count(*) as tamanho from Playlist pl inner join pl.entries ple where pl.user = :user order by tamanho "+ascdesc;
     	
     	TypedQuery<Object[]> q = em.createQuery(myquery, Object[].class);
 		q.setParameter("user", loggedUser);
