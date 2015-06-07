@@ -54,7 +54,9 @@ public class LoginEJB {
 		String username = null;
 		if (login.contains("@")) {
 			query = "from User u where u.email like :login and u.password like :password";
-			List<User> users = em.createQuery("from User u where u.email like :email", User.class).setParameter("email", login).getResultList();
+			TypedQuery<User> q = em.createQuery("from User u where u.email like :email", User.class);
+			q.setParameter("email", login);
+			List<User> users = q.getResultList();
 			if (users.isEmpty()) return null;
 			username = users.get(0).getName();
 		}

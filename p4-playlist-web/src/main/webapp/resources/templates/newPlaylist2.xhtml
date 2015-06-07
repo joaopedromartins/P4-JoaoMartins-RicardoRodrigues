@@ -53,6 +53,7 @@
 					</f:ajax>
 					
 				</h:form>
+				
 			</h:panelGroup>
 			
 			<h:panelGroup id="playlistEditionFormContainer">
@@ -92,14 +93,14 @@
 						<h:dataTable value="#{playlistinterface.listaplaylistnames}"
 							var="item">
 							<h:column>
-								<h:commandButton styleClass="btn-historico"
+								<h:commandLink styleClass="btnJ"
 									actionListener="#{playlistinterface.selectplaylist}"
 									value="#{item}">
 									<f:attribute name="selectedline" value="#{item}" />
 									<f:ajax render="listaplaylist playlistEditionFormContainer :playlistCreationForm
 									:editForm :deleteForm listamusicasplaylist :playlistMusicForm musicaselecionada
 									userMusicFilterAll :userMusicListAll :userMusicFilterForm" />
-								</h:commandButton>
+								</h:commandLink>
 							</h:column>
 						</h:dataTable>
 					</h:panelGrid>
@@ -131,17 +132,17 @@
 						<h:dataTable value="#{playlistinterface.listaplaylistmusics}"
 							var="musicentry" varStatus="status">
 							<h:column>
-								<h:commandButton styleClass="btn-historico"
+								<h:commandLink styleClass="btnJ"
 									actionListener="#{playlistinterface.selectmusic}"
 									value="#{musicentry.title}">
 									<f:attribute name="selectedmusicline" value="#{musicentry.id}" />
 									<f:ajax render="@form playlistCreationFormContainer listaplaylist :listPlaylistForm 
 									:playlistCreationForm playlistEditionFormContainer :editForm 
 									:deleteForm musicaselecionada :thirdScreenForm" />
-								</h:commandButton>
+								</h:commandLink>
 							</h:column>
 							<h:column>
-								<h:commandButton value="#{musicentry.author}" disabled="true" />
+								<h:commandLink value="#{musicentry.author}" disabled="true" />
 							</h:column>
 							<h:column>
 								<span> <h:outputLink styleClass="playBtn"

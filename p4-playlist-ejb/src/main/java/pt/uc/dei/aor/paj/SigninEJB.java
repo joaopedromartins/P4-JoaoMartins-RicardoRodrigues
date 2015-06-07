@@ -92,8 +92,9 @@ public class SigninEJB {
     
    public UserDTO updateUsername(String oldUsername, String username, String password) {
 	   String cryptPass = crypt.encrypt(password, oldUsername);
-	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
-			   .setParameter("username", oldUsername).setParameter("password", cryptPass);
+	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class);
+	   q.setParameter("username", oldUsername);
+	   q.setParameter("password", cryptPass);
 	   
 	   List<User> users = q.getResultList();
 	   if (users.isEmpty()) return null;

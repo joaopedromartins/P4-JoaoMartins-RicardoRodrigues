@@ -119,7 +119,8 @@ public class UploadEJB {
 		User u = qU.getSingleResult();
 		
 		TypedQuery<Music> qM = em.createQuery("from Music m where m.id = :id and m.user = :user", Music.class);
-		qM.setParameter("id", id).setParameter("user", u);
+		qM.setParameter("id", id);
+		qM.setParameter("user", u);
 		
 		List<Music> list = qM.getResultList();
 		return !list.isEmpty();
