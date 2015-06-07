@@ -35,7 +35,7 @@
 							requiredMessage="Password is required" placeholder="password" styleClass="accountUpdateFields" />
 							</span>
 							<span class="accountUpdateFields">
-							<f:ajax render="usernameValue :accountUsername :growl" execute="@form">
+							<f:ajax render="usernameValue j_idt10:accountUsername :growl" execute="@form">
 							<h:commandButton action="#{usersinterface.updateUsername()}" styleClass="accountUpdateFields" value="submit" />												
 							</f:ajax>
 							</span>

@@ -13,10 +13,10 @@
 
 <h:body>
 	<ui:composition>
-		<div id="userMusicFilterAll" class="accountSection">
+		<h:panelGroup id="userMusicFilterAll" class="accountSection" >
 			
 
-			<h:form>
+			<h:form id="userMusicFilterForm" rendered="#{playlistinterface.typeeditar() and !empty playlistinterface.playlistname}">
 				<span class="accountUpdateFields"> <h:selectOneMenu
 						id="filterFieldAll" value="#{appMusicFilters.filter}">
 						<f:selectItems value="#{appMusicFilters.filters}" />
@@ -48,7 +48,7 @@
 				</div>
 			</h:form>
 
-			<h:panelGroup id="userMusicListContainerAll">
+			<h:panelGroup id="userMusicListContainerAll" rendered="#{playlistinterface.typeeditar() and !empty playlistinterface.playlistname}">
 				<h:form id="userMusicListAll">
 					<h:panelGroup rendered="#{empty appMusicFilters.listMusics}">
 					Sem resultados
@@ -68,7 +68,7 @@
 									<h:inputHidden id="hiddenAll#{status.index}"
 										value="#{music.filename}" />
 								</span> <span class="userMusicCell userMusicCellLink"> <f:ajax
-										render="@form :formplaylist:musicaselecionada">
+										render="@form :musicaselecionada :thirdScreenForm">
 										<h:commandLink id="addMusicBtnAll#{status.index}"
 											styleClass="addMusicBtn"
 											action="#{playlistinterface.showMusicInfo(music)}"
@@ -82,7 +82,7 @@
 					</h:panelGroup>
 				</h:form>
 			</h:panelGroup>
-		</div>
+		</h:panelGroup>
 
 
 	</ui:composition>

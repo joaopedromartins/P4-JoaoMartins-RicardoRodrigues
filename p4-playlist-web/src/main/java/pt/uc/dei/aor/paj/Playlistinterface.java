@@ -2,7 +2,11 @@ package pt.uc.dei.aor.paj;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -153,10 +157,10 @@ public class Playlistinterface implements Serializable {
 	//metodo para criar uma playlist
 	public void criaplaylist() {
 		if (playlist.addPlaylist( loggeduser.getUsername(), playlistname) ) {
-			msgerro="Adicionada a playlist: "+playlistname;
+			addMessage("Adicionada a playlist: "+playlistname, FacesMessage.SEVERITY_INFO);
 			playlistname=null;
 		} else {
-			msgerro="ERRO ao adicionar a playlist: "+playlistname;
+			addMessage("ERRO ao adicionar a playlist: "+playlistname, FacesMessage.SEVERITY_ERROR);
 		}
 	}
 	
@@ -169,10 +173,10 @@ public class Playlistinterface implements Serializable {
 	//metodo para apagar uma playlist
 	public void apagaplaylist() {
 		if (playlist.delPlaylist( loggeduser.getUsername(), playlistname) ) {
-			msgerro="Apagada a playlist: "+playlistname;
+			addMessage("Apagada a playlist: "+playlistname, FacesMessage.SEVERITY_INFO);
 			setPlaylistname(null);
 		} else {
-			msgerro="ERRO ao apagar a playlist: "+playlistname;
+			addMessage("ERRO ao apagar a playlist: "+playlistname, FacesMessage.SEVERITY_ERROR);
 		}
 		
 	}
@@ -210,9 +214,9 @@ public class Playlistinterface implements Serializable {
 			}
 		}
 		if (existe) {
-			msgerro="Erro: Já existe uma playlist com esse nome: "+playlistnewname;
+			addMessage("Erro: Já existe uma playlist com esse nome: "+playlistnewname, FacesMessage.SEVERITY_ERROR);
 		} else if(playlist.renPlaylist( loggeduser.getUsername(), playlistname, playlistnewname)) {
-			msgerro="";
+			playlistname = playlistnewname;
 		}
 		
 		
@@ -273,5 +277,14 @@ public class Playlistinterface implements Serializable {
 	}
 
 
+	private void addMessage(String message, Severity type) {
+		FacesContext.getCurrentInstance().
+        addMessage(null,
+            new FacesMessage(type,
+            		message, null));
+	}
 	
+	public void reset() {
+		playlistname = null;
+	}
 }
