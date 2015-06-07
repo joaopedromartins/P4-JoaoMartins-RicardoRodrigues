@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -108,6 +109,9 @@ public class Usersinterface implements Serializable {
 			clearSession();
 			return "/index?faces-redirect=true";
 		}
+		else {
+			addMessage("Account closing failed", FacesMessage.SEVERITY_INFO);
+		}
 		return null;
 	}
 	
@@ -151,7 +155,21 @@ public class Usersinterface implements Serializable {
 	}
 	
 	public void updatePassword() {
-		signin.updatePassword(userSession.getUsername(), oldPassword, password);
+		if (signin.updatePassword(userSession.getUsername(), oldPassword, password))
+			addMessage("Password updated", FacesMessage.SEVERITY_INFO);
+		else{
+			addMessage("Password not updated", FacesMessage.SEVERITY_INFO);
+		}
+		password = null;
+		cpassword = null;
+		oldPassword = null;
+	}
+	
+	private void addMessage(String message, Severity type) {
+		FacesContext.getCurrentInstance().
+        addMessage(null,
+            new FacesMessage(type,
+            		message, null));
 	}
 }
 

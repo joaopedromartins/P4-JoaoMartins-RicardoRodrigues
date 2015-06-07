@@ -118,7 +118,7 @@
 										render="@form">
 										<h:commandLink id="editMusicBtn#{status.index}"
 											styleClass="editMusicBtn"
-											action="#{musicFilters.changeEditor(status.index)}"
+											action="#{musicFilters.changeEditor(status.index, music)}"
 											value="edit" />
 									</f:ajax>
 								</span> <span class="userMusicCell userMusicCellLink"> <f:ajax
@@ -132,21 +132,28 @@
 								rendered="#{status.index==musicFilters.editorChoice}">
 							
 									<span class="uploadFormInput"> <p:inputText
-											value="#{uploader.title}" placeholder="título">
-												
+											value="#{uploader.title}" placeholder="título" required="true"
+							requiredMessage="Music title is required" validator="titleValidator">
+													<f:attribute name="artist" value="#{artist2}" />
+													<f:attribute name="album" value="#{album2}" />
+													<f:attribute name="prvTitle" value="#{music.title}" />
+													<f:attribute name="prvArtist" value="#{music.author}" />
+													<f:attribute name="prvAlbum" value="#{music.album}" />
+													
 											</p:inputText>
 									</span>
 									<span class="accountUpdateFields"> <p:inputText
-											value="#{uploader.author}" placeholder="artista" />
+											value="#{uploader.author}" placeholder="artista" required="true"
+									requiredMessage="Music artist is required" binding="#{artist2}" />
 									</span>
 									<span class="accountUpdateFields"> <p:inputText
-											value="#{uploader.album}" placeholder="album" />
+											value="#{uploader.album}" placeholder="album" binding="#{album2}"/>
 									</span>
 									<span class="accountUpdateFields"> <p:inputText
 											value="#{uploader.genre}" placeholder="género" />
 									</span>
 									<span class="accountUpdateFields"> <p:inputText
-											value="#{uploader.year}" placeholder="ano" />
+											value="#{uploader.year}" placeholder="ano" validator="yearValidator"/>
 									</span>
 									<span class="accountUpdateFields"> 
 									<f:ajax execute="updater" render="userMusicList :growl">

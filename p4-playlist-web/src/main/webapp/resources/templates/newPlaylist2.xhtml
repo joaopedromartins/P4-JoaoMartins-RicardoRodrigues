@@ -60,7 +60,8 @@
 					rendered="#{playlistinterface.typeeditar() and !empty playlistinterface.playlistname}">
 					<h1 style="display: inline-block">#{playlistinterface.playlistname}</h1>
 					<f:ajax execute="@form" render="@form :growl listaplaylist :listPlaylistForm
-					:playlistCreationForm :editForm playlistEditionFormContainer listamusicasplaylist">
+					:playlistCreationForm :editForm playlistEditionFormContainer listamusicasplaylist
+					musicaselecionada listamusicasplaylist userMusicFilterAll userMusicListContainerAll">
 					<h:commandButton type="submit" value="eliminar" styleClass="btn"
 						action="#{playlistinterface.apagaplaylist()}" update="growl" />
 					</f:ajax>

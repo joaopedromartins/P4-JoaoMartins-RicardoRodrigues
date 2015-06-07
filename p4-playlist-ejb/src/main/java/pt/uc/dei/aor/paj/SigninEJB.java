@@ -127,19 +127,19 @@ public class SigninEJB {
    }
 
 
-   public void updatePassword(String username, String oldPassword,
+   public boolean updatePassword(String username, String oldPassword,
 		   String password) {
 	   String cryptPass = crypt.encrypt(oldPassword, username);
 	   TypedQuery<User> q = em.createQuery("from User u where u.name like :username and u.password like :password", User.class)
 			   .setParameter("username", username).setParameter("password", cryptPass);
 	   
 	   List<User> users = q.getResultList();
-	   if (users.isEmpty()) return;
+	   if (users.isEmpty()) return false;
 	   
 	   User u = users.get(0);
 	   cryptPass = crypt.encrypt(password, username);
 	   u.setPassword(cryptPass);
 	   em.merge(u);
-	   
+	   return true;
    }
 }

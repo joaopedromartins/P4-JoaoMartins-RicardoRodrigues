@@ -30,8 +30,20 @@ public class TitleValidator implements Validator {
     	if (title == null || artist == null || title.equals("") || artist.equals("")) {
             return;
         }
+    	
+    	String prvTitle = (String) component.getAttributes().get("prvTitle");
+    	boolean pass = false;
+    	if (prvTitle != null) {
+    		String prvArtist = (String) component.getAttributes().get("prvArtist");
+        	String prvAlbum = (String) component.getAttributes().get("prvAlbum");
+        	
+        	if (prvTitle.equals(title) && prvArtist.equals(artist) && prvAlbum.equals(album)) pass = true;
+    	}
+    	
+    	
+    	
         
-        if (ejb.findMusicByTitleArtistAlbum(title, artist, album).size() > 0) {
+        if (!pass && ejb.findMusicByTitleArtistAlbum(title, artist, album).size() > 0) {
         	throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Music already added to the database", null));
         }
     }

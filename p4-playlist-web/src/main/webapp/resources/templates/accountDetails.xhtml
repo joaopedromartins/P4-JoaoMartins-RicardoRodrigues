@@ -75,10 +75,12 @@
 					</div>
 					<div class="accountDetailsForm" id="passwordDetailsForm">
 							<span class="accountUpdateFields">
-							<p:password value="#{usersinterface.password}" placeholder="new password" />
+							<p:password value="#{usersinterface.password}" placeholder="new password" validator="passwordValidator">
+								<f:attribute name="confirm" value="#{confirm}" />
+							</p:password>
 							</span>
 							<span class="accountUpdateFields">
-							<p:password value="#{usersinterface.cpassword}" styleClass="accountUpdateFields" placeholder="confirm password" />
+							<p:password value="#{usersinterface.cpassword}" binding="#{confirm}" styleClass="accountUpdateFields" placeholder="confirm password" />
 							</span>
 							<span class="accountUpdateFields">
 							<p:password value="#{usersinterface.oldPassword}" styleClass="accountUpdateFields" placeholder="old password" />

@@ -34,6 +34,9 @@ public class MusicFilters implements Serializable {
 	@Inject
 	private UserSession user;
 	
+	@Inject
+	private Uploader uploader;
+	
 	
 	public MusicFilters() {
 		activeFilters = Arrays.asList(new String[]{null, null, null, null, null});
@@ -143,9 +146,16 @@ public class MusicFilters implements Serializable {
 	}
 
 	
-	public void changeEditor(int i) {
+	public void changeEditor(int i, MusicDTO m) {
 		if (editorChoice == i) editorChoice = -1;
-		else editorChoice = i;
+		else {
+			editorChoice = i;
+			uploader.setAlbum(m.getAlbum());
+			uploader.setAuthor(m.getAuthor());
+			uploader.setGenre(m.getGenre());
+			uploader.setTitle(m.getTitle());
+			uploader.setYear(String.valueOf(m.getYear()));
+		}
 	}
 	
 }
